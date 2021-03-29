@@ -1,9 +1,18 @@
+/*
+ * Copyright © 2021 NeuroByte Tech. All rights reserved.
+ *
+ * NeuroByte Tech is the Developer Company of Rohan Mathew.
+ *
+ * Project: latinvocab
+ * File Name: Application.java
+ * Last Modified: 29/03/2021, 20:40
+ */
+
 package tech.neurobyte.dev.latin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.vaadin.artur.helpers.LaunchUtil;
 
 /**
  * The entry point of the Spring Boot application.
@@ -12,7 +21,7 @@ import org.vaadin.artur.helpers.LaunchUtil;
 public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-        LaunchUtil.launchBrowserInDevelopmentMode(SpringApplication.run(Application.class, args));
+        SpringApplication.run(Application.class, args);
     }
 
 }
