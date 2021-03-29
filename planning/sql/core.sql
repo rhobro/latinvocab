@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: core.sql
- * Last Modified: 29/03/2021, 20:41
+ * Last Modified: 29/03/2021, 21:52
  */
 
 CREATE DATABASE latin;
@@ -33,6 +33,10 @@ SELECT stage
 FROM vocab
 GROUP BY stage
 ORDER BY stage;
+
+SELECT *
+FROM vocab
+WHERE latin SIMILAR TO '[abc]%';
 
 SELECT DISTINCT stage
 FROM vocab

@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: Filter.java
- * Last Modified: 29/03/2021, 21:28
+ * Last Modified: 29/03/2021, 21:57
  */
 
 package tech.neurobyte.dev.data;
@@ -23,14 +23,11 @@ public class Filter {
         return Word.list(DB.query(sql));
     }
 
-    /*public static ArrayList<Word> byLetter(boolean inLatin, ArrayList<Character> alphas) {
-        var conds = new ArrayList<String>();
-        for
-
+    public static ArrayList<Word> byLetter(boolean inLatin, String alphas) {
         var sql = String.format("""
-            SELECT *
-            FROM vocab
-            WHERE %s LIKE ;""", inLatin ? "latin" : "english");
+                SELECT *
+                FROM vocab
+                WHERE %s SIMILAR TO '[%s]%s';""", inLatin ? "latin" : "english", alphas, "%");
         return Word.list(DB.query(sql));
-    }*/
+    }
 }
