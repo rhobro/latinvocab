@@ -5,15 +5,18 @@
  *
  * Project: latinvocab
  * File Name: Test.java
- * Last Modified: 29/03/2021, 20:38
+ * Last Modified: 29/03/2021, 21:28
  */
-
-import tech.neurobyte.dev.latin.data.Word;
 
 public class Test {
     public static void main(String[] args) {
-        for (var w : Word.list()) {
+        /*var a = new ArrayList<Integer>();
+        a.add(1);
+        a.add(2);
+        a.add(3);
+        for (var w : Filter.byStage(a)) {
             System.out.println(w.latin);
-        }
+        }*/
+        System.out.println(false ? "latin" : "english");
     }
 }

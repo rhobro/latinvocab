@@ -5,10 +5,10 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 29/03/2021, 20:40
+ * Last Modified: 29/03/2021, 20:44
  */
 
-package tech.neurobyte.dev.latin.views;
+package tech.neurobyte.dev.views;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;

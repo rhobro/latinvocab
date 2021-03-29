@@ -5,10 +5,10 @@
  *
  * Project: latinvocab
  * File Name: Application.java
- * Last Modified: 29/03/2021, 20:40
+ * Last Modified: 29/03/2021, 20:44
  */
 
-package tech.neurobyte.dev.latin;
+package tech.neurobyte.dev;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

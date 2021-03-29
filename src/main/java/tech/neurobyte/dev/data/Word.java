@@ -5,12 +5,13 @@
  *
  * Project: latinvocab
  * File Name: Word.java
- * Last Modified: 29/03/2021, 20:39
+ * Last Modified: 29/03/2021, 20:54
  */
 
-package tech.neurobyte.dev.latin.data;
+package tech.neurobyte.dev.data;
 
 import tech.tablesaw.api.Row;
+import tech.tablesaw.api.Table;
 
 import java.util.ArrayList;
 
@@ -29,8 +30,7 @@ public class Word {
         stage = entry.getShort("stage");
     }
 
-    public static ArrayList<Word> list(/*criteria*/) {
-        var t = DB.query("SELECT * FROM vocab;");
+    public static ArrayList<Word> list(Table t) {
         assert t != null;
         t = t.dropDuplicateRows();
 

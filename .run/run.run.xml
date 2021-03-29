@@ -5,13 +5,13 @@
   ~
   ~ Project: latinvocab
   ~ File Name: run.run.xml
-  ~ Last Modified: 29/03/2021, 20:41
+  ~ Last Modified: 29/03/2021, 20:43
   -->
 
 <component name="ProjectRunConfigurationManager">
     <configuration default="false" name="run" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
         <module name="latinvocab"/>
-        <option name="SPRING_BOOT_MAIN_CLASS" value="tech.neurobyte.dev.latin.Application"/>
+        <option name="SPRING_BOOT_MAIN_CLASS" value="tech.neurobyte.dev.Application"/>
         <option name="ALTERNATIVE_JRE_PATH"/>
         <method v="2">
             <option name="Make" enabled="true"/>

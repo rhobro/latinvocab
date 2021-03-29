@@ -5,10 +5,10 @@
  *
  * Project: latinvocab
  * File Name: DB.java
- * Last Modified: 29/03/2021, 20:40
+ * Last Modified: 29/03/2021, 20:43
  */
 
-package tech.neurobyte.dev.latin.data;
+package tech.neurobyte.dev.data;
 
 import tech.tablesaw.api.Table;
 
