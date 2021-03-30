@@ -5,39 +5,39 @@
  *
  * Project: latinvocab
  * File Name: Word.java
- * Last Modified: 29/03/2021, 20:54
+ * Last Modified: 30/03/2021, 21:38
  */
 
 package tech.neurobyte.dev.data;
 
-import tech.tablesaw.api.Row;
-import tech.tablesaw.api.Table;
+import com.mongodb.client.FindIterable;
+import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Word {
-    public final String latin;
-    public final String english;
-    public final String details;
-    public final String grammar;
+    public final String qEng;
+    public final List<String> aEng;
+    public final String qLa;
+    public final List<String> aLa;
+    public final String type;
     public final int stage;
 
-    public Word(Row entry) {
-        latin = entry.getString("latin");
-        english = entry.getString("english");
-        details = entry.getString("details");
-        grammar = entry.getString("grammar");
-        stage = entry.getShort("stage");
+    public Word(Document entry) {
+        qEng = entry.getString("qEnglish");
+        aEng = entry.getList("aEnglish", String.class);
+        qLa = entry.getString("qLatin");
+        aLa = entry.getList("aLatin", String.class);
+        type = entry.getString("type");
+        stage = entry.getInteger("stage");
     }
 
-    public static ArrayList<Word> list(Table t) {
-        assert t != null;
-        t = t.dropDuplicateRows();
-
+    public static ArrayList<Word> parse(FindIterable<Document> docs) {
         var words = new ArrayList<Word>();
-        for (int i = 0; i < t.rowCount(); i++) {
-            words.add(new Word(t.row(i)));
-        }
+        docs.forEach(d -> words.add(new Word(d)));
+        Collections.shuffle(words);
         return words;
     }
 }

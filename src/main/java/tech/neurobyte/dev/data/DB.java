@@ -5,42 +5,28 @@
  *
  * Project: latinvocab
  * File Name: DB.java
- * Last Modified: 29/03/2021, 20:43
+ * Last Modified: 30/03/2021, 21:38
  */
 
 package tech.neurobyte.dev.data;
 
-import tech.tablesaw.api.Table;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 
 public class DB {
-    private static Connection c;
+    private static final MongoClient c;
+    public static MongoCollection<Document> words;
 
     static {
-        try {
-            Class.forName("org.postgresql.Driver");
-            c = DriverManager.getConnection("jdbc:postgresql://localhost:26257/latin", "root", "");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Unable to find PostgreSQL connector class");
-            System.exit(1);
-        } catch (SQLException e) {
-            System.out.println("Cannot connect to db");
-            e.printStackTrace();
-            System.exit(1);
-        }
+        c = MongoClients.create("mongodb://localhost:27017");
+        MongoDatabase db = c.getDatabase("latinvocab");
+        words = db.getCollection("words");
     }
 
-    public static Table query(String sql) {
-        try {
-            Statement st = c.createStatement();
-            return Table.read().db(st.executeQuery(sql));
-
-        } catch (SQLException e) {
-            return null;
-        }
+    public static void close() {
+        c.close();
     }
 }

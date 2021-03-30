@@ -5,31 +5,30 @@
  *
  * Project: latinvocab
  * File Name: Filter.java
- * Last Modified: 30/03/2021, 18:23
+ * Last Modified: 30/03/2021, 21:38
  */
 
 package tech.neurobyte.dev.data;
 
-import tech.neurobyte.dev.utils.Str;
-
 import java.util.ArrayList;
+
+import static com.mongodb.client.model.Filters.in;
+import static com.mongodb.client.model.Filters.regex;
 
 public class Filter {
     public static ArrayList<Word> byStage(ArrayList<Integer> stages) {
-        var sql = String.format("""
-                SELECT *
-                FROM vocab
-                WHERE stage IN (%s)
-                ORDER BY random();""", Str.join(", ", stages));
-        return Word.list(DB.query(sql));
+        var filtrate = DB.words.find(in("stage", stages));
+        return Word.parse(filtrate);
     }
 
     public static ArrayList<Word> byLetter(boolean inLatin, String alphas) {
-        var sql = String.format("""
-                SELECT *
-                FROM vocab
-                WHERE %s SIMILAR TO '[%s]%s'
-                ORDER BY random();""", inLatin ? "latin" : "english", alphas, "%");
-        return Word.list(DB.query(sql));
+        var field = inLatin ? "qLatin" : "qEnglish";
+        var filtrate = DB.words.find(regex(field, "[" + alphas + "]%"));
+        return Word.parse(filtrate);
+    }
+
+    public static ArrayList<Word> all() {
+        var filtrate = DB.words.find();
+        return Word.parse(filtrate);
     }
 }

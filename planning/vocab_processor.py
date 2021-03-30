@@ -11,7 +11,6 @@ def word_gen():
 
     for l in lines:
         l = l.split("#")
-        stage = int(l[5])
 
         yield {
             "qLatin": l[0],
@@ -19,7 +18,7 @@ def word_gen():
             "qEnglish": l[1],
             "aEnglish": l[4].split(":"),
             "type": l[2],
-            "stage": -1 if stage == 0 else stage
+            "stage": int(l[5])
         }
 
 words.insert_many(word_gen(), ordered=False)

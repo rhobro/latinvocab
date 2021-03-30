@@ -6,7 +6,7 @@
   ~
   ~ Project: latinvocab
   ~ File Name: pom.xml
-  ~ Last Modified: 29/03/2021, 21:28
+  ~ Last Modified: 30/03/2021, 21:36
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -82,9 +82,9 @@
             <version>0.38.2</version>
         </dependency>
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.2.19</version>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver</artifactId>
+            <version>3.12.8</version>
         </dependency>
 
         <dependency>
