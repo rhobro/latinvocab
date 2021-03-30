@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: Filter.java
- * Last Modified: 29/03/2021, 21:57
+ * Last Modified: 30/03/2021, 18:23
  */
 
 package tech.neurobyte.dev.data;
@@ -19,7 +19,8 @@ public class Filter {
         var sql = String.format("""
                 SELECT *
                 FROM vocab
-                WHERE stage IN (%s);""", Str.join(", ", stages));
+                WHERE stage IN (%s)
+                ORDER BY random();""", Str.join(", ", stages));
         return Word.list(DB.query(sql));
     }
 
@@ -27,7 +28,8 @@ public class Filter {
         var sql = String.format("""
                 SELECT *
                 FROM vocab
-                WHERE %s SIMILAR TO '[%s]%s';""", inLatin ? "latin" : "english", alphas, "%");
+                WHERE %s SIMILAR TO '[%s]%s'
+                ORDER BY random();""", inLatin ? "latin" : "english", alphas, "%");
         return Word.list(DB.query(sql));
     }
 }
