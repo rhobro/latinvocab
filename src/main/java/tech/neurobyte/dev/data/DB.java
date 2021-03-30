@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: DB.java
- * Last Modified: 30/03/2021, 21:38
+ * Last Modified: 30/03/2021, 22:08
  */
 
 package tech.neurobyte.dev.data;
@@ -21,7 +21,7 @@ public class DB {
     public static MongoCollection<Document> words;
 
     static {
-        c = MongoClients.create("mongodb://localhost:27017");
+        c = MongoClients.create("mongodb://root:eTDgVA5YqWayjTECpmiQdNYkgzkphg63usIswrHX@localhost:27017");
         MongoDatabase db = c.getDatabase("latinvocab");
         words = db.getCollection("words");
     }
