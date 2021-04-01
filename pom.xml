@@ -6,11 +6,11 @@
   ~
   ~ Project: latinvocab
   ~ File Name: pom.xml
-  ~ Last Modified: 30/03/2021, 21:52
+  ~ Last Modified: 01/04/2021, 08:13
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>tech.neurobyte.dev</groupId>
@@ -78,8 +78,15 @@
         <!-- My dependencies-->
         <dependency>
             <groupId>org.mongodb</groupId>
-            <artifactId>mongodb-driver-sync</artifactId>
-            <version>4.2.2</version>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.12.8</version>
+        </dependency>
+
+        <!-- Addon components-->
+        <dependency>
+            <groupId>org.vaadin.tabs</groupId>
+            <artifactId>paged-tabs</artifactId>
+            <version>3.0.0</version>
         </dependency>
 
         <dependency>

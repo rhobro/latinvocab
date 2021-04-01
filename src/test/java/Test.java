@@ -5,15 +5,15 @@
  *
  * Project: latinvocab
  * File Name: Test.java
- * Last Modified: 30/03/2021, 21:38
+ * Last Modified: 01/04/2021, 21:02
  */
 
 import tech.neurobyte.dev.data.Filter;
 
 public class Test {
     public static void main(String[] args) {
-        for (var w : Filter.byLetter(true, "sdz")) {
-            System.out.println(w.qLa);
+        for (var w : Filter.byLetter(true, "s")) {
+            System.out.println(w.latin);
         }
     }
 }
