@@ -5,19 +5,24 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 02/04/2021, 07:44
+ * Last Modified: 02/04/2021, 22:37
  */
 
 package tech.neurobyte.dev.views;
 
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H6;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.templatemodel.TemplateModel;
@@ -40,14 +45,23 @@ import java.util.List;
 @JsModule("./views/main/main-view.js")
 public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 
+    // internal
+    private final Grid<Word> wordGrid = new Grid<>(Word.class);
     // components
+    @Id("body")
+    private VerticalLayout body;
+    // tester params
     @Id("customizer")
     private VerticalLayout customizer;
-    @Id("wordGrid")
-    private Grid<Word> wordGrid;
+    @Id("testDirection")
+    private Button testDirection;
+    @Id("nQs")
+    private NumberField nQs;
 
     @Id("cpyr")
     private H6 cpyr;
+    @Id("unlimitedQs")
+    private Button unlimitedQs;
 
     /**
      * Creates a new MainView.
@@ -56,12 +70,28 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
         // setup tabs
         var container = new VerticalLayout();
         var tabs = new PagedTabs(container);
-        tabs.add("All", new H3("all"), false);
+        tabs.add("All", new Div(), false);
         tabs.add("By Stage", new H3("stage"), false);
         tabs.add("By Letter", new H3("letter"), false);
         customizer.add(tabs, container);
 
+        // setup params
+        // test direction
+        testDirection.setIcon(new Icon(VaadinIcon.ARROW_RIGHT));
+        testDirection.addClickListener(e -> {
+            switch (testDirection.getIcon().getElement().getAttribute("icon")) {
+                case "vaadin:arrow-right" -> testDirection.setIcon(new Icon(VaadinIcon.ARROW_LEFT));
+                case "vaadin:arrow-left" -> testDirection.setIcon(new Icon(VaadinIcon.ARROW_RIGHT));
+            }
+        });
+        // number of questions
+        unlimitedQs.setIcon(new Icon(VaadinIcon.BAN));
+        unlimitedQs.addClickListener(e -> {
+            nQs.setEnabled(!nQs.getElement().isEnabled());
+        });
+
         // word grid
+        body.add(wordGrid);
         updateWordTable(Filter.all());
 
         // set new copyright
@@ -70,7 +100,7 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 
     private void updateWordTable(List<Word> words) {
         wordGrid.setItems(words);
-//        wordGrid.setColumns("latin", "english", "type", "stage");
+        wordGrid.setColumns("latin", "english", "type", "stage");
     }
 
     /**

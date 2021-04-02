@@ -5,16 +5,16 @@
  *
  * Project: latinvocab
  * File Name: main-view.js
- * Last Modified: 02/04/2021, 08:12
+ * Last Modified: 02/04/2021, 22:37
  */
 
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
-import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
 import '@vaadin/vaadin-form-layout/src/vaadin-form-layout.js';
 import '@vaadin/vaadin-form-layout/src/vaadin-form-item.js';
-import '@vaadin/vaadin-grid/src/vaadin-grid.js';
-import '@vaadin/vaadin-grid/src/vaadin-grid-column.js';
+import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
+import '@vaadin/vaadin-button/src/vaadin-button.js';
+import '@vaadin/vaadin-text-field/src/vaadin-number-field.js';
 
 class MainView extends PolymerElement {
 
@@ -35,18 +35,26 @@ class MainView extends PolymerElement {
                     <vaadin-vertical-layout theme="spacing"
                                             style="margin: var(--lumo-space-xl); padding: var(--lumo-space-s); flex-direction: column;">
                         <vaadin-form-layout>
-                            <vaadin-form-item></vaadin-form-item>
+                            <vaadin-form-item>
+                                <vaadin-horizontal-layout style="flex-direction: row; align-items: center;"
+                                                          theme="spacing">
+                                    Latin
+                                    <vaadin-button theme="icon" aria-label="direction" id="testDirection"
+                                                   style="flex-grow: 0; flex-shrink: 1;"></vaadin-button>
+                                    English
+                                </vaadin-horizontal-layout>
+                                <label slot="label">Direction</label>
+                            </vaadin-form-item>
+                            <vaadin-form-item>
+                                <label slot="label">Number of questions</label>
+                                <vaadin-number-field id="nQs" has-controls required min="1" value="10"
+                                                     prevent-invalid-input has-value></vaadin-number-field>
+                                <vaadin-button theme="icon" aria-label="Unlimited" id="unlimitedQs"></vaadin-button>
+                            </vaadin-form-item>
                         </vaadin-form-layout>
                         <vaadin-vertical-layout theme="spacing" id="customizer"
                                                 style="align-self: stretch; align-items: stretch;"></vaadin-vertical-layout>
                     </vaadin-vertical-layout>
-                    <vaadin-grid id="wordGrid" style="align-self: stretch;" multi-sort loading
-                                 column-reordering-allowed>
-                        <vaadin-grid-column resizable header="Latin"></vaadin-grid-column>
-                        <vaadin-grid-column header="English"></vaadin-grid-column>
-                        <vaadin-grid-column flex-grow="0" header="Type"></vaadin-grid-column>
-                        <vaadin-grid-column flex-grow="0" header="Stage"></vaadin-grid-column>
-                    </vaadin-grid>
                 </vaadin-vertical-layout>
                 <vaadin-horizontal-layout class="footer"
                                           style="width: 100%; flex-basis: var(--lumo-size-l); flex-shrink: 0; background-color: var(--lumo-contrast-10pct); justify-content: center;">

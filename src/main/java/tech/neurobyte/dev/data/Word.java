@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: Word.java
- * Last Modified: 01/04/2021, 21:02
+ * Last Modified: 02/04/2021, 22:37
  */
 
 package tech.neurobyte.dev.data;
@@ -13,23 +13,29 @@ package tech.neurobyte.dev.data;
 import com.mongodb.client.FindIterable;
 import org.bson.Document;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Word {
-    public final String latin;
+    public final String qLa;
     public final List<String> aLa;
-    public final String english;
-    public final List<String> aEng;
+    public final String qEn;
+    public final List<String> aEn;
     public final String type;
     public final int stage;
 
     public Word(Document entry) {
-        english = entry.getString("qEnglish");
-        aEng = entry.getList("aEnglish", String.class);
-        latin = entry.getString("qLatin");
+        // set member fields
+        qLa = URLDecoder.decode(entry.getString("qLatin"), StandardCharsets.UTF_8); // decode with utf-8
         aLa = entry.getList("aLatin", String.class);
+        for (int i = 0; i < aLa.size(); i++) { // decode with utf-8
+            aLa.set(i, URLDecoder.decode(aLa.get(i), StandardCharsets.UTF_8));
+        }
+        qEn = entry.getString("qEnglish");
+        aEn = entry.getList("aEnglish", String.class);
         type = entry.getString("type");
         stage = entry.getInteger("stage");
     }
@@ -45,20 +51,12 @@ public class Word {
 
     // getters
 
-    public String getEnglish() {
-        return english;
-    }
-
-    public List<String> getaEng() {
-        return aEng;
-    }
-
     public String getLatin() {
-        return latin;
+        return qLa;
     }
 
-    public List<String> getaLa() {
-        return aLa;
+    public String getEnglish() {
+        return qEn;
     }
 
     public String getType() {
