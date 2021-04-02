@@ -7,7 +7,8 @@ words = db.words
 
 def word_gen():
     rsp = rq.get("https://www.exams.cambridgescp.com/files/cscp/wjec18vocab/vt.js")
-    lines = eval(rsp.text[rsp.text.index("["): rsp.text.index("]")+ 1])
+    body = rsp.content.decode()
+    lines = eval(body[body.index("["): body.index("]")+ 1])
 
     for l in lines:
         l = l.split("#")

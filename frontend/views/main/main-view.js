@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: main-view.js
- * Last Modified: 01/04/2021, 21:09
+ * Last Modified: 02/04/2021, 08:12
  */
 
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
@@ -13,6 +13,8 @@ import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
 import '@vaadin/vaadin-form-layout/src/vaadin-form-layout.js';
 import '@vaadin/vaadin-form-layout/src/vaadin-form-item.js';
+import '@vaadin/vaadin-grid/src/vaadin-grid.js';
+import '@vaadin/vaadin-grid/src/vaadin-grid-column.js';
 
 class MainView extends PolymerElement {
 
@@ -38,6 +40,13 @@ class MainView extends PolymerElement {
                         <vaadin-vertical-layout theme="spacing" id="customizer"
                                                 style="align-self: stretch; align-items: stretch;"></vaadin-vertical-layout>
                     </vaadin-vertical-layout>
+                    <vaadin-grid id="wordGrid" style="align-self: stretch;" multi-sort loading
+                                 column-reordering-allowed>
+                        <vaadin-grid-column resizable header="Latin"></vaadin-grid-column>
+                        <vaadin-grid-column header="English"></vaadin-grid-column>
+                        <vaadin-grid-column flex-grow="0" header="Type"></vaadin-grid-column>
+                        <vaadin-grid-column flex-grow="0" header="Stage"></vaadin-grid-column>
+                    </vaadin-grid>
                 </vaadin-vertical-layout>
                 <vaadin-horizontal-layout class="footer"
                                           style="width: 100%; flex-basis: var(--lumo-size-l); flex-shrink: 0; background-color: var(--lumo-contrast-10pct); justify-content: center;">

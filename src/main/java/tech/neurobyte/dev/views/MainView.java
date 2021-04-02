@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 01/04/2021, 21:08
+ * Last Modified: 02/04/2021, 07:44
  */
 
 package tech.neurobyte.dev.views;
@@ -40,15 +40,14 @@ import java.util.List;
 @JsModule("./views/main/main-view.js")
 public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 
-    // internal
-    private final Grid<Word> wordGrid = new Grid<>(Word.class);
     // components
-    @Id("body")
-    private VerticalLayout body;
-    @Id("cpyr")
-    private H6 cpyr;
     @Id("customizer")
     private VerticalLayout customizer;
+    @Id("wordGrid")
+    private Grid<Word> wordGrid;
+
+    @Id("cpyr")
+    private H6 cpyr;
 
     /**
      * Creates a new MainView.
@@ -63,10 +62,6 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
         customizer.add(tabs, container);
 
         // word grid
-        body.add(wordGrid);
-        wordGrid.setMultiSort(true);
-        wordGrid.getColumnByKey("type").setFlexGrow(0);
-        wordGrid.getColumnByKey("stage").setFlexGrow(0);
         updateWordTable(Filter.all());
 
         // set new copyright
@@ -75,7 +70,7 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 
     private void updateWordTable(List<Word> words) {
         wordGrid.setItems(words);
-        wordGrid.setColumns("latin", "english", "type", "stage");
+//        wordGrid.setColumns("latin", "english", "type", "stage");
     }
 
     /**
