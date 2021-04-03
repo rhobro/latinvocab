@@ -5,6 +5,16 @@ mongo = MongoClient("mongodb://root:eTDgVA5YqWayjTECpmiQdNYkgzkphg63usIswrHX@loc
 db = mongo.latinvocab
 words = db.words
 
+type_map = {
+    "v": "verb",
+    "n": "noun",
+    "a": "adjective",
+    "p": "preposition",
+    "r": "pronoun",
+    "d": "adverb",
+    "x": "misc"
+}
+
 def word_gen():
     rsp = rq.get("https://www.exams.cambridgescp.com/files/cscp/wjec18vocab/vt.js")
     body = rsp.content.decode()
@@ -18,7 +28,7 @@ def word_gen():
             "aLatin": l[3].split(":"),
             "qEnglish": l[1],
             "aEnglish": l[4].split(":"),
-            "type": l[2],
+            "type": [type_map[char] for char in l[2]],
             "stage": int(l[5])
         }
 

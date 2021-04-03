@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: Word.java
- * Last Modified: 02/04/2021, 22:37
+ * Last Modified: 03/04/2021, 12:24
  */
 
 package tech.neurobyte.dev.data;
@@ -24,7 +24,7 @@ public class Word {
     public final List<String> aLa;
     public final String qEn;
     public final List<String> aEn;
-    public final String type;
+    public final List<String> type;
     public final int stage;
 
     public Word(Document entry) {
@@ -36,7 +36,7 @@ public class Word {
         }
         qEn = entry.getString("qEnglish");
         aEn = entry.getList("aEnglish", String.class);
-        type = entry.getString("type");
+        type = entry.getList("type", String.class);
         stage = entry.getInteger("stage");
     }
 
@@ -60,7 +60,7 @@ public class Word {
     }
 
     public String getType() {
-        return type;
+        return String.join(", ", type);
     }
 
     public int getStage() {
