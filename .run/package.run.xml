@@ -5,7 +5,7 @@
   ~
   ~ Project: latinvocab
   ~ File Name: package.run.xml
-  ~ Last Modified: 03/04/2021, 21:18
+  ~ Last Modified: 04/04/2021, 18:02
   -->
 
 <component name="ProjectRunConfigurationManager">
@@ -22,6 +22,7 @@
                         <list>
                             <option value="clean"/>
                             <option value="package"/>
+                            <option value="-Pproduction"/>
                         </list>
                     </option>
                     <option name="pomFileName"/>

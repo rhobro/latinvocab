@@ -5,16 +5,16 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 03/04/2021, 21:15
+ * Last Modified: 04/04/2021, 18:02
  */
 
 package tech.neurobyte.dev.views;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.icon.Icon;
@@ -29,11 +29,14 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import org.vaadin.tabs.PagedTabs;
+import tech.neurobyte.dev.customizers.All;
+import tech.neurobyte.dev.customizers.Customizer;
 import tech.neurobyte.dev.data.Filter;
 import tech.neurobyte.dev.data.Word;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A Designer generated component for the main-view template.
@@ -77,17 +80,23 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
     @Id("cpyr")
     private H6 cpyr;
 
+    // internal components
+    private final PagedTabs tabs;
+
+    // internal
+    private final Customizer all = new All();
+
     /**
      * Creates a new MainView.
      */
     public MainView() {
         // setup tabs
         var container = new VerticalLayout();
-        var tabs = new PagedTabs(container);
-        var t = tabs.add("All", new Div(), false);
-        t = tabs.add("By Stage", new H3("stage"), false);
-        t = tabs.add("By Letter", new H3("letter"), false);
-        t = tabs.add("By Type", new H3("type"), false);
+        tabs = new PagedTabs(container);
+        tabs.add("All", (Component) all, false);
+        tabs.add("By Stage", new H3("stage"), false);
+        tabs.add("By Letter", new H3("letter"), false);
+        tabs.add("By Type", new H3("type"), false);
         customizer.add(tabs, container);
         // equally space tabs
         tabs.getChildren().findFirst().ifPresent(c -> c.getChildren().forEach(e -> ((Tab) e).setFlexGrow(1)));
@@ -101,22 +110,17 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
                 case "vaadin:arrow-left" -> testDirection.setIcon(new Icon(VaadinIcon.ARROW_RIGHT));
             }
         });
-        // number of questions
-        unlimQs.setIcon(new Icon(VaadinIcon.BAN));
-        unlimQs.addClickListener(e -> {
-            nQs.setEnabled(!nQs.getElement().isEnabled());
-        });
-        // time
-        unlimT.setIcon(new Icon(VaadinIcon.BAN));
-        unlimT.addClickListener(e -> {
-            time.setEnabled(!time.getElement().isEnabled());
-        });
+
+        var disableToF = Map.of(
+                unlimQs, nQs,
+                unlimT, time,
+                unlimTPQ, timePQ
+        );
+        for (var b : disableToF.keySet()) {
+            b.setIcon(new Icon(VaadinIcon.BAN));
+            b.addClickListener(e -> disableToF.get(b).setEnabled(!disableToF.get(b).getElement().isEnabled()));
+        }
         unlimT.click();
-        // time per questions
-        unlimTPQ.setIcon(new Icon(VaadinIcon.BAN));
-        unlimTPQ.addClickListener(e -> {
-            timePQ.setEnabled(!timePQ.getElement().isEnabled());
-        });
         unlimTPQ.click();
 
         // word grid
@@ -125,10 +129,6 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 
         // set new copyright
         cpyr.setText(String.format("Copyright © %d Rohan Mathew. All rights reserved.", LocalDate.now().getYear()));
-    }
-
-    private List<Word> getFiltered() {
-        return null;
     }
 
     private void updateWordTable(List<Word> words) {
