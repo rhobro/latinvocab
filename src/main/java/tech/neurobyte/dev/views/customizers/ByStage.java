@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: ByStage.java
- * Last Modified: 06/04/2021, 19:14
+ * Last Modified: 06/04/2021, 21:09
  */
 
 package tech.neurobyte.dev.views.customizers;
@@ -48,6 +48,9 @@ public class ByStage extends LitTemplate implements Customizer {
     private IntegerField rgsUBound;
     @Id("rgsApply")
     private Button rgsApply;
+    @Id("selAll")
+    private Button selAll;
+
     // range deselector
     @Id("rgdLBound")
     private IntegerField rgdLBound;
@@ -55,6 +58,8 @@ public class ByStage extends LitTemplate implements Customizer {
     private IntegerField rgdUBound;
     @Id("rgdApply")
     private Button rgdApply;
+    @Id("deselAll")
+    private Button deselAll;
 
     public ByStage() {
         // toggle setup
@@ -68,6 +73,7 @@ public class ByStage extends LitTemplate implements Customizer {
                     // not selected
                     e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY);
                 }
+
                 MainView.main.refresh();
             });
             b.addThemeVariants(ButtonVariant.LUMO_ICON);
@@ -104,6 +110,15 @@ public class ByStage extends LitTemplate implements Customizer {
 
                 i++;
             }
+
+            MainView.main.refresh();
+        });
+        selAll.addClickListener(e -> {
+            toggles.getChildren().forEach(b -> {
+                ((Button) b).addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+            });
+
+            MainView.main.refresh();
         });
 
         // range deselector
@@ -133,6 +148,15 @@ public class ByStage extends LitTemplate implements Customizer {
 
                 i++;
             }
+
+            MainView.main.refresh();
+        });
+        deselAll.addClickListener(e -> {
+            toggles.getChildren().forEach(b -> {
+                ((Button) b).removeThemeVariants(ButtonVariant.LUMO_PRIMARY);
+            });
+
+            MainView.main.refresh();
         });
     }
 

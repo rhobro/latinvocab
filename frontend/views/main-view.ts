@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: main-view.ts
- * Last Modified: 06/04/2021, 19:18
+ * Last Modified: 06/04/2021, 21:09
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
@@ -45,7 +45,7 @@ export class MainView extends LitElement {
                   Latin
                   <vaadin-button theme="icon" aria-label="direction" id="testDirection"
                                  style="flex-grow: 0; flex-shrink: 1; margin: 0px 10px 0px 10px;">
-                    <iron-icon icon="vaadin:arrow-right"></iron-icon>
+                    <iron-icon icon="vaadin:arrow-right" id="testDirectionIcon"></iron-icon>
                   </vaadin-button>
                   English
                 </vaadin-horizontal-layout>
@@ -56,22 +56,22 @@ export class MainView extends LitElement {
                 <vaadin-integer-field id="nQs" has-controls required min="1" value="10" max="1000" prevent-invalid-input
                                       step="5" has-value></vaadin-integer-field>
                 <vaadin-button theme="icon" aria-label="Unlimited" id="unlimQs">
-                  <iron-icon icon="vaadin:ban"></iron-icon>
+                  <iron-icon icon="vaadin:ban" id="unlimQsIcon"></iron-icon>
                 </vaadin-button>
               </vaadin-form-item>
               <vaadin-form-item>
                 <vaadin-number-field id="time" has-controls max="600" step="5" has-value
                                      prevent-invalid-input></vaadin-number-field>
                 <vaadin-button theme="icon" aria-label="Add new" id="unlimT">
-                  <iron-icon icon="vaadin:ban"></iron-icon>
+                  <iron-icon icon="vaadin:ban" id="unlimTIcon"></iron-icon>
                 </vaadin-button>
                 <label slot="label">Total time (m)</label>
               </vaadin-form-item>
               <vaadin-form-item>
-                <vaadin-integer-field id="timePQ" has-controls min="1" max="60" prevent-invalid-input step="5" has-value
-                                      invalid></vaadin-integer-field>
+                <vaadin-integer-field id="timePQ" has-controls min="1" max="60" prevent-invalid-input step="5"
+                                      has-value></vaadin-integer-field>
                 <vaadin-button theme="icon" aria-label="Add new" id="unlimTPQ">
-                  <iron-icon icon="vaadin:ban"></iron-icon>
+                  <iron-icon icon="vaadin:ban" id="unlimTPQIcon"></iron-icon>
                 </vaadin-button>
                 <label slot="label">Time per question (s)</label>
               </vaadin-form-item>

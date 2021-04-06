@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 06/04/2021, 19:18
+ * Last Modified: 06/04/2021, 21:09
  */
 
 package tech.neurobyte.dev.views;
@@ -16,14 +16,13 @@ import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H6;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.NumberField;
+import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 import org.vaadin.tabs.PagedTabs;
@@ -58,30 +57,35 @@ public class MainView extends LitTemplate {
 
     @Id("testDirection")
     private Button testDirection;
+    @Id("testDirectionIcon")
+    private Element testDirectionIcon;
 
     @Id("nQs")
     private IntegerField nQs;
     @Id("unlimQs")
     private Button unlimQs;
+    @Id("unlimQsIcon")
+    private Element unlimQsIcon;
 
     @Id("time")
     private NumberField time;
     @Id("unlimT")
     private Button unlimT;
+    @Id("unlimTIcon")
+    private Element unlimTIcon;
 
     @Id("timePQ")
     private IntegerField timePQ;
     @Id("unlimTPQ")
     private Button unlimTPQ;
+    @Id("unlimTPQIcon")
+    private Element unlimTPQIcon;
 
     @Id("cpyr")
     private H6 cpyr;
     // internal components
     private final VerticalLayout container = new VerticalLayout();
     private final PagedTabs tabs = new PagedTabs(container);
-    // components
-    @Id("root")
-    private VerticalLayout root;
 
     /**
      * Creates a new MainView.
@@ -94,19 +98,23 @@ public class MainView extends LitTemplate {
         tabs.add("By Stage", new ByStage(), false);
         tabs.add("By Letter", new H3("letter"), false);
         tabs.add("By Type", new H3("type"), false);
-        customizer.add(tabs, container);
         // equally space tabs
         tabs.getChildren().findFirst().ifPresent(c -> c.getChildren().forEach(e -> ((Tab) e).setFlexGrow(1)));
+        // refresh on tab switch
+        tabs.addSelectedChangeListener(e -> refresh());
+        // add to layout
+        customizer.add(tabs, container);
 
         // setup params
         // test direction
         testDirection.addClickListener(e -> {
-            switch (e.getSource().getIcon().getElement().getAttribute("icon")) {
-                case "vaadin:arrow-right" -> e.getSource().setIcon(new Icon(VaadinIcon.ARROW_LEFT));
-                case "vaadin:arrow-left" -> e.getSource().setIcon(new Icon(VaadinIcon.ARROW_RIGHT));
+            switch (testDirectionIcon.getProperty("icon")) {
+                case "vaadin:arrow-right" -> testDirectionIcon.setProperty("icon", "vaadin:arrow-left");
+                case "vaadin:arrow-left" -> testDirectionIcon.setProperty("icon", "vaadin:arrow-right");
             }
         });
 
+        // disables
         var disableToF = Map.of(
                 unlimQs, nQs,
                 unlimT, time,

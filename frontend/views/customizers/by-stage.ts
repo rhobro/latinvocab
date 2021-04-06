@@ -5,15 +5,15 @@
  *
  * Project: latinvocab
  * File Name: by-stage.ts
- * Last Modified: 06/04/2021, 19:18
+ * Last Modified: 06/04/2021, 21:09
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
-import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
-import '@vaadin/vaadin-text-field/src/vaadin-integer-field.js';
-import '@vaadin/vaadin-button/src/vaadin-button.js';
-import '@polymer/iron-icon/iron-icon.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
+import '@vaadin/vaadin-text-field/src/vaadin-integer-field.js';
+import '@polymer/iron-icon/iron-icon.js';
+import '@vaadin/vaadin-button/src/vaadin-button.js';
+import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
 
 @customElement('by-stage')
 export class ByStage extends LitElement {
@@ -53,6 +53,14 @@ export class ByStage extends LitElement {
                                   prevent-invalid-input></vaadin-integer-field>
             <vaadin-button theme="icon" aria-label="Apply" style="border-radius: 100px;" id="rgdApply">
               <iron-icon icon="vaadin:check"></iron-icon>
+            </vaadin-button>
+          </vaadin-vertical-layout>
+          <vaadin-vertical-layout style="align-items: stretch;">
+            <vaadin-button id="selAll" style="border-radius: 25px 25px 0px 0px;">
+              Select all
+            </vaadin-button>
+            <vaadin-button id="deselAll" style="border-radius: 0px 0px 25px 25px;">
+              Deselect all
             </vaadin-button>
           </vaadin-vertical-layout>
         </vaadin-horizontal-layout>
