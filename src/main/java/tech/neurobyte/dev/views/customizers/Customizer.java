@@ -5,10 +5,10 @@
  *
  * Project: latinvocab
  * File Name: Customizer.java
- * Last Modified: 04/04/2021, 14:12
+ * Last Modified: 05/04/2021, 18:34
  */
 
-package tech.neurobyte.dev.customizers;
+package tech.neurobyte.dev.views.customizers;
 
 import tech.neurobyte.dev.data.Word;
 

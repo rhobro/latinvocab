@@ -5,15 +5,13 @@
  *
  * Project: latinvocab
  * File Name: Test.java
- * Last Modified: 04/04/2021, 18:02
+ * Last Modified: 06/04/2021, 10:09
  */
-
-import tech.neurobyte.dev.data.DB;
 
 import java.io.IOException;
 
 public class Test {
     public static void main(String[] args) throws IOException {
-        System.out.println(DB.getNStages());
+
     }
 }

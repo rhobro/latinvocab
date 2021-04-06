@@ -5,16 +5,33 @@
   ~
   ~ Project: latinvocab
   ~ File Name: run.run.xml
-  ~ Last Modified: 29/03/2021, 20:43
+  ~ Last Modified: 06/04/2021, 10:09
   -->
 
 <component name="ProjectRunConfigurationManager">
-    <configuration default="false" name="run" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-        <module name="latinvocab"/>
-        <option name="SPRING_BOOT_MAIN_CLASS" value="tech.neurobyte.dev.Application"/>
-        <option name="ALTERNATIVE_JRE_PATH"/>
-        <method v="2">
-            <option name="Make" enabled="true"/>
-        </method>
+    <configuration default="false" name="run" type="MavenRunConfiguration" factoryName="Maven">
+        <MavenSettings>
+            <option name="myGeneralSettings"/>
+            <option name="myRunnerSettings"/>
+            <option name="myRunnerParameters">
+                <MavenRunnerParameters>
+                    <option name="profiles">
+                        <set/>
+                    </option>
+                    <option name="goals">
+                        <list>
+                            <option value="spring-boot:run"/>
+                        </list>
+                    </option>
+                    <option name="pomFileName" value="pom.xml"/>
+                    <option name="profilesMap">
+                        <map/>
+                    </option>
+                    <option name="resolveToWorkspace" value="false"/>
+                    <option name="workingDirPath" value="$PROJECT_DIR$"/>
+                </MavenRunnerParameters>
+            </option>
+        </MavenSettings>
+        <method v="2"/>
     </configuration>
 </component>

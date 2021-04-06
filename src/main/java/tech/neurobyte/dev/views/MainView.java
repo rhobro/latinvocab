@@ -5,12 +5,11 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 04/04/2021, 18:02
+ * Last Modified: 06/04/2021, 10:09
  */
 
 package tech.neurobyte.dev.views;
 
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -19,20 +18,19 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.polymertemplate.Id;
-import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
-import com.vaadin.flow.templatemodel.TemplateModel;
 import org.vaadin.tabs.PagedTabs;
-import tech.neurobyte.dev.customizers.All;
-import tech.neurobyte.dev.customizers.Customizer;
 import tech.neurobyte.dev.data.Filter;
 import tech.neurobyte.dev.data.Word;
+import tech.neurobyte.dev.views.customizers.All;
+import tech.neurobyte.dev.views.customizers.ByStage;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -47,8 +45,8 @@ import java.util.Map;
 @PWA(name = "Latin Vocab", shortName = "Latin")
 @Route("")
 @Tag("main-view")
-@JsModule("./views/main/main-view.js")
-public class MainView extends PolymerTemplate<MainView.MainViewModel> {
+@JsModule("./views/main-view.ts")
+public class MainView extends LitTemplate {
 
     // internal
     private final Grid<Word> wordGrid = new Grid<>(Word.class);
@@ -83,9 +81,6 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
     // internal components
     private final PagedTabs tabs;
 
-    // internal
-    private final Customizer all = new All();
-
     /**
      * Creates a new MainView.
      */
@@ -93,8 +88,8 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
         // setup tabs
         var container = new VerticalLayout();
         tabs = new PagedTabs(container);
-        tabs.add("All", (Component) all, false);
-        tabs.add("By Stage", new H3("stage"), false);
+        tabs.add("All", new All(), false);
+        tabs.add("By Stage", new ByStage(), false);
         tabs.add("By Letter", new H3("letter"), false);
         tabs.add("By Type", new H3("type"), false);
         customizer.add(tabs, container);
@@ -103,7 +98,6 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 
         // setup params
         // test direction
-        testDirection.setIcon(new Icon(VaadinIcon.ARROW_RIGHT));
         testDirection.addClickListener(e -> {
             switch (testDirection.getIcon().getElement().getAttribute("icon")) {
                 case "vaadin:arrow-right" -> testDirection.setIcon(new Icon(VaadinIcon.ARROW_LEFT));
@@ -117,7 +111,6 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
                 unlimTPQ, timePQ
         );
         for (var b : disableToF.keySet()) {
-            b.setIcon(new Icon(VaadinIcon.BAN));
             b.addClickListener(e -> disableToF.get(b).setEnabled(!disableToF.get(b).getElement().isEnabled()));
         }
         unlimT.click();
@@ -135,12 +128,5 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
         wordGrid.setItems(words);
         wordGrid.setColumns("latin", "english", "type", "stage");
         wordGrid.getColumnByKey("stage").setFlexGrow(0);
-    }
-
-    /**
-     * This model binds properties between MainView and main-view
-     */
-    public interface MainViewModel extends TemplateModel {
-        // Add setters and getters for template properties here.
     }
 }
