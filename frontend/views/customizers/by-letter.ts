@@ -4,7 +4,7 @@
  * NeuroByte Tech is the Developer Company of Rohan Mathew.
  *
  * Project: latinvocab
- * File Name: by-stage.ts
+ * File Name: by-letter.ts
  * Last Modified: 06/04/2021, 21:55
  */
 
@@ -15,8 +15,8 @@ import '@polymer/iron-icon/iron-icon.js';
 import '@vaadin/vaadin-button/src/vaadin-button.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
 
-@customElement('by-stage')
-export class ByStage extends LitElement {
+@customElement('by-letter')
+export class ByLetter extends LitElement {
   static get styles() {
     return css`
       :host {
@@ -34,11 +34,11 @@ export class ByStage extends LitElement {
         <vaadin-horizontal-layout theme="spacing-xl"
                                   style="align-items: center; justify-content: center; width: 30%; align-self: center;">
           <vaadin-vertical-layout style="align-items: stretch; flex-shrink: 1; flex-grow: 0;">
-            <h5 style="align-self: flex-start;">Selector </h5>
-            <vaadin-integer-field id="rgsLBound" has-controls min="1" label="Lower Bound" prevent-invalid-input
+            <h5>Selector </h5>
+            <vaadin-integer-field id="rgsLBound" has-controls min="1" label="Lower Bound"
                                   has-value></vaadin-integer-field>
-            <vaadin-integer-field id="rgsUBound" has-controls min="2" label="Upper Bound" has-value
-                                  prevent-invalid-input></vaadin-integer-field>
+            <vaadin-integer-field id="rgsUBound" has-controls min="2" label="Upper Bound"
+                                  has-value></vaadin-integer-field>
             <vaadin-button theme="icon" aria-label="Apply" id="rgsApply" style="border-radius: 100px;">
               <iron-icon icon="vaadin:check"></iron-icon>
             </vaadin-button>
