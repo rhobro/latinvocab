@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 06/04/2021, 21:09
+ * Last Modified: 06/04/2021, 21:13
  */
 
 package tech.neurobyte.dev.views;
@@ -121,7 +121,10 @@ public class MainView extends LitTemplate {
                 unlimTPQ, timePQ
         );
         for (var b : disableToF.keySet()) {
-            b.addClickListener(e -> e.getSource().setEnabled(!e.getSource().getElement().isEnabled()));
+            b.addClickListener(e -> {
+                var field = disableToF.get(e.getSource());
+                field.setEnabled(!field.getElement().isEnabled());
+            });
         }
         unlimT.click();
         unlimTPQ.click();

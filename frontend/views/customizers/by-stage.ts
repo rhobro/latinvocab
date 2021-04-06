@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: by-stage.ts
- * Last Modified: 06/04/2021, 21:09
+ * Last Modified: 06/04/2021, 21:18
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
@@ -31,10 +31,9 @@ export class ByStage extends LitElement {
       <vaadin-vertical-layout theme="spacing" style="width: 100%; height: 100%;">
         <vaadin-horizontal-layout theme="" id="toggles"
                                   style="align-content: flex-start; flex-shrink: 0; flex-grow: 0; align-self: stretch; flex-wrap: wrap; justify-content: center;"></vaadin-horizontal-layout>
-        <vaadin-horizontal-layout theme="spacing"
+        <vaadin-horizontal-layout theme="spacing-xl"
                                   style="align-items: center; justify-content: center; width: 30%; align-self: center;">
-          <vaadin-vertical-layout
-              style="padding: var(--lumo-space-m); align-items: stretch; margin: var(--lumo-space-xl); flex-shrink: 1; flex-grow: 0;">
+          <vaadin-vertical-layout style="align-items: stretch; flex-shrink: 1; flex-grow: 0;">
             <h5>Selector </h5>
             <vaadin-integer-field id="rgsLBound" has-controls min="1" label="Lower Bound" prevent-invalid-input
                                   has-value></vaadin-integer-field>
@@ -44,8 +43,7 @@ export class ByStage extends LitElement {
               <iron-icon icon="vaadin:check"></iron-icon>
             </vaadin-button>
           </vaadin-vertical-layout>
-          <vaadin-vertical-layout
-              style="padding: var(--lumo-space-m); align-items: stretch; margin: var(--lumo-space-xl); flex-shrink: 1; flex-grow: 0;">
+          <vaadin-vertical-layout style="align-items: stretch; flex-shrink: 1; flex-grow: 0;">
             <h5>Deselector</h5>
             <vaadin-integer-field id="rgdLBound" has-controls min="1" label="Lower Bound" prevent-invalid-input
                                   has-value></vaadin-integer-field>
