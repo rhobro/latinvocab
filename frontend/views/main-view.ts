@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: main-view.ts
- * Last Modified: 06/04/2021, 10:09
+ * Last Modified: 06/04/2021, 19:18
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
@@ -31,7 +31,7 @@ export class MainView extends LitElement {
 
   render() {
     return html`
-      <vaadin-vertical-layout style="width: 100%; height: 100%;">
+      <vaadin-vertical-layout style="width: 100%; height: 100%;" id="root">
         <vaadin-horizontal-layout class="header"
                                   style="width: 100%; flex-basis: var(--lumo-size-l); flex-shrink: 0; background-color: var(--lumo-contrast-10pct);"></vaadin-horizontal-layout>
         <vaadin-vertical-layout class="content"

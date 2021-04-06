@@ -4,8 +4,8 @@
  * NeuroByte Tech is the Developer Company of Rohan Mathew.
  *
  * Project: latinvocab
- * File Name: ByStage.java
- * Last Modified: 06/04/2021, 19:14
+ * File Name: ByLetter.java
+ * Last Modified: 06/04/2021, 14:29
  */
 
 package tech.neurobyte.dev.views.customizers;
@@ -19,11 +19,8 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.textfield.IntegerField;
 import tech.neurobyte.dev.data.DB;
-import tech.neurobyte.dev.data.Filter;
 import tech.neurobyte.dev.data.Word;
-import tech.neurobyte.dev.views.MainView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,7 +31,7 @@ import java.util.List;
  */
 @Tag("by-stage")
 @JsModule("./views/customizers/by-stage.ts")
-public class ByStage extends LitTemplate implements Customizer {
+public class ByLetter extends LitTemplate implements Customizer {
 
     // internal
     private static final String TOGGLE_BORDER_RADIUS = "5px";
@@ -56,7 +53,7 @@ public class ByStage extends LitTemplate implements Customizer {
     @Id("rgdApply")
     private Button rgdApply;
 
-    public ByStage() {
+    public ByLetter() {
         // toggle setup
         for (int i = 0; i <= DB.getNStages(); i++) {
             var b = new Button(i == 0 ? "Non-CLC" : Integer.toString(i));
@@ -68,7 +65,6 @@ public class ByStage extends LitTemplate implements Customizer {
                     // not selected
                     e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY);
                 }
-                MainView.main.refresh();
             });
             b.addThemeVariants(ButtonVariant.LUMO_ICON);
             b.getStyle().set("border-radius", TOGGLE_BORDER_RADIUS);
@@ -138,17 +134,6 @@ public class ByStage extends LitTemplate implements Customizer {
 
     @Override
     public List<Word> get() {
-        var stages = new ArrayList<Integer>();
-        // loop through toggles and add idxs
-        toggles.getChildren().forEach(e -> {
-            var b = (Button) e;
-            if (b.getThemeNames().contains("primary")) {
-                // selected
-                var label = ((Button) e).getText();
-                stages.add(label.equals("Non-CLC") ? 0 : Integer.parseInt(label));
-            }
-        });
-
-        return Filter.byStage(stages);
+        return null;
     }
 }

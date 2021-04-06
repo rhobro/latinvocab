@@ -1,0 +1,27 @@
+<!--
+  ~ Copyright © 2021 NeuroByte Tech. All rights reserved.
+  ~
+  ~ NeuroByte Tech is the Developer Company of Rohan Mathew.
+  ~
+  ~ Project: latinvocab
+  ~ File Name: spring-run.run.xml
+  ~ Last Modified: 06/04/2021, 19:18
+  -->
+
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="spring-run" type="SpringBootApplicationConfigurationType"
+                   factoryName="Spring Boot">
+        <module name="latinvocab"/>
+        <extension name="coverage">
+            <pattern>
+                <option name="PATTERN" value="tech.neurobyte.dev.*"/>
+                <option name="ENABLED" value="true"/>
+            </pattern>
+        </extension>
+        <option name="SPRING_BOOT_MAIN_CLASS" value="tech.neurobyte.dev.Application"/>
+        <option name="ALTERNATIVE_JRE_PATH"/>
+        <method v="2">
+            <option name="Make" enabled="true"/>
+        </method>
+    </configuration>
+</component>

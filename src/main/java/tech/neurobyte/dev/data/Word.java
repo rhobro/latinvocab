@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: Word.java
- * Last Modified: 03/04/2021, 12:24
+ * Last Modified: 06/04/2021, 19:18
  */
 
 package tech.neurobyte.dev.data;
@@ -13,8 +13,6 @@ package tech.neurobyte.dev.data;
 import com.mongodb.client.FindIterable;
 import org.bson.Document;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,11 +27,8 @@ public class Word {
 
     public Word(Document entry) {
         // set member fields
-        qLa = URLDecoder.decode(entry.getString("qLatin"), StandardCharsets.UTF_8); // decode with utf-8
+        qLa = entry.getString("qLatin");
         aLa = entry.getList("aLatin", String.class);
-        for (int i = 0; i < aLa.size(); i++) { // decode with utf-8
-            aLa.set(i, URLDecoder.decode(aLa.get(i), StandardCharsets.UTF_8));
-        }
         qEn = entry.getString("qEnglish");
         aEn = entry.getList("aEnglish", String.class);
         type = entry.getList("type", String.class);

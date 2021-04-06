@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 06/04/2021, 10:09
+ * Last Modified: 06/04/2021, 19:18
  */
 
 package tech.neurobyte.dev.views;
@@ -27,13 +27,12 @@ import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 import org.vaadin.tabs.PagedTabs;
-import tech.neurobyte.dev.data.Filter;
 import tech.neurobyte.dev.data.Word;
 import tech.neurobyte.dev.views.customizers.All;
 import tech.neurobyte.dev.views.customizers.ByStage;
+import tech.neurobyte.dev.views.customizers.Customizer;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,7 +49,7 @@ public class MainView extends LitTemplate {
 
     // internal
     private final Grid<Word> wordGrid = new Grid<>(Word.class);
-    // components
+    public static MainView main;
     @Id("body")
     private VerticalLayout body;
     // tester params
@@ -77,17 +76,20 @@ public class MainView extends LitTemplate {
 
     @Id("cpyr")
     private H6 cpyr;
-
     // internal components
-    private final PagedTabs tabs;
+    private final VerticalLayout container = new VerticalLayout();
+    private final PagedTabs tabs = new PagedTabs(container);
+    // components
+    @Id("root")
+    private VerticalLayout root;
 
     /**
      * Creates a new MainView.
      */
     public MainView() {
+        main = this;
+
         // setup tabs
-        var container = new VerticalLayout();
-        tabs = new PagedTabs(container);
         tabs.add("All", new All(), false);
         tabs.add("By Stage", new ByStage(), false);
         tabs.add("By Letter", new H3("letter"), false);
@@ -99,9 +101,9 @@ public class MainView extends LitTemplate {
         // setup params
         // test direction
         testDirection.addClickListener(e -> {
-            switch (testDirection.getIcon().getElement().getAttribute("icon")) {
-                case "vaadin:arrow-right" -> testDirection.setIcon(new Icon(VaadinIcon.ARROW_LEFT));
-                case "vaadin:arrow-left" -> testDirection.setIcon(new Icon(VaadinIcon.ARROW_RIGHT));
+            switch (e.getSource().getIcon().getElement().getAttribute("icon")) {
+                case "vaadin:arrow-right" -> e.getSource().setIcon(new Icon(VaadinIcon.ARROW_LEFT));
+                case "vaadin:arrow-left" -> e.getSource().setIcon(new Icon(VaadinIcon.ARROW_RIGHT));
             }
         });
 
@@ -111,22 +113,27 @@ public class MainView extends LitTemplate {
                 unlimTPQ, timePQ
         );
         for (var b : disableToF.keySet()) {
-            b.addClickListener(e -> disableToF.get(b).setEnabled(!disableToF.get(b).getElement().isEnabled()));
+            b.addClickListener(e -> e.getSource().setEnabled(!e.getSource().getElement().isEnabled()));
         }
         unlimT.click();
         unlimTPQ.click();
 
         // word grid
         body.add(wordGrid);
-        updateWordTable(Filter.all());
+        refresh();
 
         // set new copyright
         cpyr.setText(String.format("Copyright © %d Rohan Mathew. All rights reserved.", LocalDate.now().getYear()));
     }
 
-    private void updateWordTable(List<Word> words) {
-        wordGrid.setItems(words);
-        wordGrid.setColumns("latin", "english", "type", "stage");
-        wordGrid.getColumnByKey("stage").setFlexGrow(0);
+    public void refresh() {
+        // get and set words from customizer
+        container.getChildren().forEach(custom -> {
+            if (custom.isVisible()) {
+                wordGrid.setItems(((Customizer) custom).get());
+                wordGrid.setColumns("latin", "english", "type", "stage");
+                wordGrid.getColumnByKey("stage").setFlexGrow(0);
+            }
+        });
     }
 }
