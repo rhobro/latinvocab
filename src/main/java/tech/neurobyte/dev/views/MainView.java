@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 08/04/2021, 09:49
+ * Last Modified: 08/04/2021, 12:20
  */
 
 package tech.neurobyte.dev.views;
@@ -14,7 +14,6 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -28,20 +27,11 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 import org.vaadin.tabs.PagedTabs;
 import tech.neurobyte.dev.data.Word;
-import tech.neurobyte.dev.views.customizers.All;
-import tech.neurobyte.dev.views.customizers.ByLetter;
-import tech.neurobyte.dev.views.customizers.ByStage;
-import tech.neurobyte.dev.views.customizers.Customizer;
+import tech.neurobyte.dev.views.customizers.*;
 
 import java.time.LocalDate;
 import java.util.Map;
 
-/**
- * A Designer generated component for the main-view template.
- * <p>
- * Designer will add and remove fields with @Id mappings but
- * does not overwrite or otherwise change this file.
- */
 @PWA(name = "Latin Vocab", shortName = "Latin")
 @Route("")
 @Tag("main-view")
@@ -89,9 +79,6 @@ public class MainView extends LitTemplate {
     private final VerticalLayout container = new VerticalLayout();
     private final PagedTabs tabs = new PagedTabs(container);
 
-    /**
-     * Creates a new MainView.
-     */
     public MainView() {
         main = this;
 
@@ -99,7 +86,7 @@ public class MainView extends LitTemplate {
         tabs.add("All", new All(), false);
         tabs.add("By Stage", new ByStage(), false);
         tabs.add("By Letter", new ByLetter(), false);
-        tabs.add("By Type", new H3("type"), false);
+        tabs.add("By Type", new ByType(), false);
         // equally space tabs
         tabs.getChildren().findFirst().ifPresent(c -> c.getChildren().forEach(e -> ((Tab) e).setFlexGrow(1)));
         // refresh on tab switch

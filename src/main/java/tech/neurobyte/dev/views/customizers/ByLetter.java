@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: ByLetter.java
- * Last Modified: 08/04/2021, 10:25
+ * Last Modified: 08/04/2021, 12:19
  */
 
 package tech.neurobyte.dev.views.customizers;
@@ -20,24 +20,19 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.polymertemplate.Id;
 import tech.neurobyte.dev.data.Filter;
 import tech.neurobyte.dev.data.Word;
+import tech.neurobyte.dev.utils.Const;
 import tech.neurobyte.dev.utils.Str;
 import tech.neurobyte.dev.views.MainView;
 
 import java.util.List;
 
-/**
- * A Designer generated component for the by-letter template.
- * <p>
- * Designer will add and remove fields with @Id mappings but
- * does not overwrite or otherwise change this file.
- */
 @Tag("by-letter")
 @JsModule("./views/customizers/by-letter.ts")
 public class ByLetter extends LitTemplate implements Customizer {
 
     // internal
-    private static final String TOGGLE_BORDER_RADIUS = "5px";
     private static final String ALPHABETS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
     // components
     @Id("toggles")
     private HorizontalLayout toggles;
@@ -76,7 +71,7 @@ public class ByLetter extends LitTemplate implements Customizer {
                 MainView.main.refresh();
             });
             b.addThemeVariants(ButtonVariant.LUMO_ICON);
-            b.getStyle().set("border-radius", TOGGLE_BORDER_RADIUS);
+            b.getStyle().set("border-radius", Const.TOGGLE_BORDER_RADIUS);
 
             toggles.add(b);
         }
