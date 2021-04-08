@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: ByStage.java
- * Last Modified: 06/04/2021, 21:09
+ * Last Modified: 08/04/2021, 10:13
  */
 
 package tech.neurobyte.dev.views.customizers;
@@ -36,11 +36,10 @@ import java.util.List;
 @JsModule("./views/customizers/by-stage.ts")
 public class ByStage extends LitTemplate implements Customizer {
 
-    // internal
-    private static final String TOGGLE_BORDER_RADIUS = "5px";
     // components
     @Id("toggles")
     private HorizontalLayout toggles;
+
     // range selector
     @Id("rgsLBound")
     private IntegerField rgsLBound;
@@ -50,7 +49,6 @@ public class ByStage extends LitTemplate implements Customizer {
     private Button rgsApply;
     @Id("selAll")
     private Button selAll;
-
     // range deselector
     @Id("rgdLBound")
     private IntegerField rgdLBound;
@@ -60,6 +58,9 @@ public class ByStage extends LitTemplate implements Customizer {
     private Button rgdApply;
     @Id("deselAll")
     private Button deselAll;
+
+    // internal
+    private static final String TOGGLE_BORDER_RADIUS = "5px";
 
     public ByStage() {
         // toggle setup
@@ -163,6 +164,7 @@ public class ByStage extends LitTemplate implements Customizer {
     @Override
     public List<Word> get() {
         var stages = new ArrayList<Integer>();
+
         // loop through toggles and add idxs
         toggles.getChildren().forEach(e -> {
             var b = (Button) e;
@@ -173,6 +175,9 @@ public class ByStage extends LitTemplate implements Customizer {
             }
         });
 
-        return Filter.byStage(stages);
+        if (stages.size() > 0) {
+            return Filter.byStage(stages);
+        }
+        return Filter.empty();
     }
 }

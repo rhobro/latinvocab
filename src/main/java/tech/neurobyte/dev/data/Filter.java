@@ -5,11 +5,12 @@
  *
  * Project: latinvocab
  * File Name: Filter.java
- * Last Modified: 31/03/2021, 19:59
+ * Last Modified: 08/04/2021, 10:13
  */
 
 package tech.neurobyte.dev.data;
 
+import java.util.Collections;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.in;
@@ -30,5 +31,9 @@ public class Filter {
     public static List<Word> all() {
         var filtrate = DB.words.find();
         return Word.parse(filtrate);
+    }
+
+    public static List<Word> empty() {
+        return Collections.emptyList();
     }
 }

@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 06/04/2021, 21:13
+ * Last Modified: 08/04/2021, 09:49
  */
 
 package tech.neurobyte.dev.views;
@@ -17,6 +17,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.littemplate.LitTemplate;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.tabs.Tab;
@@ -28,6 +29,7 @@ import com.vaadin.flow.server.PWA;
 import org.vaadin.tabs.PagedTabs;
 import tech.neurobyte.dev.data.Word;
 import tech.neurobyte.dev.views.customizers.All;
+import tech.neurobyte.dev.views.customizers.ByLetter;
 import tech.neurobyte.dev.views.customizers.ByStage;
 import tech.neurobyte.dev.views.customizers.Customizer;
 
@@ -96,13 +98,14 @@ public class MainView extends LitTemplate {
         // setup tabs
         tabs.add("All", new All(), false);
         tabs.add("By Stage", new ByStage(), false);
-        tabs.add("By Letter", new H3("letter"), false);
+        tabs.add("By Letter", new ByLetter(), false);
         tabs.add("By Type", new H3("type"), false);
         // equally space tabs
         tabs.getChildren().findFirst().ifPresent(c -> c.getChildren().forEach(e -> ((Tab) e).setFlexGrow(1)));
         // refresh on tab switch
         tabs.addSelectedChangeListener(e -> refresh());
         // add to layout
+        container.setAlignItems(FlexComponent.Alignment.CENTER);
         customizer.add(tabs, container);
 
         // setup params
@@ -112,6 +115,8 @@ public class MainView extends LitTemplate {
                 case "vaadin:arrow-right" -> testDirectionIcon.setProperty("icon", "vaadin:arrow-left");
                 case "vaadin:arrow-left" -> testDirectionIcon.setProperty("icon", "vaadin:arrow-right");
             }
+
+            refresh();
         });
 
         // disables
@@ -135,6 +140,10 @@ public class MainView extends LitTemplate {
 
         // set new copyright
         cpyr.setText(String.format("Copyright © %d Rohan Mathew. All rights reserved.", LocalDate.now().getYear()));
+    }
+
+    public boolean getIsLatin() {
+        return testDirectionIcon.getProperty("icon").equals("vaadin:arrow-right");
     }
 
     public void refresh() {

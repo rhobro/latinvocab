@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: main-view.ts
- * Last Modified: 06/04/2021, 21:09
+ * Last Modified: 08/04/2021, 10:25
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';

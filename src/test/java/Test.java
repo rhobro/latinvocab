@@ -5,18 +5,15 @@
  *
  * Project: latinvocab
  * File Name: Test.java
- * Last Modified: 06/04/2021, 19:18
+ * Last Modified: 08/04/2021, 09:45
  */
 
 import tech.neurobyte.dev.data.Filter;
 
-import java.io.IOException;
-import java.util.Arrays;
-
 public class Test {
-    public static void main(String[] args) throws IOException {
-        for (var w : Filter.byStage(Arrays.asList(1, 3, 5))) {
-            System.out.printf("%s - %d\n", w.qLa, w.stage);
+    public static void main(String[] args) {
+        for (var w : Filter.byLetter(true, "AB")) {
+            System.out.println(w.qLa);
         }
     }
 }

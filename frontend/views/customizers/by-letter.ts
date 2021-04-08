@@ -5,15 +5,16 @@
  *
  * Project: latinvocab
  * File Name: by-letter.ts
- * Last Modified: 06/04/2021, 21:55
+ * Last Modified: 08/04/2021, 10:25
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
-import '@vaadin/vaadin-text-field/src/vaadin-integer-field.js';
 import '@polymer/iron-icon/iron-icon.js';
-import '@vaadin/vaadin-button/src/vaadin-button.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
+import '@vaadin/vaadin-button/src/vaadin-button.js';
+import '@vaadin/vaadin-combo-box/src/vaadin-combo-box.js';
+import '@vaadin/vaadin-combo-box/src/vaadin-combo-box-item.js';
 
 @customElement('by-letter')
 export class ByLetter extends LitElement {
@@ -35,21 +36,19 @@ export class ByLetter extends LitElement {
                                   style="align-items: center; justify-content: center; width: 30%; align-self: center;">
           <vaadin-vertical-layout style="align-items: stretch; flex-shrink: 1; flex-grow: 0;">
             <h5>Selector </h5>
-            <vaadin-integer-field id="rgsLBound" has-controls min="1" label="Lower Bound"
-                                  has-value></vaadin-integer-field>
-            <vaadin-integer-field id="rgsUBound" has-controls min="2" label="Upper Bound"
-                                  has-value></vaadin-integer-field>
+            <vaadin-combo-box id="rgsLBound" label="Lower Bound" prevent-invalid-input></vaadin-combo-box>
+            <vaadin-combo-box id="rgsUBound" label="Upper Bound" prevent-invalid-input></vaadin-combo-box>
             <vaadin-button theme="icon" aria-label="Apply" id="rgsApply" style="border-radius: 100px;">
               <iron-icon icon="vaadin:check"></iron-icon>
             </vaadin-button>
           </vaadin-vertical-layout>
           <vaadin-vertical-layout style="align-items: stretch; flex-shrink: 1; flex-grow: 0;">
             <h5>Deselector</h5>
-            <vaadin-integer-field id="rgdLBound" has-controls min="1" label="Lower Bound" prevent-invalid-input
-                                  has-value></vaadin-integer-field>
-            <vaadin-integer-field id="rgdUBound" has-controls min="2" label="Upper Bound" has-value
-                                  prevent-invalid-input></vaadin-integer-field>
-            <vaadin-button theme="icon" aria-label="Apply" style="border-radius: 100px;" id="rgdApply">
+            <vaadin-combo-box id="rgdLBound" label="Lower Bound" prevent-invalid-input>
+              <vaadin-combo-box-item item="asdf"></vaadin-combo-box-item>
+            </vaadin-combo-box>
+            <vaadin-combo-box id="rgdUBound" label="Upper Bound" prevent-invalid-input></vaadin-combo-box>
+            <vaadin-button theme="icon" aria-label="Apply" id="rgdApply" style="border-radius: 100px;">
               <iron-icon icon="vaadin:check"></iron-icon>
             </vaadin-button>
           </vaadin-vertical-layout>
