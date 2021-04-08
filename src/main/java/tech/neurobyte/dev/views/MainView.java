@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 08/04/2021, 16:29
+ * Last Modified: 08/04/2021, 21:32
  */
 
 package tech.neurobyte.dev.views;
@@ -14,7 +14,6 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -23,13 +22,16 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.dom.Element;
+import com.vaadin.flow.router.QueryParameters;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 import org.vaadin.tabs.PagedTabs;
 import tech.neurobyte.dev.data.Word;
 import tech.neurobyte.dev.views.customizers.*;
 
-import java.time.LocalDate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @PWA(name = "Latin Vocab", shortName = "Latin")
@@ -38,11 +40,7 @@ import java.util.Map;
 @JsModule("./views/main-view.ts")
 public class MainView extends LitTemplate {
 
-    // internal
-    private final Grid<Word> wordGrid = new Grid<>(Word.class);
     public static MainView main;
-    @Id("body")
-    private VerticalLayout body;
     // tester params
     @Id("customizer")
     private VerticalLayout customizer;
@@ -76,11 +74,13 @@ public class MainView extends LitTemplate {
     @Id("go")
     private Button go;
 
-    @Id("cpyr")
-    private H6 cpyr;
     // internal components
     private final VerticalLayout container = new VerticalLayout();
     private final PagedTabs tabs = new PagedTabs(container);
+    private final Grid<Word> wordGrid = new Grid<>(Word.class);
+    // components
+    @Id("body")
+    private VerticalLayout body;
 
     public MainView() {
         main = this;
@@ -124,16 +124,30 @@ public class MainView extends LitTemplate {
         unlimT.click();
         unlimTPQ.click();
 
+        // setup go button
+        go.addClickListener(e -> start());
+
         // word grid
         body.add(wordGrid);
         refresh();
-
-        // set new copyright
-        cpyr.setText(String.format("Copyright © %d Rohan Mathew. All rights reserved.", LocalDate.now().getYear()));
     }
 
-    public boolean getIsLatin() {
-        return testDirectionIcon.getProperty("icon").equals("vaadin:arrow-right");
+    private void start() {
+        Map<String, List<String>> params = new HashMap<>();
+        // add params as necessary
+        params.put("latin", Collections.singletonList(Boolean.toString(getIsLatin())));
+        if (nQs.isEnabled() && nQs.getValue() > 0) {
+            params.put("n", Collections.singletonList(Integer.toString(nQs.getValue())));
+        }
+        if (time.isEnabled() && time.getValue() > 0) {
+            params.put("n", Collections.singletonList(Double.toString(time.getValue())));
+        }
+        if (timePQ.isEnabled() && timePQ.getValue() > 0) {
+            params.put("n", Collections.singletonList(Integer.toString(timePQ.getValue())));
+        }
+
+        // go to test view
+        go.getUI().ifPresent(ui -> ui.navigate("test", new QueryParameters(params)));
     }
 
     public void refresh() {
@@ -145,5 +159,9 @@ public class MainView extends LitTemplate {
                 wordGrid.getColumnByKey("stage").setFlexGrow(0);
             }
         });
+    }
+
+    public boolean getIsLatin() {
+        return testDirectionIcon.getProperty("icon").equals("vaadin:arrow-right");
     }
 }

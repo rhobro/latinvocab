@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: ByStage.java
- * Last Modified: 08/04/2021, 12:19
+ * Last Modified: 08/04/2021, 21:31
  */
 
 package tech.neurobyte.dev.views.customizers;
@@ -156,6 +156,19 @@ public class ByStage extends LitTemplate implements Customizer {
     @Override
     public List<Word> get() {
         var stages = new ArrayList<Integer>();
+        for (var s : routeOpt()) {
+            stages.add(Integer.parseInt(s));
+        }
+
+        if (stages.size() > 0) {
+            return Filter.byStage(stages);
+        }
+        return Filter.empty();
+    }
+
+    @Override
+    public List<String> routeOpt() {
+        List<String> stages = new ArrayList<>();
 
         // loop through toggles and add idxs
         toggles.getChildren().forEach(e -> {
@@ -163,13 +176,15 @@ public class ByStage extends LitTemplate implements Customizer {
             if (b.getThemeNames().contains("primary")) {
                 // selected
                 var label = ((Button) e).getText();
-                stages.add(label.equals("Non-CLC") ? 0 : Integer.parseInt(label));
+                stages.add(label.equals("Non-CLC") ? "0" : label);
             }
         });
 
-        if (stages.size() > 0) {
-            return Filter.byStage(stages);
-        }
-        return Filter.empty();
+        return stages;
+    }
+
+    @Override
+    public String routeSel() {
+        return "stage";
     }
 }

@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: ByLetter.java
- * Last Modified: 08/04/2021, 12:19
+ * Last Modified: 08/04/2021, 21:31
  */
 
 package tech.neurobyte.dev.views.customizers;
@@ -24,6 +24,7 @@ import tech.neurobyte.dev.utils.Const;
 import tech.neurobyte.dev.utils.Str;
 import tech.neurobyte.dev.views.MainView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Tag("by-letter")
@@ -146,24 +147,35 @@ public class ByLetter extends LitTemplate implements Customizer {
         });
     }
 
+
     @Override
     public List<Word> get() {
-        StringBuilder letters = new StringBuilder();
+        var letters = String.join("", routeOpt());
+        if (letters.length() > 0) {
+            return Filter.byLetter(MainView.main.getIsLatin(), letters);
+        }
+        return Filter.empty();
+    }
+
+    @Override
+    public List<String> routeOpt() {
+        List<String> letters = new ArrayList<>();
 
         // loop through toggles and add idxs
         for (var e : toggles.getChildren().toArray()) {
             var b = (Button) e;
             if (b.getThemeNames().contains("primary")) {
                 // selected
-                letters.append(((Button) e).getText().toLowerCase())
-                        .append(((Button) e).getText().toUpperCase());
+                letters.add(((Button) e).getText().toLowerCase());
+                letters.add(((Button) e).getText().toUpperCase());
             }
         }
 
-        if (letters.length() > 0) {
-            return Filter.byLetter(MainView.main.getIsLatin(), letters.toString());
-        }
-        return Filter.empty();
+        return letters;
     }
 
+    @Override
+    public String routeSel() {
+        return "letter";
+    }
 }

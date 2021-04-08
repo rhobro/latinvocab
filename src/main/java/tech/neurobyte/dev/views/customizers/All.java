@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: All.java
- * Last Modified: 06/04/2021, 10:09
+ * Last Modified: 08/04/2021, 21:31
  */
 
 package tech.neurobyte.dev.views.customizers;
@@ -22,5 +22,15 @@ public class All extends Div implements Customizer {
     public List<Word> get() {
         var filtrate = DB.words.find();
         return Word.parse(filtrate);
+    }
+
+    @Override
+    public List<String> routeOpt() {
+        return null;
+    }
+
+    @Override
+    public String routeSel() {
+        return "all";
     }
 }

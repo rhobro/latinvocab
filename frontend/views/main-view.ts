@@ -5,18 +5,19 @@
  *
  * Project: latinvocab
  * File Name: main-view.ts
- * Last Modified: 08/04/2021, 16:29
+ * Last Modified: 08/04/2021, 21:32
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
-import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
 import '@vaadin/vaadin-form-layout/src/vaadin-form-layout.js';
 import '@vaadin/vaadin-form-layout/src/vaadin-form-item.js';
 import '@vaadin/vaadin-button/src/vaadin-button.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@vaadin/vaadin-text-field/src/vaadin-integer-field.js';
 import '@vaadin/vaadin-text-field/src/vaadin-number-field.js';
+import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
+import './misc/universal-footer';
 
 @customElement('main-view')
 export class MainView extends LitElement {
@@ -31,7 +32,7 @@ export class MainView extends LitElement {
 
   render() {
     return html`
-      <vaadin-vertical-layout style="width: 100%; height: 100%;" id="root">
+      <vaadin-vertical-layout style="width: 100%; height: 100%; align-items: stretch;" id="root">
         <vaadin-horizontal-layout class="header"
                                   style="width: 100%; flex-basis: var(--lumo-size-l); flex-shrink: 0; background-color: var(--lumo-contrast-10pct);"></vaadin-horizontal-layout>
         <vaadin-vertical-layout class="content"
@@ -85,10 +86,7 @@ export class MainView extends LitElement {
                                     style="align-self: stretch; align-items: stretch;"></vaadin-vertical-layout>
           </vaadin-vertical-layout>
         </vaadin-vertical-layout>
-        <vaadin-horizontal-layout class="footer"
-                                  style="width: 100%; flex-basis: var(--lumo-size-l); flex-shrink: 0; background-color: var(--lumo-contrast-10pct); justify-content: center;">
-          <h6 id="cpyr">Copyright</h6>
-        </vaadin-horizontal-layout>
+        <universal-footer id="universalFooter"></universal-footer>
       </vaadin-vertical-layout>
     `;
   }
