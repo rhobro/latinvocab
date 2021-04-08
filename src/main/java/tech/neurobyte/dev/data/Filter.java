@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: Filter.java
- * Last Modified: 08/04/2021, 10:13
+ * Last Modified: 08/04/2021, 16:29
  */
 
 package tech.neurobyte.dev.data;
@@ -17,6 +17,11 @@ import static com.mongodb.client.model.Filters.in;
 import static com.mongodb.client.model.Filters.regex;
 
 public class Filter {
+    public static List<Word> all() {
+        var filtrate = DB.words.find();
+        return Word.parse(filtrate);
+    }
+
     public static List<Word> byStage(List<Integer> stages) {
         var filtrate = DB.words.find(in("stage", stages));
         return Word.parse(filtrate);
@@ -28,8 +33,8 @@ public class Filter {
         return Word.parse(filtrate);
     }
 
-    public static List<Word> all() {
-        var filtrate = DB.words.find();
+    public static List<Word> byType(List<String> types) {
+        var filtrate = DB.words.find(in("type", types));
         return Word.parse(filtrate);
     }
 

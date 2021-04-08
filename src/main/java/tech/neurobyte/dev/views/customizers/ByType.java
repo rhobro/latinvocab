@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: ByType.java
- * Last Modified: 08/04/2021, 12:19
+ * Last Modified: 08/04/2021, 12:30
  */
 
 package tech.neurobyte.dev.views.customizers;
@@ -18,10 +18,12 @@ import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.polymertemplate.Id;
 import tech.neurobyte.dev.data.DB;
+import tech.neurobyte.dev.data.Filter;
 import tech.neurobyte.dev.data.Word;
 import tech.neurobyte.dev.utils.Const;
 import tech.neurobyte.dev.views.MainView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Tag("by-type")
@@ -31,6 +33,10 @@ public class ByType extends LitTemplate implements Customizer {
     // components
     @Id("toggles")
     private HorizontalLayout toggles;
+    @Id("selAll")
+    private Button selAll;
+    @Id("deselAll")
+    private Button deselAll;
 
     public ByType() {
         // toggle setup
@@ -53,10 +59,40 @@ public class ByType extends LitTemplate implements Customizer {
             toggles.add(b);
         }
         toggles.getThemeList().clear();
+
+        // all selectors
+        selAll.addClickListener(e -> {
+            toggles.getChildren().forEach(b -> {
+                ((Button) b).addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+            });
+
+            MainView.main.refresh();
+        });
+        deselAll.addClickListener(e -> {
+            toggles.getChildren().forEach(b -> {
+                ((Button) b).removeThemeVariants(ButtonVariant.LUMO_PRIMARY);
+            });
+
+            MainView.main.refresh();
+        });
     }
 
     @Override
     public List<Word> get() {
-        return null;
+        var types = new ArrayList<String>();
+
+        // loop through toggles and add idxs
+        toggles.getChildren().forEach(e -> {
+            var b = (Button) e;
+            if (b.getThemeNames().contains("primary")) {
+                // selected
+                types.add(((Button) e).getText());
+            }
+        });
+
+        if (types.size() > 0) {
+            return Filter.byType(types);
+        }
+        return Filter.empty();
     }
 }

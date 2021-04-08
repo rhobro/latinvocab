@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 08/04/2021, 12:20
+ * Last Modified: 08/04/2021, 16:29
  */
 
 package tech.neurobyte.dev.views;
@@ -72,6 +72,9 @@ public class MainView extends LitTemplate {
     private Button unlimTPQ;
     @Id("unlimTPQIcon")
     private Element unlimTPQIcon;
+
+    @Id("go")
+    private Button go;
 
     @Id("cpyr")
     private H6 cpyr;
