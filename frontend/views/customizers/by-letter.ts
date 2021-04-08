@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: by-letter.ts
- * Last Modified: 08/04/2021, 10:25
+ * Last Modified: 08/04/2021, 10:27
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
@@ -14,7 +14,6 @@ import '@polymer/iron-icon/iron-icon.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
 import '@vaadin/vaadin-button/src/vaadin-button.js';
 import '@vaadin/vaadin-combo-box/src/vaadin-combo-box.js';
-import '@vaadin/vaadin-combo-box/src/vaadin-combo-box-item.js';
 
 @customElement('by-letter')
 export class ByLetter extends LitElement {
@@ -44,9 +43,7 @@ export class ByLetter extends LitElement {
           </vaadin-vertical-layout>
           <vaadin-vertical-layout style="align-items: stretch; flex-shrink: 1; flex-grow: 0;">
             <h5>Deselector</h5>
-            <vaadin-combo-box id="rgdLBound" label="Lower Bound" prevent-invalid-input>
-              <vaadin-combo-box-item item="asdf"></vaadin-combo-box-item>
-            </vaadin-combo-box>
+            <vaadin-combo-box id="rgdLBound" label="Lower Bound" prevent-invalid-input></vaadin-combo-box>
             <vaadin-combo-box id="rgdUBound" label="Upper Bound" prevent-invalid-input></vaadin-combo-box>
             <vaadin-button theme="icon" aria-label="Apply" id="rgdApply" style="border-radius: 100px;">
               <iron-icon icon="vaadin:check"></iron-icon>
