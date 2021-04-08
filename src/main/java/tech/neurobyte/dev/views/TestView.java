@@ -5,16 +5,14 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 08/04/2021, 21:32
+ * Last Modified: 08/04/2021, 21:58
  */
 
 package tech.neurobyte.dev.views;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.littemplate.LitTemplate;
-import com.vaadin.flow.component.template.Id;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.OptionalParameter;
@@ -26,15 +24,11 @@ import com.vaadin.flow.router.Route;
 public class TestView extends LitTemplate implements HasUrlParameter<String> {
 
     private boolean invalidURL = false;
-    private String content;
-    @Id("tmpDiv")
-    private Div tmpDiv;
 
     public TestView() {
         if (invalidURL) {
             // popup
         }
-        tmpDiv.setText(content);
     }
 
     @Override
@@ -45,10 +39,10 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
 
         // check for necessary values
         if (!params.containsKey("latin") ||
-                !params.containsKey("filter") ||
-                !params.containsKey("sel")) {
+                !params.containsKey("sel") ||
+                !params.containsKey("filter")) {
             invalidURL = true;
         }
-        content = queryParams.getQueryString();
+        System.out.println(queryParams.getQueryString());
     }
 }

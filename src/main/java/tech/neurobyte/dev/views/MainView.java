@@ -5,11 +5,12 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 08/04/2021, 21:32
+ * Last Modified: 08/04/2021, 21:48
  */
 
 package tech.neurobyte.dev.views;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -136,15 +137,23 @@ public class MainView extends LitTemplate {
         Map<String, List<String>> params = new HashMap<>();
         // add params as necessary
         params.put("latin", Collections.singletonList(Boolean.toString(getIsLatin())));
-        if (nQs.isEnabled() && nQs.getValue() > 0) {
-            params.put("n", Collections.singletonList(Integer.toString(nQs.getValue())));
+        if (nQs.isEnabled() && nQs.getValue() != null) {
+            if (nQs.getValue() > 0) {
+                params.put("n", Collections.singletonList(Integer.toString(nQs.getValue())));
+            }
         }
-        if (time.isEnabled() && time.getValue() > 0) {
-            params.put("n", Collections.singletonList(Double.toString(time.getValue())));
+        if (time.isEnabled() && time.getValue() != null) {
+            if (time.getValue() > 0) {
+                params.put("n", Collections.singletonList(Double.toString(time.getValue())));
+            }
         }
-        if (timePQ.isEnabled() && timePQ.getValue() > 0) {
-            params.put("n", Collections.singletonList(Integer.toString(timePQ.getValue())));
+        if (timePQ.isEnabled() && timePQ.getValue() != null) {
+            if (timePQ.getValue() > 0) {
+                params.put("n", Collections.singletonList(Integer.toString(timePQ.getValue())));
+            }
         }
+        params.put("sel", Collections.singletonList(getSelected().routeSel()));
+        params.put("filter", getSelected().routeOpt());
 
         // go to test view
         go.getUI().ifPresent(ui -> ui.navigate("test", new QueryParameters(params)));
@@ -152,13 +161,18 @@ public class MainView extends LitTemplate {
 
     public void refresh() {
         // get and set words from customizer
-        container.getChildren().forEach(custom -> {
-            if (custom.isVisible()) {
-                wordGrid.setItems(((Customizer) custom).get());
-                wordGrid.setColumns("latin", "english", "type", "stage");
-                wordGrid.getColumnByKey("stage").setFlexGrow(0);
+        wordGrid.setItems(getSelected().get());
+        wordGrid.setColumns("latin", "english", "type", "stage");
+        wordGrid.getColumnByKey("stage").setFlexGrow(0);
+    }
+
+    private Customizer getSelected() {
+        for (var c : container.getChildren().toArray()) {
+            if (((Component) c).isVisible()) {
+                return (Customizer) c;
             }
-        });
+        }
+        return new All();
     }
 
     public boolean getIsLatin() {

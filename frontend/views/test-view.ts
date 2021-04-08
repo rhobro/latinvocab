@@ -5,13 +5,13 @@
  *
  * Project: latinvocab
  * File Name: test-view.ts
- * Last Modified: 08/04/2021, 21:32
+ * Last Modified: 08/04/2021, 21:58
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
-import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
 import './misc/universal-footer';
+import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
 
 @customElement('test-view')
 export class TestView extends LitElement {
@@ -28,12 +28,9 @@ export class TestView extends LitElement {
     return html`
       <vaadin-vertical-layout style="width: 100%; height: 100%; align-items: stretch;">
         <vaadin-horizontal-layout class="header"
-                                  style="width: 100%; flex-basis: var(--lumo-size-l); flex-shrink: 0; background-color: var(--lumo-contrast-10pct);"></vaadin-horizontal-layout>
-        <vaadin-vertical-layout class="content" style="width: 100%; flex-grow: 1; flex-shrink: 1; flex-basis: auto;">
-          <div id="tmpDiv">
-            Div
-          </div>
-        </vaadin-vertical-layout>
+                                  style="width: 100%; flex-basis: var(--lumo-size-l); flex-shrink: 1; background-color: var(--lumo-contrast-10pct);"></vaadin-horizontal-layout>
+        <vaadin-vertical-layout class="content"
+                                style="width: 100%; flex-grow: 1; flex-shrink: 0; flex-basis: auto;"></vaadin-vertical-layout>
         <universal-footer></universal-footer>
       </vaadin-vertical-layout>
     `;

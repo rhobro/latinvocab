@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: All.java
- * Last Modified: 08/04/2021, 21:31
+ * Last Modified: 08/04/2021, 21:51
  */
 
 package tech.neurobyte.dev.views.customizers;
@@ -14,6 +14,7 @@ import com.vaadin.flow.component.html.Div;
 import tech.neurobyte.dev.data.DB;
 import tech.neurobyte.dev.data.Word;
 
+import java.util.Collections;
 import java.util.List;
 
 public class All extends Div implements Customizer {
@@ -26,7 +27,7 @@ public class All extends Div implements Customizer {
 
     @Override
     public List<String> routeOpt() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
