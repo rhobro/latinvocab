@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: All.java
- * Last Modified: 08/04/2021, 21:51
+ * Last Modified: 09/04/2021, 11:48
  */
 
 package tech.neurobyte.dev.views.customizers;
@@ -26,12 +26,12 @@ public class All extends Div implements Customizer {
     }
 
     @Override
-    public List<String> routeOpt() {
+    public List<String> selection() {
         return Collections.emptyList();
     }
 
     @Override
-    public String routeSel() {
+    public String name() {
         return "all";
     }
 }

@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: ByLetter.java
- * Last Modified: 08/04/2021, 21:31
+ * Last Modified: 09/04/2021, 11:48
  */
 
 package tech.neurobyte.dev.views.customizers;
@@ -150,15 +150,15 @@ public class ByLetter extends LitTemplate implements Customizer {
 
     @Override
     public List<Word> get() {
-        var letters = String.join("", routeOpt());
+        var letters = String.join("", selection());
         if (letters.length() > 0) {
-            return Filter.byLetter(MainView.main.getIsLatin(), letters);
+            return Filter.byLetter(MainView.main.isLatin(), letters);
         }
         return Filter.empty();
     }
 
     @Override
-    public List<String> routeOpt() {
+    public List<String> selection() {
         List<String> letters = new ArrayList<>();
 
         // loop through toggles and add idxs
@@ -175,7 +175,7 @@ public class ByLetter extends LitTemplate implements Customizer {
     }
 
     @Override
-    public String routeSel() {
+    public String name() {
         return "letter";
     }
 }

@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: ByType.java
- * Last Modified: 08/04/2021, 21:31
+ * Last Modified: 09/04/2021, 11:48
  */
 
 package tech.neurobyte.dev.views.customizers;
@@ -79,7 +79,7 @@ public class ByType extends LitTemplate implements Customizer {
 
     @Override
     public List<Word> get() {
-        var types = routeOpt();
+        var types = selection();
         if (types.size() > 0) {
             return Filter.byType(types);
         }
@@ -87,7 +87,7 @@ public class ByType extends LitTemplate implements Customizer {
     }
 
     @Override
-    public List<String> routeOpt() {
+    public List<String> selection() {
         List<String> types = new ArrayList<>();
 
         // loop through toggles and add idxs
@@ -103,7 +103,7 @@ public class ByType extends LitTemplate implements Customizer {
     }
 
     @Override
-    public String routeSel() {
+    public String name() {
         return "type";
     }
 }

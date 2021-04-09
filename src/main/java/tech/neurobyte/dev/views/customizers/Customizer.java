@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: Customizer.java
- * Last Modified: 08/04/2021, 21:32
+ * Last Modified: 09/04/2021, 11:48
  */
 
 package tech.neurobyte.dev.views.customizers;
@@ -17,7 +17,7 @@ import java.util.List;
 public interface Customizer {
     List<Word> get();
 
-    String routeSel();
+    String name();
 
-    List<String> routeOpt();
+    List<String> selection();
 }

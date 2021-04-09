@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 08/04/2021, 21:48
+ * Last Modified: 09/04/2021, 11:53
  */
 
 package tech.neurobyte.dev.views;
@@ -13,6 +13,7 @@ package tech.neurobyte.dev.views;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.littemplate.LitTemplate;
@@ -42,6 +43,7 @@ import java.util.Map;
 public class MainView extends LitTemplate {
 
     public static MainView main;
+
     // tester params
     @Id("customizer")
     private VerticalLayout customizer;
@@ -50,6 +52,9 @@ public class MainView extends LitTemplate {
     private Button testDirection;
     @Id("testDirectionIcon")
     private Element testDirectionIcon;
+    // components
+    @Id("body")
+    private VerticalLayout body;
 
     @Id("nQs")
     private IntegerField nQs;
@@ -79,12 +84,12 @@ public class MainView extends LitTemplate {
     private final VerticalLayout container = new VerticalLayout();
     private final PagedTabs tabs = new PagedTabs(container);
     private final Grid<Word> wordGrid = new Grid<>(Word.class);
-    // components
-    @Id("body")
-    private VerticalLayout body;
+    @Id("type")
+    private ComboBox<String> type;
 
     public MainView() {
         main = this;
+        nQs.setEnabled(true);
 
         // setup tabs
         tabs.add("All", new All(), false);
@@ -102,11 +107,7 @@ public class MainView extends LitTemplate {
         // setup params
         // test direction
         testDirection.addClickListener(e -> {
-            switch (testDirectionIcon.getProperty("icon")) {
-                case "vaadin:arrow-right" -> testDirectionIcon.setProperty("icon", "vaadin:arrow-left");
-                case "vaadin:arrow-left" -> testDirectionIcon.setProperty("icon", "vaadin:arrow-right");
-            }
-
+            testDirectionIcon.setProperty("icon", isLatin() ? "vaadin:arrow-left" : "vaadin:arrow-right");
             refresh();
         });
 
@@ -136,7 +137,7 @@ public class MainView extends LitTemplate {
     private void start() {
         Map<String, List<String>> params = new HashMap<>();
         // add params as necessary
-        params.put("latin", Collections.singletonList(Boolean.toString(getIsLatin())));
+        params.put("latin", Collections.singletonList(Boolean.toString(isLatin())));
         if (nQs.isEnabled() && nQs.getValue() != null) {
             if (nQs.getValue() > 0) {
                 params.put("n", Collections.singletonList(Integer.toString(nQs.getValue())));
@@ -144,16 +145,16 @@ public class MainView extends LitTemplate {
         }
         if (time.isEnabled() && time.getValue() != null) {
             if (time.getValue() > 0) {
-                params.put("n", Collections.singletonList(Double.toString(time.getValue())));
+                params.put("t", Collections.singletonList(Double.toString(time.getValue())));
             }
         }
         if (timePQ.isEnabled() && timePQ.getValue() != null) {
             if (timePQ.getValue() > 0) {
-                params.put("n", Collections.singletonList(Integer.toString(timePQ.getValue())));
+                params.put("tpq", Collections.singletonList(Integer.toString(timePQ.getValue())));
             }
         }
-        params.put("sel", Collections.singletonList(getSelected().routeSel()));
-        params.put("filter", getSelected().routeOpt());
+        params.put("filter", Collections.singletonList(getSelected().name()));
+        params.put("sel", getSelected().selection());
 
         // go to test view
         go.getUI().ifPresent(ui -> ui.navigate("test", new QueryParameters(params)));
@@ -175,7 +176,7 @@ public class MainView extends LitTemplate {
         return new All();
     }
 
-    public boolean getIsLatin() {
+    public boolean isLatin() {
         return testDirectionIcon.getProperty("icon").equals("vaadin:arrow-right");
     }
 }
