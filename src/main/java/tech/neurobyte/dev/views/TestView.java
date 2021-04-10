@@ -5,20 +5,26 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 09/04/2021, 11:53
+ * Last Modified: 10/04/2021, 19:55
  */
 
 package tech.neurobyte.dev.views;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.littemplate.LitTemplate;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.template.Id;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.OptionalParameter;
 import com.vaadin.flow.router.Route;
+import com.wontlost.sweetalert2.SweetAlert2Vaadin;
 import tech.neurobyte.dev.data.Filter;
 import tech.neurobyte.dev.data.Word;
+import tech.neurobyte.dev.views.misc.Alert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +35,12 @@ import java.util.List;
 public class TestView extends LitTemplate implements HasUrlParameter<String> {
 
     // components
+    @Id("word")
+    private H1 word;
+    @Id("h3")
+    private H3 h3;
+    @Id("tester")
+    private VerticalLayout tester;
 
     // params
     private boolean latin = true;
@@ -39,10 +51,21 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     private boolean invalidURL = false;
 
     public TestView() {
+        // if invalid data, return to home
         if (invalidURL) {
             // popup
+            var alCfg = Alert.errorCancel(
+                    "Oops...",
+                    "The site just fucked up. Sorry you had to witness that.",
+                    "Take me back");
+            var alert = new SweetAlert2Vaadin(alCfg);
+            alert.addConfirmListener(e -> e.getSource().getUI().ifPresent(ui -> ui.navigate("")));
+            alert.open();
+            return;
         }
 
+        // else cont
+        var h = 3;
     }
 
     @Override

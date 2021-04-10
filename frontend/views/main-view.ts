@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: main-view.ts
- * Last Modified: 09/04/2021, 11:53
+ * Last Modified: 10/04/2021, 19:55
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
@@ -14,11 +14,11 @@ import '@vaadin/vaadin-form-layout/src/vaadin-form-layout.js';
 import '@vaadin/vaadin-form-layout/src/vaadin-form-item.js';
 import '@vaadin/vaadin-button/src/vaadin-button.js';
 import '@polymer/iron-icon/iron-icon.js';
-import '@vaadin/vaadin-combo-box/src/vaadin-combo-box.js';
 import '@vaadin/vaadin-text-field/src/vaadin-integer-field.js';
 import '@vaadin/vaadin-text-field/src/vaadin-number-field.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
+import '@vaadin/vaadin-select/src/vaadin-select.js';
 
 @customElement('main-view')
 export class MainView extends LitElement {
@@ -54,8 +54,8 @@ export class MainView extends LitElement {
                 <label slot="label">Direction</label>
               </vaadin-form-item>
               <vaadin-form-item>
+                <vaadin-select id="type" required></vaadin-select>
                 <label slot="label">Type</label>
-                <vaadin-combo-box id="type" required prevent-invalid-input></vaadin-combo-box>
               </vaadin-form-item>
               <vaadin-form-item>
                 <vaadin-integer-field id="nQs" has-controls required min="1" value="10" max="1000" prevent-invalid-input
@@ -88,6 +88,7 @@ export class MainView extends LitElement {
             <vaadin-vertical-layout theme="spacing" id="customizer"
                                     style="align-self: stretch; align-items: stretch;"></vaadin-vertical-layout>
           </vaadin-vertical-layout>
+          <label id="wordCount" style="margin: var(--lumo-space-l); align-self: flex-end;">_ words</label>
         </vaadin-vertical-layout>
         <universal-footer id="universalFooter"></universal-footer>
       </vaadin-vertical-layout>

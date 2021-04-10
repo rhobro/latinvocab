@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 09/04/2021, 11:53
+ * Last Modified: 10/04/2021, 19:55
  */
 
 package tech.neurobyte.dev.views;
@@ -13,13 +13,14 @@ package tech.neurobyte.dev.views;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.polymertemplate.Id;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.NumberField;
@@ -55,6 +56,8 @@ public class MainView extends LitTemplate {
     // components
     @Id("body")
     private VerticalLayout body;
+    @Id("type")
+    private Select<String> type;
 
     @Id("nQs")
     private IntegerField nQs;
@@ -80,16 +83,17 @@ public class MainView extends LitTemplate {
     @Id("go")
     private Button go;
 
+    @Id("wordCount")
+    private Label wordCount;
+
     // internal components
     private final VerticalLayout container = new VerticalLayout();
     private final PagedTabs tabs = new PagedTabs(container);
     private final Grid<Word> wordGrid = new Grid<>(Word.class);
-    @Id("type")
-    private ComboBox<String> type;
 
     public MainView() {
         main = this;
-        nQs.setEnabled(true);
+        nQs.setValue(10);
 
         // setup tabs
         tabs.add("All", new All(), false);
@@ -110,6 +114,9 @@ public class MainView extends LitTemplate {
             testDirectionIcon.setProperty("icon", isLatin() ? "vaadin:arrow-left" : "vaadin:arrow-right");
             refresh();
         });
+
+        // type
+        type.setItems("Multiple Choice", "Type-in");
 
         // disables
         var disableToF = Map.of(
@@ -162,9 +169,13 @@ public class MainView extends LitTemplate {
 
     public void refresh() {
         // get and set words from customizer
-        wordGrid.setItems(getSelected().get());
+        var ws = getSelected().get();
+        wordGrid.setItems(ws);
         wordGrid.setColumns("latin", "english", "type", "stage");
         wordGrid.getColumnByKey("stage").setFlexGrow(0);
+
+        // update word count
+        wordCount.setText(String.format("%d words", ws.size()));
     }
 
     private Customizer getSelected() {

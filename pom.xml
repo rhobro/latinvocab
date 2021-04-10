@@ -6,7 +6,7 @@
   ~
   ~ Project: latinvocab
   ~ File Name: pom.xml
-  ~ Last Modified: 04/04/2021, 10:25
+  ~ Last Modified: 10/04/2021, 16:14
   -->
 
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -80,6 +80,11 @@
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
             <version>3.12.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.wontlost</groupId>
+            <artifactId>sweet-alert2-vaadin</artifactId>
+            <version>1.1.0</version>
         </dependency>
 
         <!-- Addon components-->

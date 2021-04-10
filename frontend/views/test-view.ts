@@ -5,13 +5,13 @@
  *
  * Project: latinvocab
  * File Name: test-view.ts
- * Last Modified: 08/04/2021, 21:58
+ * Last Modified: 10/04/2021, 19:55
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
-import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
 import './misc/universal-footer';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
+import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
 
 @customElement('test-view')
 export class TestView extends LitElement {
@@ -30,8 +30,16 @@ export class TestView extends LitElement {
         <vaadin-horizontal-layout class="header"
                                   style="width: 100%; flex-basis: var(--lumo-size-l); flex-shrink: 1; background-color: var(--lumo-contrast-10pct);"></vaadin-horizontal-layout>
         <vaadin-vertical-layout class="content"
-                                style="width: 100%; flex-grow: 1; flex-shrink: 0; flex-basis: auto;"></vaadin-vertical-layout>
-        <universal-footer></universal-footer>
+                                style="padding: var(--lumo-space-xl); align-self: stretch; flex-grow: 1; flex-shrink: 0;"
+                                theme="spacing-xl">
+          <vaadin-vertical-layout theme="spacing-xs">
+            <h1 id="word">word</h1>
+            <h3 id="h3">type</h3>
+          </vaadin-vertical-layout>
+          <vaadin-vertical-layout theme="spacing" id="tester"
+                                  style="align-self: stretch; flex-shrink: 0; flex-grow: 1; align-items: stretch;"></vaadin-vertical-layout>
+        </vaadin-vertical-layout>
+        <universal-footer style="flex-shrink: 1;"></universal-footer>
       </vaadin-vertical-layout>
     `;
   }
