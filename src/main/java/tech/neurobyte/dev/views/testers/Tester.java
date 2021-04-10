@@ -5,10 +5,10 @@
  *
  * Project: latinvocab
  * File Name: Tester.java
- * Last Modified: 10/04/2021, 19:55
+ * Last Modified: 10/04/2021, 20:36
  */
 
-package tech.neurobyte.dev.views.tester;
+package tech.neurobyte.dev.views.testers;
 
 import tech.neurobyte.dev.data.Word;
 

@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 10/04/2021, 19:55
+ * Last Modified: 10/04/2021, 20:53
  */
 
 package tech.neurobyte.dev.views;
@@ -25,6 +25,9 @@ import com.wontlost.sweetalert2.SweetAlert2Vaadin;
 import tech.neurobyte.dev.data.Filter;
 import tech.neurobyte.dev.data.Word;
 import tech.neurobyte.dev.views.misc.Alert;
+import tech.neurobyte.dev.views.testers.MultipleChoice;
+import tech.neurobyte.dev.views.testers.Tester;
+import tech.neurobyte.dev.views.testers.TypeIn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +40,8 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     // components
     @Id("word")
     private H1 word;
-    @Id("h3")
-    private H3 h3;
+    @Id("gramType")
+    private H3 gramType;
     @Id("tester")
     private VerticalLayout tester;
 
@@ -47,8 +50,10 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     private int nQs = -1;
     private double time = -1;
     private int timePQ = -1;
-    private List<Word> words;
     private boolean invalidURL = false;
+
+    private List<Word> words;
+    private int i = 0;
 
     public TestView() {
         // if invalid data, return to home
@@ -77,7 +82,8 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         // check for necessary values
         if (!params.containsKey("latin") ||
                 !params.containsKey("sel") ||
-                !params.containsKey("filter")) {
+                !params.containsKey("filter") ||
+                !params.containsKey("type")) {
             invalidURL = true;
             return;
         }
@@ -109,5 +115,22 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
             case "type" -> Filter.byType(params.get("sel"));
             default -> invalidURL = true;
         }
+
+        // init tester
+        if ("type".equals(params.get("type").get(0))) {
+            tester.add(new TypeIn());
+        } else {
+            tester.add(new MultipleChoice());
+        }
+        ((Tester) tester.getChildren().toArray()[0]).nextWord(words.get(i));
+    }
+
+    private void next() {
+        var w = words.get(i);
+        word.setText(w.qLa);
+        gramType.setText(w.getType());
+        ((Tester) tester.getChildren().toArray()[0]).nextWord(w);
+
+        i++;
     }
 }

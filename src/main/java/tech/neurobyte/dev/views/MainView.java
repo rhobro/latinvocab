@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 10/04/2021, 19:55
+ * Last Modified: 10/04/2021, 20:44
  */
 
 package tech.neurobyte.dev.views;
@@ -158,6 +158,15 @@ public class MainView extends LitTemplate {
         if (timePQ.isEnabled() && timePQ.getValue() != null) {
             if (timePQ.getValue() > 0) {
                 params.put("tpq", Collections.singletonList(Integer.toString(timePQ.getValue())));
+            }
+        }
+        if (type.isEmpty()) {
+            type.setInvalid(true);
+            return;
+        } else {
+            switch (type.getValue()) {
+                case "Multiple Choice" -> params.put("type", Collections.singletonList("mcq"));
+                case "Type-in" -> params.put("type", Collections.singletonList("type"));
             }
         }
         params.put("filter", Collections.singletonList(getSelected().name()));
