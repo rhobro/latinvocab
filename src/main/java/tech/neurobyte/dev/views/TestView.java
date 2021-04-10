@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 10/04/2021, 20:53
+ * Last Modified: 10/04/2021, 22:13
  */
 
 package tech.neurobyte.dev.views;
@@ -122,14 +122,15 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         } else {
             tester.add(new MultipleChoice());
         }
-        ((Tester) tester.getChildren().toArray()[0]).nextWord(words.get(i));
+        next();
     }
 
     private void next() {
-        var w = words.get(i);
-        word.setText(w.qLa);
-        gramType.setText(w.getType());
-        ((Tester) tester.getChildren().toArray()[0]).nextWord(w);
+        // update display of words
+        word.setText(words.get(i).qLa);
+        gramType.setText(words.get(i).getType());
+        // update tester
+        ((Tester) tester.getChildren().toArray()[0]).nextWord(words, i);
 
         i++;
     }

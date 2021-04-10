@@ -5,15 +5,20 @@
  *
  * Project: latinvocab
  * File Name: Tester.java
- * Last Modified: 10/04/2021, 20:36
+ * Last Modified: 10/04/2021, 22:13
  */
 
 package tech.neurobyte.dev.views.testers;
 
 import tech.neurobyte.dev.data.Word;
 
-public interface Tester {
-    void nextWord(Word w);
+import java.util.List;
+import java.util.function.Consumer;
 
-    void setCallback(java.util.function.Consumer<Void> e);
+public interface Tester {
+    void nextWord(List<Word> ws, int i);
+
+    void setCallback(Consumer<Void> e);
+
+    void setLang(boolean latin);
 }

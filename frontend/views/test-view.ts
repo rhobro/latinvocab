@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: test-view.ts
- * Last Modified: 10/04/2021, 20:54
+ * Last Modified: 10/04/2021, 22:20
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
@@ -30,14 +30,14 @@ export class TestView extends LitElement {
         <vaadin-horizontal-layout class="header"
                                   style="width: 100%; flex-basis: var(--lumo-size-l); flex-shrink: 1; background-color: var(--lumo-contrast-10pct);"></vaadin-horizontal-layout>
         <vaadin-vertical-layout class="content"
-                                style="padding: var(--lumo-space-xl); align-self: stretch; flex-grow: 1; flex-shrink: 0;"
+                                style="padding: var(--lumo-space-xl); flex-grow: 1; flex-shrink: 0; align-items: center;"
                                 theme="spacing-xl">
-          <vaadin-vertical-layout theme="spacing-xs">
+          <vaadin-vertical-layout theme="spacing-xs" style="align-self: stretch; align-items: center;">
             <h1 id="word">word</h1>
             <h3 id="gramType">type</h3>
           </vaadin-vertical-layout>
           <vaadin-vertical-layout theme="spacing" id="tester"
-                                  style="align-self: stretch; flex-shrink: 0; flex-grow: 1; align-items: stretch;"></vaadin-vertical-layout>
+                                  style="flex-shrink: 0; flex-grow: 1; align-items: stretch; width: 80%;"></vaadin-vertical-layout>
         </vaadin-vertical-layout>
         <universal-footer style="flex-shrink: 1;"></universal-footer>
       </vaadin-vertical-layout>
