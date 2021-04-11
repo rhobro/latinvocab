@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MultipleChoice.java
- * Last Modified: 11/04/2021, 13:30
+ * Last Modified: 11/04/2021, 13:40
  */
 
 package tech.neurobyte.dev.views.testers;
@@ -55,10 +55,14 @@ public class MultipleChoice extends LitTemplate implements Tester {
                 if ((latin ? c.aEn : c.aLa).contains(e.getSource().getText())) {
                     // if correct
                     e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS); // colour success
-                } else {
-                    // incorrect
-                    e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR); // colour error
                 }
+
+                // disable others
+                opts.forEach(b -> {
+                    if (b != e.getSource()) {
+                        b.setEnabled(false);
+                    }
+                });
             });
         });
     }
