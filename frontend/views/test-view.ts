@@ -5,13 +5,15 @@
  *
  * Project: latinvocab
  * File Name: test-view.ts
- * Last Modified: 11/04/2021, 13:46
+ * Last Modified: 11/04/2021, 14:56
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
 import './misc/universal-footer';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
+import '@vaadin/vaadin-button/src/vaadin-button.js';
+import '@polymer/iron-icon/iron-icon.js';
 
 @customElement('test-view')
 export class TestView extends LitElement {
@@ -38,6 +40,12 @@ export class TestView extends LitElement {
           </vaadin-vertical-layout>
           <vaadin-vertical-layout theme="spacing" id="tester"
                                   style="flex-shrink: 0; flex-grow: 1; align-items: stretch;"></vaadin-vertical-layout>
+          <vaadin-horizontal-layout theme="spacing-xl" style="align-items: center;">
+            <label id="score">score</label>
+            <vaadin-button theme="icon" aria-label="Add new" id="nextQ">
+              <iron-icon icon="vaadin:arrow-right"></iron-icon>
+            </vaadin-button>
+          </vaadin-horizontal-layout>
         </vaadin-vertical-layout>
         <universal-footer style="flex-shrink: 1;"></universal-footer>
       </vaadin-vertical-layout>

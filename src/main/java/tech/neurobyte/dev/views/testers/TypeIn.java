@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TypeIn.java
- * Last Modified: 11/04/2021, 10:41
+ * Last Modified: 11/04/2021, 14:56
  */
 
 package tech.neurobyte.dev.views.testers;
@@ -14,8 +14,6 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.littemplate.LitTemplate;
 import tech.neurobyte.dev.data.Word;
-
-import java.util.function.Consumer;
 
 /**
  * A Designer generated component for the type-in template.
@@ -44,8 +42,16 @@ public class TypeIn extends LitTemplate implements Tester {
 
     }
 
-    @Override
-    public void setCallback(Consumer<Void> e) {
+    private Runnable onAns;
+    private Runnable onCorrect;
 
+    @Override
+    public void setOnAnswer(Runnable e) {
+        onAns = e;
+    }
+
+    @Override
+    public void setOnCorrect(Runnable e) {
+        onCorrect = e;
     }
 }

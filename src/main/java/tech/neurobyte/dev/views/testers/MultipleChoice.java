@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MultipleChoice.java
- * Last Modified: 11/04/2021, 13:40
+ * Last Modified: 11/04/2021, 14:56
  */
 
 package tech.neurobyte.dev.views.testers;
@@ -23,7 +23,6 @@ import tech.neurobyte.dev.data.Word;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
 
 @Tag("multiple-choice")
 @JsModule("./views/testers/multiple-choice.ts")
@@ -31,6 +30,7 @@ public class MultipleChoice extends LitTemplate implements Tester {
 
     // internal
     private final List<Button> opts = new ArrayList<>();
+
     // components
     @Id("root")
     private VerticalLayout root;
@@ -47,6 +47,14 @@ public class MultipleChoice extends LitTemplate implements Tester {
     private boolean latin;
     private Word c;
 
+    private Runnable onCorrect;
+    private Runnable onAnswer;
+
+    @Override
+    public void setLang(boolean latin) {
+        this.latin = latin;
+    }
+
     public MultipleChoice() {
         opts.addAll(Arrays.asList(opt1, opt2, opt3, opt4));
         // setup choice listeners
@@ -55,6 +63,11 @@ public class MultipleChoice extends LitTemplate implements Tester {
                 if ((latin ? c.aEn : c.aLa).contains(e.getSource().getText())) {
                     // if correct
                     e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS); // colour success
+                    // callback
+                    onCorrect.run();
+                } else {
+                    // if incorrect
+                    e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR); // colour error
                 }
 
                 // disable others
@@ -63,6 +76,9 @@ public class MultipleChoice extends LitTemplate implements Tester {
                         b.setEnabled(false);
                     }
                 });
+
+                // callback
+                onAnswer.run();
             });
         });
     }
@@ -87,15 +103,18 @@ public class MultipleChoice extends LitTemplate implements Tester {
             }
             count++;
         }
+
+        // disable next
+
     }
 
     @Override
-    public void setLang(boolean latin) {
-        this.latin = latin;
+    public void setOnCorrect(Runnable e) {
+        onCorrect = e;
     }
 
     @Override
-    public void setCallback(Consumer<Void> e) {
-
+    public void setOnAnswer(Runnable e) {
+        onAnswer = e;
     }
 }

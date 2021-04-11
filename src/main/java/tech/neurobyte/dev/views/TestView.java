@@ -5,15 +5,17 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 11/04/2021, 12:15
+ * Last Modified: 11/04/2021, 14:44
  */
 
 package tech.neurobyte.dev.views;
 
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.template.Id;
@@ -44,6 +46,10 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     private H3 gramType;
     @Id("tester")
     private VerticalLayout tester;
+    @Id("score")
+    private Label score;
+    @Id("nextQ")
+    private Button nextQ;
 
     // params
     private boolean latin = true;
@@ -54,6 +60,7 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
 
     private List<Word> words;
     private int i = 0;
+    private int scoreInt;
 
     public TestView() {
         // if invalid data, return to home
@@ -70,7 +77,7 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         }
 
         // else cont
-        var h = 3;
+
     }
 
     private void next() {
@@ -127,6 +134,9 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
             default -> invalidURL = true;
         }
 
+        // init score
+        score.setText(String.format("%d / %d", scoreInt, words.size()));
+
         // init tester
         if (params.get("type").get(0).equals("mcq")) {
             tester.add(new MultipleChoice());
@@ -134,7 +144,14 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
             tester.add(new TypeIn());
         }
         // set lang
-        tester.getChildren().findFirst().ifPresent(t -> ((Tester) t).setLang(latin));
+        tester.getChildren().findFirst().ifPresent(t -> {
+            var test = ((Tester) t);
+            test.setLang(latin);
+            test.setOnCorrect(() -> scoreInt++);
+            test.setOnAnswer(() -> {
+                score.setText(String.format("%d / %d", scoreInt, words.size()));
+            });
+        });
         next();
     }
 }
