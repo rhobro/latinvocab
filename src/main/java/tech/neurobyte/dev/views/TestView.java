@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 11/04/2021, 14:44
+ * Last Modified: 11/04/2021, 17:12
  */
 
 package tech.neurobyte.dev.views;
@@ -19,10 +19,7 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.template.Id;
-import com.vaadin.flow.router.BeforeEvent;
-import com.vaadin.flow.router.HasUrlParameter;
-import com.vaadin.flow.router.OptionalParameter;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 import com.wontlost.sweetalert2.SweetAlert2Vaadin;
 import tech.neurobyte.dev.data.Filter;
 import tech.neurobyte.dev.data.Word;
@@ -62,6 +59,8 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     private int i = 0;
     private int scoreInt;
 
+    private QueryParameters queryParams;
+
     public TestView() {
         // if invalid data, return to home
         if (invalidURL) {
@@ -77,10 +76,34 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         }
 
         // else cont
-
+        nextQ.addClickListener(e -> next());
     }
 
     private void next() {
+        // if finished
+        if (i == words.size()) {
+            // popup
+            var cfg = Alert.yesNo(
+                    "Finished",
+                    String.format("Well done! You got %s. Do you want to do the quiz again?", score.getText()),
+                    "Soldier on", "Take me back");
+            var popup = new SweetAlert2Vaadin(cfg);
+            popup.addConfirmListener(e -> {
+                // redo quiz
+                this.getUI().ifPresent(ui -> {
+                    ui.getPage().reload();
+                });
+            });
+            popup.addCancelListener(e -> {
+                // go back to home
+                this.getUI().ifPresent(ui -> {
+                    ui.navigate("");
+                });
+            });
+            popup.open();
+            return;
+        }
+
         var w = words.get(i);
         // update display of words
         word.setText(latin ? w.qLa : w.qEn);
@@ -94,7 +117,7 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     @Override
     public void setParameter(BeforeEvent e, @OptionalParameter String s) {
         var loc = e.getLocation();
-        var queryParams = loc.getQueryParameters();
+        queryParams = loc.getQueryParameters();
         var params = queryParams.getParameters();
 
         // check for necessary values
@@ -138,6 +161,7 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         score.setText(String.format("%d / %d", scoreInt, words.size()));
 
         // init tester
+        tester.removeAll();
         if (params.get("type").get(0).equals("mcq")) {
             tester.add(new MultipleChoice());
         } else {

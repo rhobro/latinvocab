@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MultipleChoice.java
- * Last Modified: 11/04/2021, 14:56
+ * Last Modified: 11/04/2021, 15:08
  */
 
 package tech.neurobyte.dev.views.testers;
@@ -60,25 +60,28 @@ public class MultipleChoice extends LitTemplate implements Tester {
         // setup choice listeners
         opts.forEach(o -> {
             o.addClickListener(e -> {
-                if ((latin ? c.aEn : c.aLa).contains(e.getSource().getText())) {
-                    // if correct
-                    e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS); // colour success
-                    // callback
-                    onCorrect.run();
-                } else {
-                    // if incorrect
-                    e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR); // colour error
-                }
-
-                // disable others
-                opts.forEach(b -> {
-                    if (b != e.getSource()) {
-                        b.setEnabled(false);
+                // if not clicked yet
+                if (!e.getSource().hasThemeName("primary")) {
+                    if ((latin ? c.aEn : c.aLa).contains(e.getSource().getText())) {
+                        // if correct
+                        e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS); // colour success
+                        // callback
+                        onCorrect.run();
+                    } else {
+                        // if incorrect
+                        e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR); // colour error
                     }
-                });
 
-                // callback
-                onAnswer.run();
+                    // disable others
+                    opts.forEach(b -> {
+                        if (b != e.getSource()) {
+                            b.setEnabled(false);
+                        }
+                    });
+
+                    // callback
+                    onAnswer.run();
+                }
             });
         });
     }
