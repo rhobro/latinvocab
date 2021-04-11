@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MultipleChoice.java
- * Last Modified: 11/04/2021, 12:11
+ * Last Modified: 11/04/2021, 13:30
  */
 
 package tech.neurobyte.dev.views.testers;
@@ -54,36 +54,34 @@ public class MultipleChoice extends LitTemplate implements Tester {
             o.addClickListener(e -> {
                 if ((latin ? c.aEn : c.aLa).contains(e.getSource().getText())) {
                     // if correct
-                    e.getSource().addThemeVariants(ButtonVariant.LUMO_SUCCESS); // colour success
+                    e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS); // colour success
                 } else {
                     // incorrect
-                    e.getSource().addThemeVariants(ButtonVariant.LUMO_ERROR); // colour error
+                    e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR); // colour error
                 }
-
-                // disable all buttons
-                opts.forEach(b -> b.setEnabled(false));
             });
         });
     }
 
     @Override
     public void nextWord(Word w) {
+        c = w;
         // reset colours
         opts.forEach(o -> {
-            o.removeThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_ERROR);
+            o.removeThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_ERROR);
             o.setEnabled(true);
         });
         // set rand options + answer
         var rand = Filter.rand(opts.size()); // get rand options
-        var c = 0;
+        var count = 0;
         var correct = (int) (Math.random() * opts.size()); // option index to store correct answer
         for (var o : opts) {
-            if (c == correct) {
-                o.setText(latin ? w.aEn.get(0) : w.aLa.get(0));
+            if (count == correct) {
+                o.setText(latin ? c.aEn.get(0) : c.aLa.get(0));
             } else {
-                o.setText(latin ? rand.get(c).qEn : rand.get(c).qLa);
+                o.setText(latin ? rand.get(count).qEn : rand.get(count).qLa);
             }
-            c++;
+            count++;
         }
     }
 
