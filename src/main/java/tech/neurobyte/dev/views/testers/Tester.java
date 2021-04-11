@@ -5,18 +5,17 @@
  *
  * Project: latinvocab
  * File Name: Tester.java
- * Last Modified: 10/04/2021, 22:13
+ * Last Modified: 11/04/2021, 10:41
  */
 
 package tech.neurobyte.dev.views.testers;
 
 import tech.neurobyte.dev.data.Word;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public interface Tester {
-    void nextWord(List<Word> ws, int i);
+    void nextWord(Word w);
 
     void setCallback(Consumer<Void> e);
 

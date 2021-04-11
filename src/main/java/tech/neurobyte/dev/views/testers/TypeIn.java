@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TypeIn.java
- * Last Modified: 10/04/2021, 22:13
+ * Last Modified: 11/04/2021, 10:41
  */
 
 package tech.neurobyte.dev.views.testers;
@@ -15,7 +15,6 @@ import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.littemplate.LitTemplate;
 import tech.neurobyte.dev.data.Word;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 /**
@@ -41,7 +40,7 @@ public class TypeIn extends LitTemplate implements Tester {
     }
 
     @Override
-    public void nextWord(List<Word> ws, int i) {
+    public void nextWord(Word w) {
 
     }
 

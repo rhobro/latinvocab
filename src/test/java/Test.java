@@ -5,23 +5,18 @@
  *
  * Project: latinvocab
  * File Name: Test.java
- * Last Modified: 08/04/2021, 12:20
+ * Last Modified: 11/04/2021, 12:20
  */
 
-import tech.neurobyte.dev.data.DB;
-import tech.neurobyte.dev.data.Word;
-
-import java.util.Arrays;
-
-import static com.mongodb.client.model.Filters.in;
+import tech.neurobyte.dev.data.Filter;
 
 public class Test {
     public static void main(String[] args) {
-        var filtrate = DB.words.find(in("type", Arrays.asList("adjective", "verb")));
-        var f = Word.parse(filtrate);
-
-        for (var t : f) {
-            System.out.println(t.qLa + " " + t.type);
+        for (int i = 0; i < 10; i++) {
+            for (var w : Filter.rand(4)) {
+                System.out.println(w.qLa);
+            }
+            System.out.println();
         }
     }
 }

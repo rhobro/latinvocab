@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 10/04/2021, 22:13
+ * Last Modified: 11/04/2021, 12:15
  */
 
 package tech.neurobyte.dev.views;
@@ -73,6 +73,17 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         var h = 3;
     }
 
+    private void next() {
+        var w = words.get(i);
+        // update display of words
+        word.setText(latin ? w.qLa : w.qEn);
+        gramType.setText(w.getType());
+        // update tester
+        tester.getChildren().findFirst().ifPresent(t -> ((Tester) t).nextWord(w));
+
+        i++;
+    }
+
     @Override
     public void setParameter(BeforeEvent e, @OptionalParameter String s) {
         var loc = e.getLocation();
@@ -117,21 +128,13 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         }
 
         // init tester
-        if ("type".equals(params.get("type").get(0))) {
-            tester.add(new TypeIn());
-        } else {
+        if (params.get("type").get(0).equals("mcq")) {
             tester.add(new MultipleChoice());
+        } else {
+            tester.add(new TypeIn());
         }
+        // set lang
+        tester.getChildren().findFirst().ifPresent(t -> ((Tester) t).setLang(latin));
         next();
-    }
-
-    private void next() {
-        // update display of words
-        word.setText(words.get(i).qLa);
-        gramType.setText(words.get(i).getType());
-        // update tester
-        ((Tester) tester.getChildren().toArray()[0]).nextWord(words, i);
-
-        i++;
     }
 }
