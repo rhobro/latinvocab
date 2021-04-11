@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: Alert.java
- * Last Modified: 11/04/2021, 17:06
+ * Last Modified: 11/04/2021, 17:36
  */
 
 package tech.neurobyte.dev.views.misc;
@@ -35,7 +35,9 @@ public class Alert {
         cfg.setBackdrop(true);
         cfg.setIcon("success");
         cfg.setConfirmButtonText(yes);
+        cfg.setShowConfirmButton(true);
         cfg.setCancelButtonText(no);
+        cfg.setShowCancelButton(true);
         return cfg;
     }
 }
