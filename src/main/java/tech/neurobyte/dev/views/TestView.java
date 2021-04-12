@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 11/04/2021, 17:12
+ * Last Modified: 12/04/2021, 17:51
  */
 
 package tech.neurobyte.dev.views;
@@ -81,7 +81,7 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
 
     private void next() {
         // if finished
-        if (i == words.size()) {
+        if (i == nQs) {
             // popup
             var cfg = Alert.yesNo(
                     "Finished",
@@ -131,7 +131,12 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
 
         latin = Boolean.parseBoolean(params.get("latin").get(0));
         if (params.containsKey("n")) {
-            nQs = Integer.parseInt(params.get("n").get(0));
+            var n = Integer.parseInt(params.get("n").get(0));
+            if (n > 0) {
+                nQs = n;
+            }
+        } else {
+            nQs = words.size();
         }
         if (params.containsKey("t")) {
             time = Double.parseDouble(params.get("t").get(0));
@@ -158,7 +163,7 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         }
 
         // init score
-        score.setText(String.format("%d / %d", scoreInt, words.size()));
+        score.setText(String.format("%d / %d", scoreInt, nQs));
 
         // init tester
         tester.removeAll();
@@ -173,7 +178,7 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
             test.setLang(latin);
             test.setOnCorrect(() -> scoreInt++);
             test.setOnAnswer(() -> {
-                score.setText(String.format("%d / %d", scoreInt, words.size()));
+                score.setText(String.format("%d / %d", scoreInt, nQs));
             });
         });
         next();
