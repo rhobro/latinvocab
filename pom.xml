@@ -6,7 +6,7 @@
   ~
   ~ Project: latinvocab
   ~ File Name: pom.xml
-  ~ Last Modified: 10/04/2021, 16:14
+  ~ Last Modified: 14/04/2021, 21:45
   -->
 
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -81,17 +81,22 @@
             <artifactId>mongo-java-driver</artifactId>
             <version>3.12.8</version>
         </dependency>
-        <dependency>
-            <groupId>com.wontlost</groupId>
-            <artifactId>sweet-alert2-vaadin</artifactId>
-            <version>1.1.0</version>
-        </dependency>
 
         <!-- Addon components-->
         <dependency>
             <groupId>org.vaadin.tabs</groupId>
             <artifactId>paged-tabs</artifactId>
             <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.wontlost</groupId>
+            <artifactId>sweet-alert2-vaadin</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.flowingcode.addons</groupId>
+            <artifactId>simple-timer</artifactId>
+            <version>2.1.1</version>
         </dependency>
 
         <dependency>

@@ -5,15 +5,15 @@
  *
  * Project: latinvocab
  * File Name: test-view.ts
- * Last Modified: 11/04/2021, 14:56
+ * Last Modified: 16/04/2021, 22:27
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
 import './misc/universal-footer';
-import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
-import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
 import '@vaadin/vaadin-button/src/vaadin-button.js';
 import '@polymer/iron-icon/iron-icon.js';
+import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
+import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
 
 @customElement('test-view')
 export class TestView extends LitElement {
@@ -29,8 +29,8 @@ export class TestView extends LitElement {
   render() {
     return html`
       <vaadin-vertical-layout style="width: 100%; height: 100%; align-items: stretch;">
-        <vaadin-horizontal-layout class="header"
-                                  style="width: 100%; flex-basis: var(--lumo-size-l); flex-shrink: 1; background-color: var(--lumo-contrast-10pct);"></vaadin-horizontal-layout>
+        <vaadin-vertical-layout id="header" class="header"
+                                style="width: 100%; flex-basis: var(--lumo-size-l); flex-shrink: 1; background-color: var(--lumo-contrast-10pct); padding: var(--lumo-space-m); align-items: stretch;"></vaadin-vertical-layout>
         <vaadin-vertical-layout class="content"
                                 style="padding: var(--lumo-space-xl); flex-grow: 1; flex-shrink: 0; align-items: center;"
                                 theme="spacing-xl">

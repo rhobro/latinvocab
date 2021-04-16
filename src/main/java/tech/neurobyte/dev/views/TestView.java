@@ -5,11 +5,12 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 12/04/2021, 17:51
+ * Last Modified: 16/04/2021, 22:27
  */
 
 package tech.neurobyte.dev.views;
 
+import com.flowingcode.vaadin.addons.simpletimer.SimpleTimer;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -17,6 +18,7 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.littemplate.LitTemplate;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.template.Id;
 import com.vaadin.flow.router.*;
@@ -29,6 +31,7 @@ import tech.neurobyte.dev.views.testers.Tester;
 import tech.neurobyte.dev.views.testers.TypeIn;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Route("test")
@@ -36,7 +39,9 @@ import java.util.List;
 @JsModule("./views/test-view.ts")
 public class TestView extends LitTemplate implements HasUrlParameter<String> {
 
-    // components
+    // internal
+    SimpleTimer overall = new SimpleTimer();
+
     @Id("word")
     private H1 word;
     @Id("gramType")
@@ -60,8 +65,30 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     private int scoreInt;
 
     private QueryParameters queryParams;
+    SimpleTimer eachQ = new SimpleTimer();
+    // components
+    @Id("header")
+    private VerticalLayout header;
 
     public TestView() {
+        // else cont
+        nextQ.addClickListener(e -> next());
+
+        // setup timers
+        for (var t : Arrays.asList(overall, eachQ)) {
+            t.setHours(true);
+            t.setFractions(true);
+        }
+
+        // callbacks
+        overall.addTimerEndEvent(e -> finished("Oh no! You ran out of time."));
+        eachQ.addTimerEndEvent(e -> {
+            Notification.show("You ran out of time for that question. Moving on.");
+            next();
+        });
+    }
+
+    private void init() {
         // if invalid data, return to home
         if (invalidURL) {
             // popup
@@ -75,32 +102,23 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
             return;
         }
 
-        // else cont
-        nextQ.addClickListener(e -> next());
+        // set starts, add and start
+        if (time != -1) {
+            overall.setStartTime(time * 60);
+            header.add(overall);
+            overall.start();
+        }
+        if (timePQ != -1) {
+            eachQ.setStartTime(timePQ);
+            header.add(eachQ);
+            eachQ.start();
+        }
     }
 
     private void next() {
         // if finished
         if (i == nQs) {
-            // popup
-            var cfg = Alert.yesNo(
-                    "Finished",
-                    String.format("Well done! You got %s. Do you want to do the quiz again?", score.getText()),
-                    "Soldier on", "Take me back");
-            var popup = new SweetAlert2Vaadin(cfg);
-            popup.addConfirmListener(e -> {
-                // redo quiz
-                this.getUI().ifPresent(ui -> {
-                    ui.getPage().reload();
-                });
-            });
-            popup.addCancelListener(e -> {
-                // go back to home
-                this.getUI().ifPresent(ui -> {
-                    ui.navigate("");
-                });
-            });
-            popup.open();
+            finished(String.format("Well done! You got %s. Do you want to do the quiz again?", score.getText()));
             return;
         }
 
@@ -110,8 +128,32 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         gramType.setText(w.getType());
         // update tester
         tester.getChildren().findFirst().ifPresent(t -> ((Tester) t).nextWord(w));
+        // reset question timer
+        eachQ.reset();
+        if (!eachQ.isRunning()) {
+            eachQ.start();
+        }
 
         i++;
+    }
+
+    private void finished(String msg) {
+        // popup
+        var cfg = Alert.yesNo("Finished", msg, "Soldier on", "Take me back");
+        var popup = new SweetAlert2Vaadin(cfg);
+        popup.addConfirmListener(e -> {
+            // redo quiz
+            this.getUI().ifPresent(ui -> {
+                ui.getPage().reload();
+            });
+        });
+        popup.addCancelListener(e -> {
+            // go back to home
+            this.getUI().ifPresent(ui -> {
+                ui.navigate("");
+            });
+        });
+        popup.open();
     }
 
     @Override
@@ -132,6 +174,7 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         latin = Boolean.parseBoolean(params.get("latin").get(0));
         if (params.containsKey("n")) {
             var n = Integer.parseInt(params.get("n").get(0));
+            // set max as manual amount rather than size of list
             if (n > 0) {
                 nQs = n;
             }
@@ -179,8 +222,12 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
             test.setOnCorrect(() -> scoreInt++);
             test.setOnAnswer(() -> {
                 score.setText(String.format("%d / %d", scoreInt, nQs));
+                eachQ.pause();
             });
         });
+
+        // init and start
+        init();
         next();
     }
 }
