@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 16/04/2021, 22:27
+ * Last Modified: 20/04/2021, 19:56
  */
 
 package tech.neurobyte.dev.views;
@@ -41,7 +41,6 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
 
     // internal
     SimpleTimer overall = new SimpleTimer();
-
     @Id("word")
     private H1 word;
     @Id("gramType")
@@ -63,12 +62,10 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     private List<Word> words;
     private int i = 0;
     private int scoreInt;
-
-    private QueryParameters queryParams;
-    SimpleTimer eachQ = new SimpleTimer();
     // components
     @Id("header")
     private VerticalLayout header;
+    SimpleTimer eachQ = new SimpleTimer();
 
     public TestView() {
         // else cont
@@ -81,8 +78,9 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         }
 
         // callbacks
-        overall.addTimerEndEvent(e -> finished("Oh no! You ran out of time."));
+        overall.addTimerEndEvent(e -> finish("Oh no! You ran out of time."));
         eachQ.addTimerEndEvent(e -> {
+
             Notification.show("You ran out of time for that question. Moving on.");
             next();
         });
@@ -118,7 +116,7 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     private void next() {
         // if finished
         if (i == nQs) {
-            finished(String.format("Well done! You got %s. Do you want to do the quiz again?", score.getText()));
+            finish(String.format("Well done! You got %s. Do you want to do the quiz again?", score.getText()));
             return;
         }
 
@@ -127,17 +125,12 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         word.setText(latin ? w.qLa : w.qEn);
         gramType.setText(w.getType());
         // update tester
-        tester.getChildren().findFirst().ifPresent(t -> ((Tester) t).nextWord(w));
-        // reset question timer
-        eachQ.reset();
-        if (!eachQ.isRunning()) {
-            eachQ.start();
-        }
+        t().nextWord(w);
 
         i++;
     }
 
-    private void finished(String msg) {
+    private void finish(String msg) {
         // popup
         var cfg = Alert.yesNo("Finished", msg, "Soldier on", "Take me back");
         var popup = new SweetAlert2Vaadin(cfg);
@@ -159,7 +152,7 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     @Override
     public void setParameter(BeforeEvent e, @OptionalParameter String s) {
         var loc = e.getLocation();
-        queryParams = loc.getQueryParameters();
+        QueryParameters queryParams = loc.getQueryParameters();
         var params = queryParams.getParameters();
 
         // check for necessary values
@@ -216,18 +209,19 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
             tester.add(new TypeIn());
         }
         // set lang
-        tester.getChildren().findFirst().ifPresent(t -> {
-            var test = ((Tester) t);
-            test.setLang(latin);
-            test.setOnCorrect(() -> scoreInt++);
-            test.setOnAnswer(() -> {
-                score.setText(String.format("%d / %d", scoreInt, nQs));
-                eachQ.pause();
-            });
+        t().setLang(latin);
+        t().setOnCorrect(() -> scoreInt++);
+        t().setOnAnswer(() -> {
+            score.setText(String.format("%d / %d", scoreInt, nQs));
+            eachQ.pause();
         });
 
         // init and start
         init();
         next();
+    }
+
+    private Tester t() {
+        return (Tester) tester.getChildren().toArray()[0];
     }
 }

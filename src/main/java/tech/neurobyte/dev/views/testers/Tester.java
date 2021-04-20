@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: Tester.java
- * Last Modified: 11/04/2021, 14:56
+ * Last Modified: 20/04/2021, 19:41
  */
 
 package tech.neurobyte.dev.views.testers;
@@ -20,4 +20,6 @@ public interface Tester {
     void setOnCorrect(Runnable e);
 
     void setLang(boolean latin);
+
+    void setEnabled(boolean enable);
 }
