@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: test-view.ts
- * Last Modified: 16/04/2021, 22:27
+ * Last Modified: 20/04/2021, 21:04
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
@@ -30,7 +30,7 @@ export class TestView extends LitElement {
     return html`
       <vaadin-vertical-layout style="width: 100%; height: 100%; align-items: stretch;">
         <vaadin-vertical-layout id="header" class="header"
-                                style="width: 100%; flex-basis: var(--lumo-size-l); flex-shrink: 1; background-color: var(--lumo-contrast-10pct); padding: var(--lumo-space-m); align-items: stretch;"></vaadin-vertical-layout>
+                                style="width: 100%; flex-basis: var(--lumo-size-l); flex-shrink: 1; background-color: var(--lumo-contrast-10pct); padding: var(--lumo-space-m); align-items: flex-end;"></vaadin-vertical-layout>
         <vaadin-vertical-layout class="content"
                                 style="padding: var(--lumo-space-xl); flex-grow: 1; flex-shrink: 0; align-items: center;"
                                 theme="spacing-xl">

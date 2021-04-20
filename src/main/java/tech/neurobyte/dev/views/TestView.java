@@ -5,12 +5,11 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 20/04/2021, 19:56
+ * Last Modified: 20/04/2021, 21:04
  */
 
 package tech.neurobyte.dev.views;
 
-import com.flowingcode.vaadin.addons.simpletimer.SimpleTimer;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -18,7 +17,6 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.littemplate.LitTemplate;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.template.Id;
 import com.vaadin.flow.router.*;
@@ -31,7 +29,6 @@ import tech.neurobyte.dev.views.testers.Tester;
 import tech.neurobyte.dev.views.testers.TypeIn;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Route("test")
@@ -39,8 +36,9 @@ import java.util.List;
 @JsModule("./views/test-view.ts")
 public class TestView extends LitTemplate implements HasUrlParameter<String> {
 
-    // internal
-    SimpleTimer overall = new SimpleTimer();
+    // components
+    @Id("header")
+    private VerticalLayout header;
     @Id("word")
     private H1 word;
     @Id("gramType")
@@ -62,28 +60,10 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     private List<Word> words;
     private int i = 0;
     private int scoreInt;
-    // components
-    @Id("header")
-    private VerticalLayout header;
-    SimpleTimer eachQ = new SimpleTimer();
 
     public TestView() {
         // else cont
         nextQ.addClickListener(e -> next());
-
-        // setup timers
-        for (var t : Arrays.asList(overall, eachQ)) {
-            t.setHours(true);
-            t.setFractions(true);
-        }
-
-        // callbacks
-        overall.addTimerEndEvent(e -> finish("Oh no! You ran out of time."));
-        eachQ.addTimerEndEvent(e -> {
-
-            Notification.show("You ran out of time for that question. Moving on.");
-            next();
-        });
     }
 
     private void init() {
@@ -98,18 +78,6 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
             alert.addConfirmListener(e -> e.getSource().getUI().ifPresent(ui -> ui.navigate("")));
             alert.open();
             return;
-        }
-
-        // set starts, add and start
-        if (time != -1) {
-            overall.setStartTime(time * 60);
-            header.add(overall);
-            overall.start();
-        }
-        if (timePQ != -1) {
-            eachQ.setStartTime(timePQ);
-            header.add(eachQ);
-            eachQ.start();
         }
     }
 
@@ -213,7 +181,6 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         t().setOnCorrect(() -> scoreInt++);
         t().setOnAnswer(() -> {
             score.setText(String.format("%d / %d", scoreInt, nQs));
-            eachQ.pause();
         });
 
         // init and start
