@@ -5,11 +5,12 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 20/04/2021, 21:04
+ * Last Modified: 22/04/2021, 21:21
  */
 
 package tech.neurobyte.dev.views;
 
+import com.flowingcode.vaadin.addons.simpletimer.SimpleTimer;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -53,32 +54,25 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     // params
     private boolean latin = true;
     private int nQs = -1;
-    private double time = -1;
-    private int timePQ = -1;
+    private final double time = -1;
+    private final int timePQ = -1;
     private boolean invalidURL = false;
 
     private List<Word> words;
     private int i = 0;
     private int scoreInt;
 
-    public TestView() {
-        // else cont
-        nextQ.addClickListener(e -> next());
-    }
+    // timers
+    private final SimpleTimer total = new SimpleTimer();
+    private final SimpleTimer tpq = new SimpleTimer();
 
-    private void init() {
-        // if invalid data, return to home
-        if (invalidURL) {
-            // popup
-            var alCfg = Alert.errorCancel(
-                    "Oops...",
-                    "The site just fucked up. Sorry you had to witness that.",
-                    "Take me back");
-            var alert = new SweetAlert2Vaadin(alCfg);
-            alert.addConfirmListener(e -> e.getSource().getUI().ifPresent(ui -> ui.navigate("")));
-            alert.open();
-            return;
-        }
+    public TestView() {
+        total.setHours(true);
+        total.setFractions(true);
+        tpq.setHours(true);
+        tpq.setFractions(true);
+
+        nextQ.addClickListener(e -> next());
     }
 
     private void next() {
@@ -142,11 +136,14 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         } else {
             nQs = words.size();
         }
+        // timers
         if (params.containsKey("t")) {
-            time = Double.parseDouble(params.get("t").get(0));
+            total.setStartTime(Double.parseDouble(params.get("t").get(0)));
+            header.add(total);
         }
         if (params.containsKey("tpq")) {
-            timePQ = Integer.parseInt(params.get("tpq").get(0));
+            tpq.setStartTime(Integer.parseInt(params.get("tpq").get(0)));
+            header.add(tpq);
         }
 
         // init word list
@@ -183,8 +180,21 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
             score.setText(String.format("%d / %d", scoreInt, nQs));
         });
 
-        // init and start
-        init();
+        // init
+        // if invalid data, return to home
+        if (invalidURL) {
+            // popup
+            var alCfg = Alert.errorCancel(
+                    "Oops...",
+                    "The site just fucked up. Sorry you had to witness that.",
+                    "Take me back");
+            var alert = new SweetAlert2Vaadin(alCfg);
+            alert.addConfirmListener(c -> c.getSource().getUI().ifPresent(ui -> ui.navigate("")));
+            alert.open();
+            return;
+        }
+
+        // load first q
         next();
     }
 
