@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MultipleChoice.java
- * Last Modified: 20/04/2021, 19:41
+ * Last Modified: 24/04/2021, 16:12
  */
 
 package tech.neurobyte.dev.views.testers;
@@ -50,45 +50,39 @@ public class MultipleChoice extends LitTemplate implements Tester {
     private Runnable onCorrect;
     private Runnable onAnswer;
 
-    @Override
-    public void setLang(boolean latin) {
-        this.latin = latin;
-    }
-
     public MultipleChoice() {
         opts.addAll(Arrays.asList(opt1, opt2, opt3, opt4));
         // setup choice listeners
-        opts.forEach(o -> {
-            o.addClickListener(e -> {
-                // if not clicked yet
-                if (!e.getSource().hasThemeName("primary")) {
-                    if ((latin ? c.aEn : c.aLa).contains(e.getSource().getText())) {
-                        // if correct
-                        e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS); // colour success
-                        // callback
-                        onCorrect.run();
-                    } else {
-                        // if incorrect
-                        e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR); // colour error
-                    }
-
-                    // disable others
-                    opts.forEach(b -> {
-                        if (b != e.getSource()) {
-                            b.setEnabled(false);
-                        }
-                    });
-
+        opts.forEach(o -> o.addClickListener(e -> {
+            // if not clicked yet
+            if (!e.getSource().hasThemeName("primary")) {
+                if ((latin ? c.aEn : c.aLa).contains(e.getSource().getText())) {
+                    // if correct
+                    e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS); // colour success
                     // callback
-                    onAnswer.run();
+                    onCorrect.run();
+                } else {
+                    // if incorrect
+                    e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR); // colour error
                 }
-            });
-        });
+
+                // disable others
+                opts.forEach(b -> {
+                    if (b != e.getSource()) {
+                        b.setEnabled(false);
+                    }
+                });
+
+                // callback
+                onAnswer.run();
+            }
+        }));
     }
 
     @Override
     public void nextWord(Word w) {
         c = w;
+
         // reset colours
         opts.forEach(o -> {
             o.removeThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_ERROR);
@@ -106,9 +100,11 @@ public class MultipleChoice extends LitTemplate implements Tester {
             }
             count++;
         }
+    }
 
-        // disable next
-
+    @Override
+    public void setLang(boolean latin) {
+        this.latin = latin;
     }
 
     @Override

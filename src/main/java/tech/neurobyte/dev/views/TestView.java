@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 22/04/2021, 21:21
+ * Last Modified: 24/04/2021, 21:10
  */
 
 package tech.neurobyte.dev.views;
@@ -18,6 +18,7 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.littemplate.LitTemplate;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.template.Id;
 import com.vaadin.flow.router.*;
@@ -30,6 +31,7 @@ import tech.neurobyte.dev.views.testers.Tester;
 import tech.neurobyte.dev.views.testers.TypeIn;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Route("test")
@@ -48,14 +50,12 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     private VerticalLayout tester;
     @Id("score")
     private Label score;
-    @Id("nextQ")
+    @Id("prevQ")
     private Button nextQ;
 
     // params
     private boolean latin = true;
     private int nQs = -1;
-    private final double time = -1;
-    private final int timePQ = -1;
     private boolean invalidURL = false;
 
     private List<Word> words;
@@ -67,12 +67,39 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     private final SimpleTimer tpq = new SimpleTimer();
 
     public TestView() {
-        total.setHours(true);
-        total.setFractions(true);
-        tpq.setHours(true);
-        tpq.setFractions(true);
-
+        // else cont
         nextQ.addClickListener(e -> next());
+
+        // setup timers
+        for (var t : Arrays.asList(total, tpq)) {
+            t.setHours(true);
+            t.setFractions(true);
+        }
+
+        // callbacks
+        total.addTimerEndEvent(e -> finish("Oh no! You ran out of time."));
+        tpq.addTimerEndEvent(e -> {
+            Notification.show("You ran out of time for that question. Moving on.");
+            next();
+        });
+    }
+
+    private void init() {
+        // if invalid data, return to home
+        if (invalidURL) {
+            // popup
+            var alCfg = Alert.errorCancel(
+                    "Oops...",
+                    "The site just fucked up. Sorry you had to witness that.",
+                    "Take me back");
+            var alert = new SweetAlert2Vaadin(alCfg);
+            alert.addConfirmListener(e -> e.getSource().getUI().ifPresent(ui -> ui.navigate("")));
+            alert.open();
+            return;
+        }
+
+        // reset question timer
+        total.start();
     }
 
     private void next() {
@@ -88,6 +115,11 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         gramType.setText(w.getType());
         // update tester
         t().nextWord(w);
+        // reset question timer
+        tpq.reset();
+        if (!tpq.isRunning()) {
+            tpq.start();
+        }
 
         i++;
     }
@@ -98,15 +130,11 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         var popup = new SweetAlert2Vaadin(cfg);
         popup.addConfirmListener(e -> {
             // redo quiz
-            this.getUI().ifPresent(ui -> {
-                ui.getPage().reload();
-            });
+            this.getUI().ifPresent(ui -> ui.getPage().reload());
         });
         popup.addCancelListener(e -> {
             // go back to home
-            this.getUI().ifPresent(ui -> {
-                ui.navigate("");
-            });
+            this.getUI().ifPresent(ui -> ui.navigate(""));
         });
         popup.open();
     }
@@ -138,7 +166,7 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         }
         // timers
         if (params.containsKey("t")) {
-            total.setStartTime(Double.parseDouble(params.get("t").get(0)));
+            total.setStartTime(Double.parseDouble(params.get("t").get(0)) * 60);
             header.add(total);
         }
         if (params.containsKey("tpq")) {
@@ -175,26 +203,17 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         }
         // set lang
         t().setLang(latin);
-        t().setOnCorrect(() -> scoreInt++);
+        t().setOnCorrect(() -> {
+            scoreInt++; // update score
+        });
         t().setOnAnswer(() -> {
-            score.setText(String.format("%d / %d", scoreInt, nQs));
+            score.setText(String.format("%d / %d", scoreInt, nQs)); // update score
+            tpq.reset(); // reset each q timer
+            next(); // move immediately to next question
         });
 
-        // init
-        // if invalid data, return to home
-        if (invalidURL) {
-            // popup
-            var alCfg = Alert.errorCancel(
-                    "Oops...",
-                    "The site just fucked up. Sorry you had to witness that.",
-                    "Take me back");
-            var alert = new SweetAlert2Vaadin(alCfg);
-            alert.addConfirmListener(c -> c.getSource().getUI().ifPresent(ui -> ui.navigate("")));
-            alert.open();
-            return;
-        }
 
-        // load first q
+        init();
         next();
     }
 
