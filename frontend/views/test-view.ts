@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: test-view.ts
- * Last Modified: 24/04/2021, 21:19
+ * Last Modified: 24/04/2021, 21:43
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
@@ -40,11 +40,11 @@ export class TestView extends LitElement {
           <vaadin-vertical-layout theme="spacing" id="tester"
                                   style="flex-shrink: 0; flex-grow: 1; align-items: stretch;"></vaadin-vertical-layout>
           <vaadin-horizontal-layout theme="spacing-xl" style="align-items: center;">
-            <vaadin-button theme="icon" aria-label="" id="prevQ">
+            <vaadin-button theme="icon" id="prevQ">
               <iron-icon icon="vaadin:arrow-left"></iron-icon>
             </vaadin-button>
             <label id="score">score</label>
-            <vaadin-button theme="icon" aria-label="" id="nextQ">
+            <vaadin-button theme="icon" id="nextQ">
               <iron-icon icon="vaadin:arrow-right"></iron-icon>
             </vaadin-button>
           </vaadin-horizontal-layout>

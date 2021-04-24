@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MultipleChoice.java
- * Last Modified: 24/04/2021, 16:12
+ * Last Modified: 24/04/2021, 21:20
  */
 
 package tech.neurobyte.dev.views.testers;
@@ -117,6 +117,7 @@ public class MultipleChoice extends LitTemplate implements Tester {
         onAnswer = e;
     }
 
+    @Override
     public void setEnabled(boolean enable) {
         opts.forEach(o -> o.setEnabled(enable));
     }

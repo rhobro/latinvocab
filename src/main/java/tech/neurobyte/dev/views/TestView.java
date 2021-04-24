@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 24/04/2021, 21:10
+ * Last Modified: 24/04/2021, 21:42
  */
 
 package tech.neurobyte.dev.views;
@@ -50,8 +50,10 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     private VerticalLayout tester;
     @Id("score")
     private Label score;
-    @Id("prevQ")
+    @Id("nextQ")
     private Button nextQ;
+    @Id("prevQ")
+    private Button prevQ;
 
     // params
     private boolean latin = true;
@@ -76,7 +78,7 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
             t.setFractions(true);
         }
 
-        // callbacks
+        // timer callbacks
         total.addTimerEndEvent(e -> finish("Oh no! You ran out of time."));
         tpq.addTimerEndEvent(e -> {
             Notification.show("You ran out of time for that question. Moving on.");
@@ -115,7 +117,10 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         gramType.setText(w.getType());
         // update tester
         t().nextWord(w);
-        // reset question timer
+        // reset timers
+        if (!total.isRunning()) {
+            total.start();
+        }
         tpq.reset();
         if (!tpq.isRunning()) {
             tpq.start();
@@ -125,6 +130,8 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     }
 
     private void finish(String msg) {
+        t().setEnabled(false);
+
         // popup
         var cfg = Alert.yesNo("Finished", msg, "Soldier on", "Take me back");
         var popup = new SweetAlert2Vaadin(cfg);
@@ -201,17 +208,20 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         } else {
             tester.add(new TypeIn());
         }
-        // set lang
-        t().setLang(latin);
+
+        // custom callbacks
+        // callbacks
         t().setOnCorrect(() -> {
             scoreInt++; // update score
         });
         t().setOnAnswer(() -> {
             score.setText(String.format("%d / %d", scoreInt, nQs)); // update score
-            tpq.reset(); // reset each q timer
-            next(); // move immediately to next question
+            total.pause();
+            tpq.pause();
         });
 
+        // set lang
+        t().setLang(latin);
 
         init();
         next();
