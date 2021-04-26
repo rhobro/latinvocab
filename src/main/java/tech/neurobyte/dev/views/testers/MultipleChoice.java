@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MultipleChoice.java
- * Last Modified: 24/04/2021, 21:20
+ * Last Modified: 25/04/2021, 11:32
  */
 
 package tech.neurobyte.dev.views.testers;
@@ -84,10 +84,8 @@ public class MultipleChoice extends LitTemplate implements Tester {
         c = w;
 
         // reset colours
-        opts.forEach(o -> {
-            o.removeThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_ERROR);
-            o.setEnabled(true);
-        });
+        opts.forEach(o -> o.removeThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_ERROR));
+        setEnabled(true);
         // set rand options + answer
         var rand = Filter.rand(opts.size()); // get rand options
         var count = 0;
@@ -115,6 +113,11 @@ public class MultipleChoice extends LitTemplate implements Tester {
     @Override
     public void setOnAnswer(Runnable e) {
         onAnswer = e;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return opts.get(0).isEnabled();
     }
 
     @Override

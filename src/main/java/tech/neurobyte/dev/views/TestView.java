@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 24/04/2021, 21:42
+ * Last Modified: 26/04/2021, 20:00
  */
 
 package tech.neurobyte.dev.views;
@@ -19,8 +19,10 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.template.Id;
+import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.*;
 import com.wontlost.sweetalert2.SweetAlert2Vaadin;
 import tech.neurobyte.dev.data.Filter;
@@ -31,7 +33,7 @@ import tech.neurobyte.dev.views.testers.Tester;
 import tech.neurobyte.dev.views.testers.TypeIn;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Route("test")
@@ -41,7 +43,7 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
 
     // components
     @Id("header")
-    private VerticalLayout header;
+    private HorizontalLayout header;
     @Id("word")
     private H1 word;
     @Id("gramType")
@@ -52,39 +54,17 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     private Label score;
     @Id("nextQ")
     private Button nextQ;
-    @Id("prevQ")
-    private Button prevQ;
 
+    @Id("pause")
+    private Button pause;
+    @Id("pauseIcon")
+    private Element pauseIcon;
+    @Id("total")
+    private SimpleTimer total;
+    @Id("tpq")
+    private SimpleTimer tpq;
     // params
     private boolean latin = true;
-    private int nQs = -1;
-    private boolean invalidURL = false;
-
-    private List<Word> words;
-    private int i = 0;
-    private int scoreInt;
-
-    // timers
-    private final SimpleTimer total = new SimpleTimer();
-    private final SimpleTimer tpq = new SimpleTimer();
-
-    public TestView() {
-        // else cont
-        nextQ.addClickListener(e -> next());
-
-        // setup timers
-        for (var t : Arrays.asList(total, tpq)) {
-            t.setHours(true);
-            t.setFractions(true);
-        }
-
-        // timer callbacks
-        total.addTimerEndEvent(e -> finish("Oh no! You ran out of time."));
-        tpq.addTimerEndEvent(e -> {
-            Notification.show("You ran out of time for that question. Moving on.");
-            next();
-        });
-    }
 
     private void init() {
         // if invalid data, return to home
@@ -97,11 +77,51 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
             var alert = new SweetAlert2Vaadin(alCfg);
             alert.addConfirmListener(e -> e.getSource().getUI().ifPresent(ui -> ui.navigate("")));
             alert.open();
-            return;
         }
+    }
 
-        // reset question timer
-        total.start();
+    private int nQs = -1;
+    private boolean invalidURL = false;
+    private List<Word> words;
+    private int i = 0;
+    private int scoreInt;
+
+    public TestView() {
+        // else cont
+        nextQ.addClickListener(e -> next());
+
+        // timer callbacks
+        total.addTimerEndEvent(e -> finish("Oh no! You ran out of time."));
+        tpq.addTimerEndEvent(e -> {
+            Notification.show("You ran out of time for that question. Moving on.");
+            next();
+        });
+
+        // pause button
+        pause.addClickListener(e -> {
+            if (pauseIcon.getProperty("icon").equals("vaadin:play")) {
+                // already paused
+
+                // resume time
+                total.start();
+                tpq.start();
+                // resume tester
+                t().setEnabled(true);
+                // normalise button colour
+                pauseIcon.setProperty("icon", "vaadin:pause");
+
+            } else {
+                // not paused
+
+                // pause time
+                total.pause();
+                tpq.pause();
+                // pause tester
+                t().setEnabled(false);
+                // success button colour
+                pauseIcon.setProperty("icon", "vaadin:play");
+            }
+        });
     }
 
     private void next() {
@@ -125,6 +145,8 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         if (!tpq.isRunning()) {
             tpq.start();
         }
+        // enable pausing
+        pause.setEnabled(true);
 
         i++;
     }
@@ -135,14 +157,8 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         // popup
         var cfg = Alert.yesNo("Finished", msg, "Soldier on", "Take me back");
         var popup = new SweetAlert2Vaadin(cfg);
-        popup.addConfirmListener(e -> {
-            // redo quiz
-            this.getUI().ifPresent(ui -> ui.getPage().reload());
-        });
-        popup.addCancelListener(e -> {
-            // go back to home
-            this.getUI().ifPresent(ui -> ui.navigate(""));
-        });
+        popup.addConfirmListener(e -> this.getUI().ifPresent(ui -> ui.getPage().reload())); // reload
+        popup.addCancelListener(e -> this.getUI().ifPresent(ui -> ui.navigate(""))); // go back to home
         popup.open();
     }
 
@@ -162,23 +178,13 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         }
 
         latin = Boolean.parseBoolean(params.get("latin").get(0));
-        if (params.containsKey("n")) {
-            var n = Integer.parseInt(params.get("n").get(0));
-            // set max as manual amount rather than size of list
-            if (n > 0) {
-                nQs = n;
-            }
-        } else {
-            nQs = words.size();
-        }
+
         // timers
         if (params.containsKey("t")) {
             total.setStartTime(Double.parseDouble(params.get("t").get(0)) * 60);
-            header.add(total);
         }
         if (params.containsKey("tpq")) {
             tpq.setStartTime(Integer.parseInt(params.get("tpq").get(0)));
-            header.add(tpq);
         }
 
         // init word list
@@ -194,8 +200,21 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
             case "letter" -> words = Filter.byLetter(
                     Boolean.parseBoolean(params.get("latin").get(0)),
                     String.join("", params.get("sel")));
-            case "type" -> Filter.byType(params.get("sel"));
-            default -> invalidURL = true;
+            case "type" -> words = Filter.byType(params.get("sel"));
+            default -> {
+                invalidURL = true;
+                words = Collections.emptyList();
+            }
+        }
+
+        // number of questions
+        nQs = words.size();
+        if (params.containsKey("n")) {
+            var n = Integer.parseInt(params.get("n").get(0));
+            // set max as manual amount rather than size of list
+            if (n > 0 && n < nQs) {
+                nQs = n;
+            }
         }
 
         // init score
@@ -218,6 +237,9 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
             score.setText(String.format("%d / %d", scoreInt, nQs)); // update score
             total.pause();
             tpq.pause();
+
+            // disable pausing
+            pause.setEnabled(false);
         });
 
         // set lang

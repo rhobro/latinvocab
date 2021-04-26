@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: UniversalFooter.java
- * Last Modified: 08/04/2021, 17:29
+ * Last Modified: 25/04/2021, 22:06
  */
 
 package tech.neurobyte.dev.views.misc;
@@ -15,9 +15,11 @@ import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.template.Id;
+import com.vaadin.flow.router.Route;
 
 import java.time.LocalDate;
 
+@Route("footer")
 @Tag("universal-footer")
 @JsModule("./views/misc/universal-footer.ts")
 public class UniversalFooter extends LitTemplate {
