@@ -6,7 +6,7 @@
   ~
   ~ Project: latinvocab
   ~ File Name: pom.xml
-  ~ Last Modified: 14/04/2021, 21:45
+  ~ Last Modified: 26/04/2021, 22:28
   -->
 
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -76,11 +76,6 @@
 
     <dependencies>
         <!-- My dependencies-->
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongo-java-driver</artifactId>
-            <version>3.12.8</version>
-        </dependency>
 
         <!-- Addon components-->
         <dependency>

@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: ByStage.java
- * Last Modified: 09/04/2021, 11:48
+ * Last Modified: 26/04/2021, 21:19
  */
 
 package tech.neurobyte.dev.views.customizers;
@@ -18,7 +18,7 @@ import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.textfield.IntegerField;
-import tech.neurobyte.dev.data.DB;
+import tech.neurobyte.dev.data.Data;
 import tech.neurobyte.dev.data.Filter;
 import tech.neurobyte.dev.data.Word;
 import tech.neurobyte.dev.utils.Const;
@@ -56,7 +56,7 @@ public class ByStage extends LitTemplate implements Customizer {
 
     public ByStage() {
         // toggle setup
-        for (int i = 0; i <= DB.getNStages(); i++) {
+        for (int i = 0; i <= Data.getNStages(); i++) {
             var b = new Button(i == 0 ? "Non-CLC" : Integer.toString(i));
             b.addClickListener(e -> {
                 if (e.getSource().getThemeNames().contains("primary")) {
@@ -84,7 +84,7 @@ public class ByStage extends LitTemplate implements Customizer {
                 rgsUBound.setValue(e.getValue() + 1);
             }
         });
-        rgsLBound.setMax(DB.getNStages() - 1);
+        rgsLBound.setMax(Data.getNStages() - 1);
         rgsUBound.addValueChangeListener(e -> {
             // check with l bound
             if (e.getValue().equals(rgsLBound.getValue())) {
@@ -92,7 +92,7 @@ public class ByStage extends LitTemplate implements Customizer {
                 rgsLBound.setValue(e.getValue() - 1);
             }
         });
-        rgsUBound.setMax(DB.getNStages());
+        rgsUBound.setMax(Data.getNStages());
         rgsApply.addClickListener(e -> {
             // select range
             var i = 0;
@@ -122,7 +122,7 @@ public class ByStage extends LitTemplate implements Customizer {
                 rgdUBound.setValue(e.getValue() + 1);
             }
         });
-        rgdLBound.setMax(DB.getNStages() - 1);
+        rgdLBound.setMax(Data.getNStages() - 1);
         rgdUBound.addValueChangeListener(e -> {
             // check with l bound
             if (e.getValue().equals(rgdLBound.getValue())) {
@@ -130,7 +130,7 @@ public class ByStage extends LitTemplate implements Customizer {
                 rgdLBound.setValue(e.getValue() - 1);
             }
         });
-        rgdUBound.setMax(DB.getNStages());
+        rgdUBound.setMax(Data.getNStages());
         rgdApply.addClickListener(e -> {
             // select range
             var i = 0;

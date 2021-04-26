@@ -5,43 +5,46 @@
  *
  * Project: latinvocab
  * File Name: Word.java
- * Last Modified: 06/04/2021, 19:18
+ * Last Modified: 26/04/2021, 21:23
  */
 
 package tech.neurobyte.dev.data;
 
-import com.mongodb.client.FindIterable;
-import org.bson.Document;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class Word {
     public final String qLa;
-    public final List<String> aLa;
+    public final List<String> aLa = new ArrayList<>();
     public final String qEn;
-    public final List<String> aEn;
-    public final List<String> type;
+    public final List<String> aEn = new ArrayList<>();
+    public final List<String> type = new ArrayList<>();
     public final int stage;
 
-    public Word(Document entry) {
-        // set member fields
-        qLa = entry.getString("qLatin");
-        aLa = entry.getList("aLatin", String.class);
-        qEn = entry.getString("qEnglish");
-        aEn = entry.getList("aEnglish", String.class);
-        type = entry.getList("type", String.class);
-        stage = entry.getInteger("stage");
-    }
+    private static final Map<String, String> typeMap = Map.of(
+            "v", "verb",
+            "n", "noun",
+            "a", "adjective",
+            "p", "preposition",
+            "r", "pronoun",
+            "d", "adverb",
+            "x", "misc"
+    );
 
-    public static List<Word> parse(FindIterable<Document> docs) {
-        var words = new ArrayList<Word>();
-        for (var d : docs) {
-            words.add(new Word(d));
+    public Word(String raw) {
+        var l = raw.split("#");
+
+        // set member fields
+        qLa = l[0];
+        Collections.addAll(aLa, l[3].split(":"));
+        qEn = l[1];
+        Collections.addAll(aEn, l[4].split(":"));
+        for (var c : l) {
+            type.add(typeMap.get(c));
         }
-        Collections.shuffle(words);
-        return words;
+        stage = Integer.parseInt(l[5]);
     }
 
     // getters

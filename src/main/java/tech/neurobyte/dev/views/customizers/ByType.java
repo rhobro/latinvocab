@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: ByType.java
- * Last Modified: 09/04/2021, 11:48
+ * Last Modified: 26/04/2021, 21:19
  */
 
 package tech.neurobyte.dev.views.customizers;
@@ -17,7 +17,7 @@ import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.polymertemplate.Id;
-import tech.neurobyte.dev.data.DB;
+import tech.neurobyte.dev.data.Data;
 import tech.neurobyte.dev.data.Filter;
 import tech.neurobyte.dev.data.Word;
 import tech.neurobyte.dev.utils.Const;
@@ -40,7 +40,7 @@ public class ByType extends LitTemplate implements Customizer {
 
     public ByType() {
         // toggle setup
-        for (var type : DB.getTypes()) {
+        for (var type : Data.getTypes()) {
             var b = new Button(type);
             b.addClickListener(e -> {
                 if (e.getSource().getThemeNames().contains("primary")) {

@@ -5,13 +5,13 @@
  *
  * Project: latinvocab
  * File Name: All.java
- * Last Modified: 09/04/2021, 11:48
+ * Last Modified: 26/04/2021, 21:14
  */
 
 package tech.neurobyte.dev.views.customizers;
 
 import com.vaadin.flow.component.html.Div;
-import tech.neurobyte.dev.data.DB;
+import tech.neurobyte.dev.data.Data;
 import tech.neurobyte.dev.data.Word;
 
 import java.util.Collections;
@@ -21,8 +21,8 @@ public class All extends Div implements Customizer {
 
     @Override
     public List<Word> get() {
-        var filtrate = DB.words.find();
-        return Word.parse(filtrate);
+        Collections.shuffle(Data.words);
+        return Data.words;
     }
 
     @Override

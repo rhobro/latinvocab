@@ -5,38 +5,77 @@
  *
  * Project: latinvocab
  * File Name: Filter.java
- * Last Modified: 11/04/2021, 10:26
+ * Last Modified: 26/04/2021, 21:23
  */
 
 package tech.neurobyte.dev.data;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static com.mongodb.client.model.Filters.in;
-import static com.mongodb.client.model.Filters.regex;
 
 public class Filter {
 
     public static List<Word> all() {
-        var filtrate = DB.words.find();
-        return Word.parse(filtrate);
+        Collections.shuffle(Data.words);
+        return Data.words;
     }
 
     public static List<Word> byStage(List<Integer> stages) {
-        var filtrate = DB.words.find(in("stage", stages));
-        return Word.parse(filtrate);
+        Collections.shuffle(Data.words);
+        var filtrate = new ArrayList<Word>();
+        for (var w : Data.words) {
+            if (stages.contains(w.stage)) {
+                filtrate.add(w);
+            }
+        }
+
+        return filtrate;
     }
 
-    public static List<Word> byLetter(boolean inLatin, String alphas) {
-        var field = inLatin ? "qLatin" : "qEnglish";
-        var filtrate = DB.words.find(regex(field, "^[" + alphas + "]"));
-        return Word.parse(filtrate);
+    public static List<Word> byLetter(boolean isLatin, String alphas) {
+        Collections.shuffle(Data.words);
+        var filtrate = new ArrayList<Word>();
+        for (var w : Data.words) {
+            if (isLatin) {
+                if (alphas.contains(w.qLa.substring(0, 1))) {
+                    filtrate.add(w);
+                }
+            } else {
+                if (alphas.contains(w.qEn.substring(0, 1))) {
+                    filtrate.add(w);
+                }
+            }
+        }
+
+        return filtrate;
     }
 
     public static List<Word> byType(List<String> types) {
-        var filtrate = DB.words.find(in("type", types));
-        return Word.parse(filtrate);
+        Collections.shuffle(Data.words);
+        var filtrate = new ArrayList<Word>();
+        for (var w : Data.words) {
+            var add = false;
+
+            for (var sT : types) {
+                for (var wT : w.type) {
+                    if (sT == wT) {
+                        add = true;
+                        break;
+                    }
+                }
+
+                if (add) {
+                    break;
+                }
+            }
+
+            if (add) {
+                filtrate.add(w);
+            }
+        }
+
+        return filtrate;
     }
 
     public static List<Word> rand(int n) {
