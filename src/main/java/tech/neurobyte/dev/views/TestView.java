@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 26/04/2021, 20:00
+ * Last Modified: 27/04/2021, 21:10
  */
 
 package tech.neurobyte.dev.views;
@@ -80,22 +80,18 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         }
     }
 
-    private int nQs = -1;
-    private boolean invalidURL = false;
-    private List<Word> words;
-    private int i = 0;
-    private int scoreInt;
-
     public TestView() {
         // else cont
         nextQ.addClickListener(e -> next());
 
         // timer callbacks
         total.addTimerEndEvent(e -> finish("Oh no! You ran out of time."));
+        total.setVisible(false);
         tpq.addTimerEndEvent(e -> {
             Notification.show("You ran out of time for that question. Moving on.");
             next();
         });
+        tpq.setVisible(true);
 
         // pause button
         pause.addClickListener(e -> {
@@ -162,6 +158,12 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         popup.open();
     }
 
+    private int nQs = -1;
+    private boolean invalidURL = false;
+    private List<Word> words;
+    private int i = 0;
+    private int scoreInt;
+
     @Override
     public void setParameter(BeforeEvent e, @OptionalParameter String s) {
         var loc = e.getLocation();
@@ -181,10 +183,14 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
 
         // timers
         if (params.containsKey("t")) {
+            total.setVisible(true);
             total.setStartTime(Double.parseDouble(params.get("t").get(0)) * 60);
+            total.start();
         }
         if (params.containsKey("tpq")) {
+            tpq.setVisible(true);
             tpq.setStartTime(Integer.parseInt(params.get("tpq").get(0)));
+            total.start();
         }
 
         // init word list

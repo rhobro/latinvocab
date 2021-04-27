@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 10/04/2021, 20:44
+ * Last Modified: 27/04/2021, 21:18
  */
 
 package tech.neurobyte.dev.views;
@@ -93,7 +93,6 @@ public class MainView extends LitTemplate {
 
     public MainView() {
         main = this;
-        nQs.setValue(10);
 
         // setup tabs
         tabs.add("All", new All(), false);
@@ -129,9 +128,8 @@ public class MainView extends LitTemplate {
                 var field = disableToF.get(e.getSource());
                 field.setEnabled(!field.getElement().isEnabled());
             });
+            b.click();
         }
-        unlimT.click();
-        unlimTPQ.click();
 
         // setup go button
         go.addClickListener(e -> start());

@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: main-view.ts
- * Last Modified: 10/04/2021, 19:55
+ * Last Modified: 27/04/2021, 21:23
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
@@ -58,8 +58,8 @@ export class MainView extends LitElement {
                 <label slot="label">Type</label>
               </vaadin-form-item>
               <vaadin-form-item>
-                <vaadin-integer-field id="nQs" has-controls required min="1" value="10" max="1000" prevent-invalid-input
-                                      step="5" has-value></vaadin-integer-field>
+                <vaadin-integer-field id="nQs" has-controls required min="1" max="1000" prevent-invalid-input step="5"
+                                      has-value invalid></vaadin-integer-field>
                 <vaadin-button theme="icon" aria-label="Unlimited" id="unlimQs">
                   <iron-icon icon="vaadin:ban" id="unlimQsIcon"></iron-icon>
                 </vaadin-button>

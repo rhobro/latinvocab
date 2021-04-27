@@ -63,7 +63,7 @@
       "ts-loader": "8.0.12",
       "typescript": "4.0.3"
     },
-    "hash": "80d1cd9355277185dca4ad0c8a4c02c8f0fe9254f6baf25e441989425d02f6a6"
+    "hash": "e693449d2c913eb9efbc526786ff9b2cac048b4be0427df1111d3c671a857da2"
   },
   "dependencies": {
     "@polymer/iron-icon": "3.0.1",
@@ -75,7 +75,6 @@
     "@vaadin/vaadin-board": "2.2.0",
     "@vaadin/vaadin-button": "2.4.0",
     "@vaadin/vaadin-charts": "6.3.1",
-    "@vaadin/vaadin-checkbox": "2.5.0",
     "@vaadin/vaadin-combo-box": "5.4.7",
     "@vaadin/vaadin-confirm-dialog": "1.3.0",
     "@vaadin/vaadin-context-menu": "4.5.0",
@@ -93,7 +92,6 @@
     "@vaadin/vaadin-icons": "4.3.2",
     "@vaadin/vaadin-item": "2.3.0",
     "@vaadin/vaadin-list-box": "1.4.0",
-    "@vaadin/vaadin-login": "1.2.0",
     "@vaadin/vaadin-lumo-styles": "1.6.0",
     "@vaadin/vaadin-material-styles": "1.3.2",
     "@vaadin/vaadin-menu-bar": "1.2.2",
