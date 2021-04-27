@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: Word.java
- * Last Modified: 26/04/2021, 21:23
+ * Last Modified: 27/04/2021, 19:28
  */
 
 package tech.neurobyte.dev.data;
@@ -41,7 +41,7 @@ public class Word {
         Collections.addAll(aLa, l[3].split(":"));
         qEn = l[1];
         Collections.addAll(aEn, l[4].split(":"));
-        for (var c : l) {
+        for (var c : l[2].split("")) {
             type.add(typeMap.get(c));
         }
         stage = Integer.parseInt(l[5]);

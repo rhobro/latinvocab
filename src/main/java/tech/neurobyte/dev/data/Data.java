@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: Data.java
- * Last Modified: 26/04/2021, 22:33
+ * Last Modified: 26/04/2021, 22:36
  */
 
 package tech.neurobyte.dev.data;
@@ -20,12 +20,14 @@ import java.util.List;
 import java.util.Set;
 
 public class Data {
+    private static final String JS_VOCAB_LIST = "https://www.exams.cambridgescp.com/files/cscp/wjec18vocab/vt.js";
+
     public static List<Word> words = new ArrayList<>();
 
     static {
         var cli = HttpClient.newHttpClient();
         var rq = HttpRequest.newBuilder()
-                .uri(URI.create("https://www.exams.cambridgescp.com/files/cscp/wjec18vocab/vt.js"))
+                .uri(URI.create(JS_VOCAB_LIST))
                 .build();
         HttpResponse<String> rsp = null;
         try {

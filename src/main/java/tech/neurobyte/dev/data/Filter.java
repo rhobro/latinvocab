@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: Filter.java
- * Last Modified: 26/04/2021, 21:23
+ * Last Modified: 27/04/2021, 19:32
  */
 
 package tech.neurobyte.dev.data;
@@ -59,7 +59,7 @@ public class Filter {
 
             for (var sT : types) {
                 for (var wT : w.type) {
-                    if (sT == wT) {
+                    if (sT.equals(wT)) {
                         add = true;
                         break;
                     }
