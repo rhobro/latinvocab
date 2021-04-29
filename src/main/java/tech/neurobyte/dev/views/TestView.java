@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 27/04/2021, 21:10
+ * Last Modified: 29/04/2021, 19:06
  */
 
 package tech.neurobyte.dev.views;
@@ -66,32 +66,20 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     // params
     private boolean latin = true;
 
-    private void init() {
-        // if invalid data, return to home
-        if (invalidURL) {
-            // popup
-            var alCfg = Alert.errorCancel(
-                    "Oops...",
-                    "The site just fucked up. Sorry you had to witness that.",
-                    "Take me back");
-            var alert = new SweetAlert2Vaadin(alCfg);
-            alert.addConfirmListener(e -> e.getSource().getUI().ifPresent(ui -> ui.navigate("")));
-            alert.open();
-        }
-    }
-
     public TestView() {
         // else cont
         nextQ.addClickListener(e -> next());
 
         // timer callbacks
         total.addTimerEndEvent(e -> finish("Oh no! You ran out of time."));
-        total.setVisible(false);
         tpq.addTimerEndEvent(e -> {
             Notification.show("You ran out of time for that question. Moving on.");
-            next();
+            next(); // go to next question
         });
-        tpq.setVisible(true);
+        total.pause();
+        tpq.pause();
+        total.setVisible(false);
+        tpq.setVisible(false);
 
         // pause button
         pause.addClickListener(e -> {
@@ -120,6 +108,20 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         });
     }
 
+    private void init() {
+        // if invalid data, return to home
+        if (invalidURL) {
+            // popup
+            var alCfg = Alert.errorCancel(
+                    "Oops...",
+                    "The site just fucked up. Sorry you had to witness that.",
+                    "Take me back");
+            var alert = new SweetAlert2Vaadin(alCfg);
+            alert.addConfirmListener(e -> e.getSource().getUI().ifPresent(ui -> ui.navigate("")));
+            alert.open();
+        }
+    }
+
     private void next() {
         // if finished
         if (i == nQs) {
@@ -134,11 +136,11 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         // update tester
         t().nextWord(w);
         // reset timers
-        if (!total.isRunning()) {
+        if (!total.isRunning() && tN != -1) {
             total.start();
         }
         tpq.reset();
-        if (!tpq.isRunning()) {
+        if (!tpq.isRunning() && tpqN != -1) {
             tpq.start();
         }
         // enable pausing
@@ -163,6 +165,8 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     private List<Word> words;
     private int i = 0;
     private int scoreInt;
+    private double tN = -1;
+    private int tpqN = -1;
 
     @Override
     public void setParameter(BeforeEvent e, @OptionalParameter String s) {
@@ -183,13 +187,17 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
 
         // timers
         if (params.containsKey("t")) {
+            tN = Double.parseDouble(params.get("t").get(0)) * 60;
+
             total.setVisible(true);
-            total.setStartTime(Double.parseDouble(params.get("t").get(0)) * 60);
+            total.setStartTime(tN);
             total.start();
         }
         if (params.containsKey("tpq")) {
+            tpqN = Integer.parseInt(params.get("tpq").get(0));
+
             tpq.setVisible(true);
-            tpq.setStartTime(Integer.parseInt(params.get("tpq").get(0)));
+            tpq.setStartTime(tpqN);
             total.start();
         }
 
@@ -238,14 +246,19 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         // callbacks
         t().setOnCorrect(() -> {
             scoreInt++; // update score
+            Notification.show("Correct!"); // notify to show after quick change
+            next(); // move swiftly onto next question
         });
-        t().setOnAnswer(() -> {
-            score.setText(String.format("%d / %d", scoreInt, nQs)); // update score
+        t().setOnIncorrect(() -> {
+            // pause timers while candidate reflects on mistake
             total.pause();
             tpq.pause();
 
             // disable pausing
             pause.setEnabled(false);
+        });
+        t().setOnAnswer(() -> {
+            score.setText(String.format("%d / %d", scoreInt, nQs)); // update score
         });
 
         // set lang

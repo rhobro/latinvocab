@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TypeIn.java
- * Last Modified: 24/04/2021, 22:39
+ * Last Modified: 27/04/2021, 21:50
  */
 
 package tech.neurobyte.dev.views.testers;
@@ -48,6 +48,11 @@ public class TypeIn extends LitTemplate implements Tester {
     @Override
     public void setOnAnswer(Runnable e) {
         onAns = e;
+    }
+
+    @Override
+    public void setOnIncorrect(Runnable e) {
+
     }
 
     @Override

@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: Tester.java
- * Last Modified: 24/04/2021, 22:39
+ * Last Modified: 27/04/2021, 21:49
  */
 
 package tech.neurobyte.dev.views.testers;
@@ -16,6 +16,8 @@ public interface Tester {
     void nextWord(Word w);
 
     void setOnAnswer(Runnable e);
+
+    void setOnIncorrect(Runnable e);
 
     void setOnCorrect(Runnable e);
 

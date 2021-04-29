@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: test-view.ts
- * Last Modified: 27/04/2021, 21:23
+ * Last Modified: 29/04/2021, 20:35
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
@@ -38,8 +38,8 @@ export class TestView extends LitElement {
             </vaadin-button>
           </vaadin-vertical-layout>
           <vaadin-vertical-layout theme="spacing" style="align-items: flex-end; flex-shrink: 0; flex-grow: 1;">
-            <simple-timer id="total" hours start-time="10" minutes current-time="5" visible=""></simple-timer>
-            <simple-timer id="tpq" hours start-time="10" minutes current-time="10"></simple-timer>
+            <simple-timer id="total" hours start-time="" minutes visible="" current-time="0"></simple-timer>
+            <simple-timer id="tpq" hours start-time="" minutes current-time="0"></simple-timer>
           </vaadin-vertical-layout>
         </vaadin-horizontal-layout>
         <vaadin-vertical-layout class="content" style="flex-grow: 1; flex-shrink: 0; align-items: center;"

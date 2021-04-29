@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: Word.java
- * Last Modified: 27/04/2021, 19:28
+ * Last Modified: 27/04/2021, 21:30
  */
 
 package tech.neurobyte.dev.data;
@@ -47,7 +47,17 @@ public class Word {
         stage = Integer.parseInt(l[5]);
     }
 
-    // getters
+    // concatenating getters
+
+    public String getEnglishAns() {
+        return String.join(", ", aEn);
+    }
+
+    public String getLatinAns() {
+        return String.join(", ", aLa);
+    }
+
+    // getters for table
 
     public String getLatin() {
         return qLa;

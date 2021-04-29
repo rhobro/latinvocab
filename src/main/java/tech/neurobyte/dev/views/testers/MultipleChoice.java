@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MultipleChoice.java
- * Last Modified: 25/04/2021, 11:32
+ * Last Modified: 28/04/2021, 18:12
  */
 
 package tech.neurobyte.dev.views.testers;
@@ -47,7 +47,9 @@ public class MultipleChoice extends LitTemplate implements Tester {
     private boolean latin;
     private Word c;
 
+    // callbacks
     private Runnable onCorrect;
+    private Runnable onIncorrect;
     private Runnable onAnswer;
 
     public MultipleChoice() {
@@ -56,25 +58,28 @@ public class MultipleChoice extends LitTemplate implements Tester {
         opts.forEach(o -> o.addClickListener(e -> {
             // if not clicked yet
             if (!e.getSource().hasThemeName("primary")) {
-                if ((latin ? c.aEn : c.aLa).contains(e.getSource().getText())) {
-                    // if correct
-                    e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS); // colour success
-                    // callback
-                    onCorrect.run();
-                } else {
-                    // if incorrect
-                    e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR); // colour error
-                }
+                // answer callback
+                onAnswer.run();
 
                 // disable others
                 opts.forEach(b -> {
-                    if (b != e.getSource()) {
+                    // deselect if not option and if not correct answer
+                    if (b != e.getSource() && (latin ? c.getEnglishAns() : c.getLatinAns()).equals(b.getText())) {
                         b.setEnabled(false);
                     }
                 });
 
-                // callback
-                onAnswer.run();
+                if ((latin ? c.getEnglishAns() : c.getLatinAns()).equals(e.getSource().getText())) {
+                    // if correct
+                    e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS); // colour success
+                    // callback if correct
+                    onCorrect.run();
+                } else {
+                    // if incorrect
+                    e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR); // colour error
+                    // callback if incorrect
+                    onIncorrect.run();
+                }
             }
         }));
     }
@@ -84,17 +89,21 @@ public class MultipleChoice extends LitTemplate implements Tester {
         c = w;
 
         // reset colours
-        opts.forEach(o -> o.removeThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_ERROR));
+        opts.forEach(o -> o.removeThemeVariants(
+                ButtonVariant.LUMO_PRIMARY,
+                ButtonVariant.LUMO_SUCCESS,
+                ButtonVariant.LUMO_ERROR));
         setEnabled(true);
+
         // set rand options + answer
         var rand = Filter.rand(opts.size()); // get rand options
         var count = 0;
         var correct = (int) (Math.random() * opts.size()); // option index to store correct answer
         for (var o : opts) {
             if (count == correct) {
-                o.setText(latin ? c.aEn.get(0) : c.aLa.get(0));
+                o.setText(latin ? c.getEnglishAns() : c.getLatinAns());
             } else {
-                o.setText(latin ? rand.get(count).qEn : rand.get(count).qLa);
+                o.setText(latin ? rand.get(count).getEnglishAns() : rand.get(count).getLatinAns());
             }
             count++;
         }
@@ -108,6 +117,11 @@ public class MultipleChoice extends LitTemplate implements Tester {
     @Override
     public void setOnCorrect(Runnable e) {
         onCorrect = e;
+    }
+
+    @Override
+    public void setOnIncorrect(Runnable e) {
+        onIncorrect = e;
     }
 
     @Override
