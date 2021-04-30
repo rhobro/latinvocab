@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MultipleChoice.java
- * Last Modified: 28/04/2021, 18:12
+ * Last Modified: 30/04/2021, 20:39
  */
 
 package tech.neurobyte.dev.views.testers;
@@ -58,9 +58,6 @@ public class MultipleChoice extends LitTemplate implements Tester {
         opts.forEach(o -> o.addClickListener(e -> {
             // if not clicked yet
             if (!e.getSource().hasThemeName("primary")) {
-                // answer callback
-                onAnswer.run();
-
                 // disable others
                 opts.forEach(b -> {
                     // deselect if not option and if not correct answer
@@ -80,6 +77,9 @@ public class MultipleChoice extends LitTemplate implements Tester {
                     // callback if incorrect
                     onIncorrect.run();
                 }
+
+                // general callback
+                onAnswer.run();
             }
         }));
     }

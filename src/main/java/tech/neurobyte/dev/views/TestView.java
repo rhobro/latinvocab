@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 29/04/2021, 19:06
+ * Last Modified: 30/04/2021, 20:41
  */
 
 package tech.neurobyte.dev.views;
@@ -125,7 +125,8 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     private void next() {
         // if finished
         if (i == nQs) {
-            finish(String.format("Well done! You got %s. Do you want to do the quiz again?", score.getText()));
+            finish(String.format("Well done! You got %s. Do you want to do the quiz again?",
+                    String.format("%d / %d", scoreInt, nQs)));
             return;
         }
 
@@ -247,17 +248,15 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         t().setOnCorrect(() -> {
             scoreInt++; // update score
             Notification.show("Correct!"); // notify to show after quick change
-            next(); // move swiftly onto next question
+            next(); // move swiftly on
         });
-        t().setOnIncorrect(() -> {
+        t().setOnAnswer(() -> {
             // pause timers while candidate reflects on mistake
             total.pause();
             tpq.pause();
-
             // disable pausing
             pause.setEnabled(false);
-        });
-        t().setOnAnswer(() -> {
+
             score.setText(String.format("%d / %d", scoreInt, nQs)); // update score
         });
 
