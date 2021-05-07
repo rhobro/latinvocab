@@ -5,10 +5,10 @@
  *
  * Project: latinvocab
  * File Name: Alert.java
- * Last Modified: 11/04/2021, 17:36
+ * Last Modified: 01/05/2021, 13:32
  */
 
-package tech.neurobyte.dev.views.misc;
+package tech.neurobyte.dev.views.components;
 
 import com.wontlost.sweetalert2.Config;
 

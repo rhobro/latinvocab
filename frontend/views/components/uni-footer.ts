@@ -4,15 +4,15 @@
  * NeuroByte Tech is the Developer Company of Rohan Mathew.
  *
  * Project: latinvocab
- * File Name: universal-footer.ts
- * Last Modified: 26/04/2021, 20:00
+ * File Name: uni-footer.ts
+ * Last Modified: 07/05/2021, 20:28
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
 
-@customElement('universal-footer')
-export class UniversalFooter extends LitElement {
+@customElement('uni-footer')
+export class UniFooter extends LitElement {
   static get styles() {
     return css`
       :host {

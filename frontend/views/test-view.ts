@@ -5,11 +5,11 @@
  *
  * Project: latinvocab
  * File Name: test-view.ts
- * Last Modified: 29/04/2021, 20:35
+ * Last Modified: 01/05/2021, 13:50
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
-import './misc/universal-footer';
+import './components/uni-footer';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
 import '@vaadin/vaadin-button/src/vaadin-button.js';
@@ -57,7 +57,7 @@ export class TestView extends LitElement {
             </vaadin-button>
           </vaadin-horizontal-layout>
         </vaadin-vertical-layout>
-        <universal-footer style="flex-shrink: 1;"></universal-footer>
+        <uni-footer></uni-footer>
       </vaadin-vertical-layout>
     `;
   }

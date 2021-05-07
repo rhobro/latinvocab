@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MultipleChoice.java
- * Last Modified: 30/04/2021, 20:39
+ * Last Modified: 05/05/2021, 19:17
  */
 
 package tech.neurobyte.dev.views.testers;
@@ -28,9 +28,6 @@ import java.util.List;
 @JsModule("./views/testers/multiple-choice.ts")
 public class MultipleChoice extends LitTemplate implements Tester {
 
-    // internal
-    private final List<Button> opts = new ArrayList<>();
-
     // components
     @Id("root")
     private VerticalLayout root;
@@ -46,6 +43,7 @@ public class MultipleChoice extends LitTemplate implements Tester {
     // internal
     private boolean latin;
     private Word c;
+    private final List<Button> opts = new ArrayList<>();
 
     // callbacks
     private Runnable onCorrect;
@@ -67,12 +65,12 @@ public class MultipleChoice extends LitTemplate implements Tester {
                 });
 
                 if ((latin ? c.getEnglishAns() : c.getLatinAns()).equals(e.getSource().getText())) {
-                    // if correct
+                    // correct
                     e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS); // colour success
                     // callback if correct
                     onCorrect.run();
                 } else {
-                    // if incorrect
+                    // incorrect
                     e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR); // colour error
                     // callback if incorrect
                     onIncorrect.run();

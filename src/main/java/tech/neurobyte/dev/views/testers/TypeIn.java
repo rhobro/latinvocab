@@ -5,59 +5,65 @@
  *
  * Project: latinvocab
  * File Name: TypeIn.java
- * Last Modified: 27/04/2021, 21:50
+ * Last Modified: 05/05/2021, 19:18
  */
 
 package tech.neurobyte.dev.views.testers;
 
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.littemplate.LitTemplate;
+import com.vaadin.flow.component.template.Id;
+import com.vaadin.flow.component.textfield.TextField;
 import tech.neurobyte.dev.data.Word;
 
-/**
- * A Designer generated component for the type-in template.
- * <p>
- * Designer will add and remove fields with @Id mappings but
- * does not overwrite or otherwise change this file.
- */
 @Tag("type-in")
 @JsModule("./views/testers/type-in.ts")
 public class TypeIn extends LitTemplate implements Tester {
 
-    /**
-     * Creates a new TypeIn.
-     */
+    // components
+    @Id("field")
+    private TextField field;
+
+    // internal
+    private boolean latin;
+    private Word c;
+
+    // callbacks
+    private Runnable onCorrect;
+    private Runnable onIncorrect;
+    private Runnable onAnswer;
+
     public TypeIn() {
-        // You can initialise any data required for the connected UI components here.
-    }
-
-    @Override
-    public void setLang(boolean latin) {
-
+        // if type in right answer
+        field.addValueChangeListener(e -> {
+            if ((latin ? c.getEnglishAns() : c.getLatinAns()).contains(e.getValue())) {
+                // correct
+                onCorrect.run();
+                onAnswer.run();
+            }
+        });
+        field.addKeyPressListener(Key.ENTER, e -> {
+            if ((latin ? c.getEnglishAns() : c.getLatinAns()).contains(field.getValue())) {
+                // correct
+                onCorrect.run();
+            } else {
+                // incorrect
+                onIncorrect.run();
+            }
+            onAnswer.run();
+        });
     }
 
     @Override
     public void nextWord(Word w) {
-
-    }
-
-    private Runnable onAns;
-    private Runnable onCorrect;
-
-    @Override
-    public void setOnAnswer(Runnable e) {
-        onAns = e;
+        c = w;
     }
 
     @Override
-    public void setOnIncorrect(Runnable e) {
-
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
+    public void setLang(boolean latin) {
+        this.latin = latin;
     }
 
     @Override
@@ -66,7 +72,22 @@ public class TypeIn extends LitTemplate implements Tester {
     }
 
     @Override
-    public void setEnabled(boolean enable) {
+    public void setOnIncorrect(Runnable e) {
+        onIncorrect = e;
+    }
 
+    @Override
+    public void setOnAnswer(Runnable e) {
+        onAnswer = e;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return field.isEnabled();
+    }
+
+    @Override
+    public void setEnabled(boolean enable) {
+        field.setEnabled(enable);
     }
 }

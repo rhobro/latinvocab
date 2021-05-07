@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 30/04/2021, 20:41
+ * Last Modified: 01/05/2021, 13:32
  */
 
 package tech.neurobyte.dev.views;
@@ -27,7 +27,7 @@ import com.vaadin.flow.router.*;
 import com.wontlost.sweetalert2.SweetAlert2Vaadin;
 import tech.neurobyte.dev.data.Filter;
 import tech.neurobyte.dev.data.Word;
-import tech.neurobyte.dev.views.misc.Alert;
+import tech.neurobyte.dev.views.components.Alert;
 import tech.neurobyte.dev.views.testers.MultipleChoice;
 import tech.neurobyte.dev.views.testers.Tester;
 import tech.neurobyte.dev.views.testers.TypeIn;

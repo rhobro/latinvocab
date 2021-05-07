@@ -5,10 +5,12 @@
  *
  * Project: latinvocab
  * File Name: type-in.ts
- * Last Modified: 10/04/2021, 20:54
+ * Last Modified: 07/05/2021, 20:28
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
+import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
+import '@vaadin/vaadin-text-field/src/vaadin-text-field.js';
 
 @customElement('type-in')
 export class TypeIn extends LitElement {
@@ -22,7 +24,12 @@ export class TypeIn extends LitElement {
   }
 
   render() {
-    return html``;
+    return html`
+      <vaadin-vertical-layout theme="spacing" id="root"
+                              style="width: 100%; height: 100%; padding: var(--lumo-space-xl); align-items: stretch;">
+        <vaadin-text-field id="field" clear-button-visible></vaadin-text-field>
+      </vaadin-vertical-layout>
+    `;
   }
 
   // Remove this method to render the contents of this view inside Shadow DOM

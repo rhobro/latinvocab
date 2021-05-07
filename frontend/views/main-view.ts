@@ -5,11 +5,10 @@
  *
  * Project: latinvocab
  * File Name: main-view.ts
- * Last Modified: 27/04/2021, 21:23
+ * Last Modified: 07/05/2021, 20:28
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
-import './misc/universal-footer';
 import '@vaadin/vaadin-form-layout/src/vaadin-form-layout.js';
 import '@vaadin/vaadin-form-layout/src/vaadin-form-item.js';
 import '@vaadin/vaadin-button/src/vaadin-button.js';
@@ -19,6 +18,7 @@ import '@vaadin/vaadin-text-field/src/vaadin-number-field.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
 import '@vaadin/vaadin-select/src/vaadin-select.js';
+import './components/uni-footer';
 
 @customElement('main-view')
 export class MainView extends LitElement {
@@ -59,7 +59,7 @@ export class MainView extends LitElement {
               </vaadin-form-item>
               <vaadin-form-item>
                 <vaadin-integer-field id="nQs" has-controls required min="1" max="1000" prevent-invalid-input step="5"
-                                      has-value invalid></vaadin-integer-field>
+                                      has-value></vaadin-integer-field>
                 <vaadin-button theme="icon" aria-label="Unlimited" id="unlimQs">
                   <iron-icon icon="vaadin:ban" id="unlimQsIcon"></iron-icon>
                 </vaadin-button>
@@ -90,7 +90,7 @@ export class MainView extends LitElement {
           </vaadin-vertical-layout>
           <label id="wordCount" style="margin: var(--lumo-space-l); align-self: flex-end;">_ words</label>
         </vaadin-vertical-layout>
-        <universal-footer id="universalFooter"></universal-footer>
+        <uni-footer></uni-footer>
       </vaadin-vertical-layout>
     `;
   }
