@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 27/04/2021, 21:18
+ * Last Modified: 22/05/2021, 21:59
  */
 
 package tech.neurobyte.dev.views;
@@ -88,13 +88,13 @@ public class MainView extends LitTemplate {
 
     // internal components
     private final VerticalLayout container = new VerticalLayout();
-    private final PagedTabs tabs = new PagedTabs(container);
     private final Grid<Word> wordGrid = new Grid<>(Word.class);
 
     public MainView() {
         main = this;
 
         // setup tabs
+        PagedTabs tabs = new PagedTabs(container);
         tabs.add("All", new All(), false);
         tabs.add("By Stage", new ByStage(), false);
         tabs.add("By Letter", new ByLetter(), false);

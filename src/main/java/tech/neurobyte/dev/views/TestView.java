@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 01/05/2021, 13:32
+ * Last Modified: 22/05/2021, 21:59
  */
 
 package tech.neurobyte.dev.views;
@@ -63,8 +63,6 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
     private SimpleTimer total;
     @Id("tpq")
     private SimpleTimer tpq;
-    // params
-    private boolean latin = true;
 
     public TestView() {
         // else cont
@@ -161,6 +159,8 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         popup.open();
     }
 
+    // params
+    private boolean latin = true;
     private int nQs = -1;
     private boolean invalidURL = false;
     private List<Word> words;

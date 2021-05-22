@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MultipleChoice.java
- * Last Modified: 05/05/2021, 19:17
+ * Last Modified: 22/05/2021, 21:48
  */
 
 package tech.neurobyte.dev.views.testers;
@@ -55,29 +55,27 @@ public class MultipleChoice extends LitTemplate implements Tester {
         // setup choice listeners
         opts.forEach(o -> o.addClickListener(e -> {
             // if not clicked yet
-            if (!e.getSource().hasThemeName("primary")) {
+            if (!(e.getSource().hasThemeName("primary") && e.getSource().hasThemeName("success"))) {
                 // disable others
                 opts.forEach(b -> {
-                    // deselect if not option and if not correct answer
-                    if (b != e.getSource() && (latin ? c.getEnglishAns() : c.getLatinAns()).equals(b.getText())) {
+                    if (b != e.getSource() && !(latin ? c.getEnglishAns() : c.getLatinAns()).equals(b.getText())) {
+                        // deselect all but self
                         b.setEnabled(false);
                     }
                 });
 
                 if ((latin ? c.getEnglishAns() : c.getLatinAns()).equals(e.getSource().getText())) {
                     // correct
-                    e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS); // colour success
-                    // callback if correct
-                    onCorrect.run();
+                    e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
+                    if (onCorrect != null) onCorrect.run(); // callback
                 } else {
                     // incorrect
                     e.getSource().addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR); // colour error
-                    // callback if incorrect
-                    onIncorrect.run();
+                    if (onIncorrect != null) onIncorrect.run(); // callback
                 }
 
                 // general callback
-                onAnswer.run();
+                if (onAnswer != null) onAnswer.run();
             }
         }));
     }
