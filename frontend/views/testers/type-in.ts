@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: type-in.ts
- * Last Modified: 07/05/2021, 20:28
+ * Last Modified: 22/05/2021, 22:26
  */
 
 import {css, customElement, html, LitElement} from 'lit-element';
@@ -28,6 +28,7 @@ export class TypeIn extends LitElement {
       <vaadin-vertical-layout theme="spacing" id="root"
                               style="width: 100%; height: 100%; padding: var(--lumo-space-xl); align-items: stretch;">
         <vaadin-text-field id="field" clear-button-visible></vaadin-text-field>
+        <h5 id="answer">answer</h5>
       </vaadin-vertical-layout>
     `;
   }

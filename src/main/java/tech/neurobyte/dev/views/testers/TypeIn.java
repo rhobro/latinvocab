@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TypeIn.java
- * Last Modified: 05/05/2021, 19:18
+ * Last Modified: 22/05/2021, 22:25
  */
 
 package tech.neurobyte.dev.views.testers;
@@ -36,29 +36,28 @@ public class TypeIn extends LitTemplate implements Tester {
     private Runnable onAnswer;
 
     public TypeIn() {
-        // if type in right answer
-        field.addValueChangeListener(e -> {
-            if ((latin ? c.getEnglishAns() : c.getLatinAns()).contains(e.getValue())) {
-                // correct
-                onCorrect.run();
-                onAnswer.run();
-            }
-        });
         field.addKeyPressListener(Key.ENTER, e -> {
             if ((latin ? c.getEnglishAns() : c.getLatinAns()).contains(field.getValue())) {
                 // correct
-                onCorrect.run();
+                if (onCorrect != null) onCorrect.run();
             } else {
                 // incorrect
-                onIncorrect.run();
+                if (onIncorrect != null) onIncorrect.run();
+                field.setInvalid(true); // invalid colour
             }
-            onAnswer.run();
+
+            // general callback
+            if (onAnswer != null) onAnswer.run();
         });
     }
 
     @Override
     public void nextWord(Word w) {
         c = w;
+
+        // clear text
+        field.setInvalid(false);
+        field.clear();
     }
 
     @Override
