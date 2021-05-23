@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TypeIn.java
- * Last Modified: 22/05/2021, 22:25
+ * Last Modified: 23/05/2021, 13:00
  */
 
 package tech.neurobyte.dev.views.testers;
@@ -14,6 +14,7 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.littemplate.LitTemplate;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.template.Id;
 import com.vaadin.flow.component.textfield.TextField;
 import tech.neurobyte.dev.data.Word;
@@ -37,13 +38,17 @@ public class TypeIn extends LitTemplate implements Tester {
 
     public TypeIn() {
         field.addKeyPressListener(Key.ENTER, e -> {
-            if ((latin ? c.getEnglishAns() : c.getLatinAns()).contains(field.getValue())) {
+            if ((latin ? c.aEn : c.aLa).contains(field.getValue())) {
                 // correct
                 if (onCorrect != null) onCorrect.run();
+
             } else {
                 // incorrect
                 if (onIncorrect != null) onIncorrect.run();
                 field.setInvalid(true); // invalid colour
+                field.clear(); // clear field
+                // show answer
+                Notification.show(latin ? c.getEnglishAns() : c.getLatinAns(), 5000, Notification.Position.TOP_CENTER);
             }
 
             // general callback

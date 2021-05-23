@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: TestView.java
- * Last Modified: 22/05/2021, 21:59
+ * Last Modified: 23/05/2021, 11:57
  */
 
 package tech.neurobyte.dev.views;
@@ -71,7 +71,7 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         // timer callbacks
         total.addTimerEndEvent(e -> finish("Oh no! You ran out of time."));
         tpq.addTimerEndEvent(e -> {
-            Notification.show("You ran out of time for that question. Moving on.");
+            Notification.show("You ran out of time for that question. Moving on.", 1000, Notification.Position.TOP_CENTER);
             next(); // go to next question
         });
         total.pause();
@@ -247,7 +247,7 @@ public class TestView extends LitTemplate implements HasUrlParameter<String> {
         // callbacks
         t().setOnCorrect(() -> {
             scoreInt++; // update score
-            Notification.show("Correct!"); // notify to show after quick change
+            Notification.show("Correct!", 1000, Notification.Position.TOP_CENTER); // notify to show after quick change
             next(); // move swiftly on
         });
         t().setOnAnswer(() -> {
