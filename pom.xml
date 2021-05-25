@@ -6,7 +6,7 @@
   ~
   ~ Project: latinvocab
   ~ File Name: pom.xml
-  ~ Last Modified: 26/04/2021, 22:28
+  ~ Last Modified: 25/05/2021, 10:09
   -->
 
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -92,6 +92,11 @@
             <groupId>com.flowingcode.addons</groupId>
             <artifactId>simple-timer</artifactId>
             <version>2.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.vaadin.addons</groupId>
+            <artifactId>googleanalyticstracker</artifactId>
+            <version>4.0.1</version>
         </dependency>
 
         <dependency>

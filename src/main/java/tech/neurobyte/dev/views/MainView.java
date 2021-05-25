@@ -5,7 +5,7 @@
  *
  * Project: latinvocab
  * File Name: MainView.java
- * Last Modified: 22/05/2021, 21:59
+ * Last Modified: 25/05/2021, 10:14
  */
 
 package tech.neurobyte.dev.views;
@@ -28,6 +28,7 @@ import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.QueryParameters;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
+import org.vaadin.googleanalytics.tracking.EnableGoogleAnalytics;
 import org.vaadin.tabs.PagedTabs;
 import tech.neurobyte.dev.data.Word;
 import tech.neurobyte.dev.views.customizers.*;
@@ -41,6 +42,7 @@ import java.util.Map;
 @Route("")
 @Tag("main-view")
 @JsModule("./views/main-view.ts")
+@EnableGoogleAnalytics(value = "G-BMXE9R563Y")
 public class MainView extends LitTemplate {
 
     public static MainView main;

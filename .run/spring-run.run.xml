@@ -5,7 +5,7 @@
   ~
   ~ Project: latinvocab
   ~ File Name: spring-run.run.xml
-  ~ Last Modified: 06/04/2021, 19:18
+  ~ Last Modified: 25/05/2021, 10:14
   -->
 
 <component name="ProjectRunConfigurationManager">
@@ -20,6 +20,7 @@
         </extension>
         <option name="SPRING_BOOT_MAIN_CLASS" value="tech.neurobyte.dev.Application"/>
         <option name="ALTERNATIVE_JRE_PATH"/>
+        <option name="SHORTEN_COMMAND_LINE" value="NONE"/>
         <method v="2">
             <option name="Make" enabled="true"/>
         </method>
